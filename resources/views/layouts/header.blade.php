@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 px-4 text-white">
+<div class="navbar bg-blue-400 px-4 text-white">
     <div class="flex-1">
         <a class="text-lg font-bold ml-4" href="{{url('/')}}">Sano Care</a>
     </div>
