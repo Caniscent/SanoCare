@@ -23,7 +23,7 @@ class CheckController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.check.create');
     }
 
     /**
@@ -31,7 +31,10 @@ class CheckController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $check = $request->all();
+        CheckModel::create($check);
+
+        return redirect()->route('pages.check.index');
     }
 
     /**
@@ -47,7 +50,11 @@ class CheckController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $check = CheckModel::find($id);
+
+        return view('pages.check.update', [
+            'check' => $check
+        ]);
     }
 
     /**
@@ -63,6 +70,12 @@ class CheckController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $check = CheckModel::find($id);
+
+        if ($check != null) {
+            $check->delete();
+        }
+
+        return redirect()->route('product.manage');
     }
 }

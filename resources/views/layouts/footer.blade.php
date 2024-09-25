@@ -1,4 +1,4 @@
-<footer class="footer bg-neutral text-neutral-content p-10">
+<footer class="footer bg-blue-500 text-white p-10">
     <aside>
       {{-- <svg
         width="50"
