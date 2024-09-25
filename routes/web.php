@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('pages.home.index');
 });
 
-Route::prefix('/check')->name('check')->group( function () {
+Route::prefix('/check')->name('check.')->group( function () {
     Route::get('/',[CheckController::class, 'index'])->name('index');
     Route::get('/manage',[CheckController::class, 'manage'])->name('manage');
     Route::get('/create',[CheckController::class, 'create'])->name('create');
