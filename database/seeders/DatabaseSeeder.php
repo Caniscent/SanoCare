@@ -22,8 +22,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CheckSeeder::class,
-            // 'isikan yang lain',
-            // 'isikan yang lain',
+            NewsSeeder::class,
             // 'isikan yang lain',
         ]);
     }

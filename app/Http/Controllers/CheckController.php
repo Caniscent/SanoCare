@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CheckModel;
+use App\Models\NewsModel;
 use Illuminate\Http\Request;
 
 class CheckController extends Controller
@@ -13,9 +14,26 @@ class CheckController extends Controller
     public function index()
     {
         $data = CheckModel::all();
-        return view('pages.check.index', [
-            'data' => $data
-        ]);
+
+        foreach ($data as $item) {
+            $height = $item->height_check;
+            $weight = $item->weight_check;
+
+            // Kalkulasi tubuh ideal
+            $idealWeight = ($height - 100) - (($height - 100) * 0.1);
+
+            if ($weight == $idealWeight) {
+                // Tubuh ideal, ambil berita untuk mempertahankan tubuh ideal
+                $item->status = 'ideal';
+                $item->news = NewsModel::where('type', 'ideal')->get();
+            } else {
+                // Tubuh tidak ideal, ambil berita untuk mencapai tubuh ideal
+                $item->status = 'not_ideal';
+                $item->news = NewsModel::where('type', 'not_ideal')->get();
+            }
+        }
+
+        return view('pages.check.index', ['data' => $data]);
     }
 
     public function manage()
@@ -25,7 +43,7 @@ class CheckController extends Controller
             'data' => $data
         ]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -43,7 +61,7 @@ class CheckController extends Controller
         $data = $request->all();
         CheckModel::create($data);
 
-        return redirect()->route('check.manage');
+        return redirect()->route('check.index');
     }
 
     /**
@@ -73,13 +91,14 @@ class CheckController extends Controller
     {
         $check = CheckModel::find($id);
 
-        $check->nama = $request['height_check'];
-        $check->description = $request['weight_check'];
+        $check->height_check = $request->input('height_check');
+        $check->weight_check = $request->input('weight_check');
 
         $check->save();
 
-        return redirect()->route('check.manage');
+        return redirect()->route('check.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -92,6 +111,6 @@ class CheckController extends Controller
             $check->delete();
         }
 
-        return redirect()->route('product.manage');
+        return redirect()->route('check.index');
     }
 }
