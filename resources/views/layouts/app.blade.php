@@ -9,7 +9,7 @@
 </head>
 <body>
     @include('layouts.header')
-    <div>
+    <div class="mt-16">
         @yield('content')
     </div>
     @include('layouts.footer')

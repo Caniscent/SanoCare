@@ -12,12 +12,20 @@ class CheckController extends Controller
      */
     public function index()
     {
-        $check = CheckModel::all();
+        $data = CheckModel::all();
         return view('pages.check.index', [
-            'check' => $check
+            'data' => $data
         ]);
     }
 
+    public function manage()
+    {
+        $data = CheckModel::all();
+        return view('pages.check.manage', [
+            'data' => $data
+        ]);
+    }
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -26,15 +34,16 @@ class CheckController extends Controller
         return view('pages.check.create');
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $check = $request->all();
-        CheckModel::create($check);
+        $data = $request->all();
+        CheckModel::create($data);
 
-        return redirect()->route('pages.check.index');
+        return redirect()->route('check.manage');
     }
 
     /**
@@ -62,7 +71,14 @@ class CheckController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $check = CheckModel::find($id);
+
+        $check->nama = $request['height_check'];
+        $check->description = $request['weight_check'];
+
+        $check->save();
+
+        return redirect()->route('check.manage');
     }
 
     /**

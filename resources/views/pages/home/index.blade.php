@@ -18,7 +18,7 @@
         in here we provide various checkup for your healthy life<br>
         so what are you waiting for? lets get started
         </p>
-        <a class="btn btn-primary bg-blue-400">Get Started</a>
+        <a class="btn btn-primary bg-blue-400" href="{{route('check.index')}}">Get Started</a>
     </div>
     </div>
     </div>
