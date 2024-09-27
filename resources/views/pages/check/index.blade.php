@@ -14,7 +14,7 @@
         }
         }
     @endphp
-<section class="bg-white dark:bg-gray-0 @if($obesitas) bg-red-600 @endif">
+<section class="bg-white dark:bg-gray-0 @if($obesitas) bg-red-500 @endif">
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl text-dark">Check Tubuh Ideal</h1>
 

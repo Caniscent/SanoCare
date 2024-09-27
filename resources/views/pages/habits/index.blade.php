@@ -3,7 +3,7 @@
 @section('title', 'Kebiasaan')
 
 @section('content')
-<section class="bg-white dark:bg-gray-900">
+<section class="bg-white dark:bg-gray-900 pb-[8.7rem]">
     <div class="py-8 px-4 mx-auto max-w-screen-xl">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">Kebiasaan Anda</h1>
@@ -21,7 +21,7 @@
                     </p>
                 </div>
                 <div class="px-6 py-4 flex justify-between">
-                    <a href="{{ route('habits.edit', $habit->id) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
+                    <a href="{{ route('habits.update', $habit->id) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
                     <form action="{{ route('habits.destroy', $habit->id) }}" method="POST">
                         @csrf
                         @method('delete')
@@ -33,7 +33,7 @@
         </div>
 
         @if ($habits->isEmpty())
-        <div class="mt-8 text-center">
+        <div class="mt-8 text-center pb-[61rem]">
             <p class="text-lg text-gray-500 dark:text-gray-400">Anda belum memiliki kebiasaan. Silakan tambahkan kebiasaan baru.</p>
         </div>
         @endif

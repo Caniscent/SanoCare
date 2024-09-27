@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             CheckSeeder::class,
             NewsSeeder::class,
             UserSeeder::class,
-            // HabitSeeder::class,
+            HabitSeeder::class,
             // 'isikan yang lain',
         ]);
     }

@@ -18,7 +18,7 @@
             <br>
             Mulai disini
         </p>
-        <a class="btn btn-primary bg-blue-400" href="{{route('check.index')}}">Mulai</a>
+        <a class="btn btn-primary bg-blue-400" href="{{route('habits.index')}}">Mulai</a>
     </div>
     </div>
     </div>
