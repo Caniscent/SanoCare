@@ -14,7 +14,7 @@ class HabitSeeder extends Seeder
     public function run(): void
     {
         HabitModel::create([
-            'user_id' => 1, // Example user ID
+            'user_id' => 1,
             'name' => 'Exercise',
             'description' => 'Daily morning workout for 30 minutes.',
             'frequency' => 'daily',

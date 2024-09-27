@@ -5,16 +5,13 @@
 @endsection
 
 @section('content')
-<section class="bg-gray-50 dark:bg-gray-900">
+<section class="">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
         <div class="flex flex-col justify-center">
-            <h1
-                class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                Poduk kami sangat menyeluruh</h1>
-            <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt assumenda iure, atque iste debitis
-                perferendis. Unde aperiam cumque repellendus dignissimos nam! Commodi similique magnam non beatae
-                assumenda molestiae, deserunt blanditiis.
+            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-black md:text-5xl lg:text-6xl dark:text-black">Kalkulasi IMT</h1>
+            <p class="mb-6 text-lg font-normal text-black lg:text-xl dark:text-black">
+                Isikan tinggi dan berat badan anda untuk mengecek Indeks Massa Tubuh (IMT) yang merupakan indikator sederhana dari korelasi antara tinggi dan berat badan Anda.
+                IMT digunakan untuk mengukur ideal atau tidaknya berat badan, dan merupakan cara pengukuran yang baik untuk menilai risiko penyakit yang dapat terjadi akibat berat badan berlebih.
             </p>
         </div>
         <div>
@@ -22,17 +19,25 @@
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
                     Perbarui Data
                 </h2>
+
                 <form class="max-w-sm mx-auto" method="POST" action="{{ route('check.update', $check['id']) }}" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
+
                     <div class="mb-5">
                         <label for="height_check" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tinggi</label>
                         <input type="number" name="height_check" id="height_check" value="{{$check['height_check']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                        @error('height_check')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="mb-5">
                         <label for="weight_check" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Berat</label>
                         <input type="number" name="weight_check" id="weight_check" value="{{$check['weight_check']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                        @error('weight_check')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <button type="submit"

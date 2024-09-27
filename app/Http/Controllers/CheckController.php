@@ -61,6 +61,20 @@ class CheckController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'height_check' => 'required|numeric|min:50|max:300',
+            'weight_check' => 'required|numeric|min:10|max:500',
+        ], [
+            'height_check.required' => 'Tinggi badan harus diisi.',
+            'height_check.numeric' => 'Tinggi badan harus berupa angka.',
+            'height_check.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
+            'height_check.max' => 'Tinggi badan tidak boleh melebihi 300 cm.',
+            'weight_check.required' => 'Berat badan harus diisi.',
+            'weight_check.numeric' => 'Berat badan harus berupa angka.',
+            'weight_check.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
+            'weight_check.max' => 'Berat badan tidak boleh melebihi 500 kg.',
+        ]);
+
         $data = $request->all();
         CheckModel::create($data);
 
@@ -92,6 +106,20 @@ class CheckController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'height_check' => 'required|numeric|min:50|max:300',
+            'weight_check' => 'required|numeric|min:10|max:500',
+        ], [
+            'height_check.required' => 'Tinggi badan harus diisi.',
+            'height_check.numeric' => 'Tinggi badan harus berupa angka.',
+            'height_check.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
+            'height_check.max' => 'Tinggi badan tidak boleh melebihi 300 cm.',
+            'weight_check.required' => 'Berat badan harus diisi.',
+            'weight_check.numeric' => 'Berat badan harus berupa angka.',
+            'weight_check.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
+            'weight_check.max' => 'Berat badan tidak boleh melebihi 500 kg.',
+        ]);
+
         $check = CheckModel::find($id);
 
         $check->height_check = $request->input('height_check');

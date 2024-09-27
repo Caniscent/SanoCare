@@ -2,7 +2,7 @@
     <div class="flex-1">
         <a class="text-lg font-bold ml-4" href="{{url('/')}}">Sano Care</a>
     </div>
-    <div class="flex-none w-1/3 lg:mx-[8.8rem]">
+    <div class="flex-none w-1/3 lg:mx-[5rem]">
         <input type="text" placeholder="Cari..." class="input input-bordered w-full" />
     </div>
     <div class="flex-none">
@@ -15,12 +15,14 @@
             <ul tabindex="0" class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                 <li><a href="{{url('/')}}">Home</a></li>
                 <li><a href="{{route('check.index')}}">kalkulator IMT</a></li>
+                <li><a href="{{route('habits.index')}}">Tracker Kebiasaan</a></li>
                 <li><a href="#">Profile</a></li>
             </ul>
         </div>
         <div class="hidden lg:flex space-x-4">
             <a class="btn btn-ghost" href="{{url('/')}}">Home</a>
             <a class="btn btn-ghost" href="{{route('check.index')}}">Kalkulator IMT</a>
+            <a class="btn btn-ghost" href="{{route('habits.index')}}">Tracker Kebiasaan</a>
             <a class="btn btn-ghost" href="#">Profile</a>
         </div>
     </div>

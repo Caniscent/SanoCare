@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CheckSeeder::class,
             NewsSeeder::class,
+            UserSeeder::class,
+            // HabitSeeder::class,
             // 'isikan yang lain',
         ]);
     }

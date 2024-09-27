@@ -9,7 +9,8 @@ class HabitModel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'description', 'frequency', 'status'];
+    protected $table = 'habits';
+    protected $guarded = ['id'];
 
     // Relationship with User
     public function user()

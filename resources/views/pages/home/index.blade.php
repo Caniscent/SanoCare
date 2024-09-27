@@ -14,7 +14,7 @@
     <div class="max-w-md text-white">
         <h1 class="mb-5 text-5xl font-bold">Selamat Datang <b>Sano Care!</b></h1>
         <p class="mb-5 ">
-            Disini kami menyediakan pengecekan dan tracking perilakumu untuk memantau kehidupan yang lebih sehat
+            Disini kami menyediakan pengecekan dan tracking kebiasaan untuk memantau kehidupanmu agar lebih sehat dan teratur
             <br>
             Mulai disini
         </p>
