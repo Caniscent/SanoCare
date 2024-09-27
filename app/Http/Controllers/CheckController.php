@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\CheckModel;
 use App\Models\NewsModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = CheckModel::all();
+        $data = CheckModel::where('user_id', auth::id())->get();
 
         foreach ($data as $item) {
             $height = $item->height_check / 100;
@@ -76,6 +82,8 @@ class CheckController extends Controller
         ]);
 
         $data = $request->all();
+        $data['user_id'] = auth::id();
+
         CheckModel::create($data);
 
         return redirect()->route('check.index');

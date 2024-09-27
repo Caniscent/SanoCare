@@ -21,7 +21,7 @@
                     </p>
                 </div>
                 <div class="px-6 py-4 flex justify-between">
-                    <a href="{{ route('habits.update', $habit->id) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
+                    <a href="{{ route('habits.edit', $habit->id) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
                     <form action="{{ route('habits.destroy', $habit->id) }}" method="POST">
                         @csrf
                         @method('delete')

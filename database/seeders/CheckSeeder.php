@@ -14,6 +14,7 @@ class CheckSeeder extends Seeder
     public function run(): void
     {
         $check = CheckModel::create([
+            'user_id' => 1,
             'weight_check' => 100,
             'height_check' => 180,
         ]);

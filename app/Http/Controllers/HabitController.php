@@ -36,14 +36,17 @@ class HabitController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
-        $data = $request->all();
-        HabitModel::create($data);
+        HabitModel::create([
+            'user_id' => Auth::id(),
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
 
-        return redirect()->route('habits.index');
+        return redirect()->route('habits.index')->with('success', 'Kebiasaan berhasil ditambahkan.');
     }
 
     /**
@@ -57,33 +60,39 @@ class HabitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(HabitModel $habit)
+    public function edit($id)
     {
-        $this->authorize('update', $habit);
+        $habit = HabitModel::findOrFail($id);
         return view('pages.habits.update', compact('habit'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, HabitModel $habit)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
-        $habit->update($request->only(['title', 'description', 'status']));
-        return redirect()->route('habits.index');
+        $habit = HabitModel::findOrFail($id);
+        $habit->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('habits.index')->with('success', 'Kebiasaan berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HabitModel $habit)
+    public function destroy($id)
     {
-        $this->authorize('delete', $habit);
+        $habit = HabitModel::findOrFail($id);
         $habit->delete();
-        return redirect()->route('habits.index');
+
+        return redirect()->route('habits.index')->with('success', 'Kebiasaan berhasil dihapus.');
     }
 }

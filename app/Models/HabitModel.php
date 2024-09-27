@@ -12,7 +12,6 @@ class HabitModel extends Model
     protected $table = 'habits';
     protected $guarded = ['id'];
 
-    // Relationship with User
     public function user()
     {
         return $this->belongsTo(User::class);

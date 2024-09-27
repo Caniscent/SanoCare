@@ -21,9 +21,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
+            //untuk menggunakan seeder pertama nyalakan dulu news dan user setelah itu
+            //di comment lagi dan nyalakan check dan habit
+
+            // NewsSeeder::class,
+            // UserSeeder::class,
             CheckSeeder::class,
-            NewsSeeder::class,
-            UserSeeder::class,
             HabitSeeder::class,
             // 'isikan yang lain',
         ]);

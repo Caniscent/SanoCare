@@ -11,4 +11,9 @@ class CheckModel extends Model
 
     protected $table = 'check';
     protected $guarded = ['id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
