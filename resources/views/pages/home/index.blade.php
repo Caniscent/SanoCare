@@ -12,13 +12,11 @@
     <div class="hero-overlay bg-opacity-60"></div>
     <div class="hero-content text-neutral-content text-center">
     <div class="max-w-md text-white">
-        <h1 class="mb-5 text-5xl font-bold">Selamat Datang <b>Sano Care!</b></h1>
+        <h1 class="mb-5 text-5xl font-bold">Selamat Datang di <b>Sano Care!</b></h1>
         <p class="mb-5 ">
-            Disini kami menyediakan pengecekan dan tracking kebiasaan untuk memantau kehidupanmu agar lebih sehat dan teratur
-            <br>
-            Mulai disini
+            Disini kami menyediakan pengecekan dan tracking kebiasaan yang akan mengatur dan memantau kehidupanmu agar menjadi lebih sehat dan teratur
         </p>
-        <a class="btn btn-primary bg-blue-400" href="{{route('habits.index')}}">Mulai</a>
+        <a class="btn btn-primary bg-blue-400" href="{{route('habits.index')}}">Mulai Sekarang</a>
     </div>
     </div>
     </div>

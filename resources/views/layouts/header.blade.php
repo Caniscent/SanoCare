@@ -16,7 +16,23 @@
                 <li><a href="{{url('/')}}">Home</a></li>
                 <li><a href="{{route('check.index')}}">kalkulator IMT</a></li>
                 <li><a href="{{route('habits.index')}}">Tracker Kebiasaan</a></li>
-                <li><a href="#">Profile</a></li>
+                <li>
+                    @auth
+                    <div class="dropdown dropdown-end">
+                        <div tabindex="0" role="button" class="btn btn-ghost">Pengaturan Akun</div>
+                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                            <li><a href="{{route('profile.index')}}">Profile</a></li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <li><button>{{ __('Logout') }}</button></li>
+                            </form>
+                        </ul>
+                    </div>
+                    @endauth
+                    @guest
+                        <a class="btn btn-ghost" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    @endguest
+                </li>
             </ul>
         </div>
         <div class="hidden lg:flex space-x-4">
@@ -27,7 +43,7 @@
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost">Pengaturan Akun</div>
                 <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                    <li><a>Profile</a></li>
+                    <li><a href="{{route('profile.index')}}">Profile</a></li>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <li><button>{{ __('Logout') }}</button></li>

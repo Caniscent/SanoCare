@@ -4,7 +4,7 @@
       <p>
         Sano Care
         <br />
-        &copy;2024 TIM nano nano
+        Copyright &copy;2024 - nano nano
       </p>
     </aside>
     <nav>

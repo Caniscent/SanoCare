@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CheckController;
 use App\Http\Controllers\HabitController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,6 +27,14 @@ Route::prefix('/habits')->name('habits.')->group( function () {
     Route::delete('/delete/{Habits_id}', [HabitController::class, 'destroy'])->name('destroy');
 });
 
+Route::prefix('/profile')->name('profile.')->group( function () {
+    Route::get('/',[ProfileController::class, 'index'])->name('index');
+    Route::get('/create',[ProfileController::class, 'create'])->name('create');
+    Route::post('/store', [ProfileController::class, 'store'])->name('store');
+    Route::get('/edit/{id}',[ProfileController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [ProfileController::class, 'update'])->name('update');
+    Route::delete('/delete/{Profile_id}', [ProfileController::class, 'destroy'])->name('destroy');
+});
 
 Auth::routes();
 
