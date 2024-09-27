@@ -12,25 +12,20 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </label>
-            <ul tabindex="0" class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+            <ul tabindex="0" class="menu dropdown-content mt-3 p-2 shadow  bg-base-100 rounded-box w-52">
                 <li><a href="{{url('/')}}">Home</a></li>
                 <li><a href="{{route('check.index')}}">kalkulator IMT</a></li>
                 <li><a href="{{route('habits.index')}}">Tracker Kebiasaan</a></li>
                 <li>
                     @auth
-                    <div class="dropdown dropdown-end">
-                        <div tabindex="0" role="button" class="btn btn-ghost">Pengaturan Akun</div>
-                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                            <li><a href="{{route('profile.index')}}">Profile</a></li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <li><button>{{ __('Logout') }}</button></li>
-                            </form>
-                        </ul>
-                    </div>
+                        <li><a href="{{route('profile.index')}}">Profile</a></li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <li><button>{{ __('Logout') }}</button></li>
+                        </form>
                     @endauth
                     @guest
-                        <a class="btn btn-ghost" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
                     @endguest
                 </li>
             </ul>

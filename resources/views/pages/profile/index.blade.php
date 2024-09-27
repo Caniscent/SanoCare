@@ -4,7 +4,7 @@
 @section('title', 'Profile')
 
 @section('content')
-<div class="container mx-auto pb-[10rem] pt-[8rem]">
+<div class="container mx-auto ms-4 pb-[24.1rem] pt-[8rem]">
     <h1 class="text-2xl font-bold text-black">Profil Pengguna</h1>
 
     <div class="mt-4 text-black">
