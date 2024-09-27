@@ -16,32 +16,35 @@ class CheckController extends Controller
         $data = CheckModel::all();
 
         foreach ($data as $item) {
-            $height = $item->height_check;
+            $height = $item->height_check / 100;
             $weight = $item->weight_check;
 
-            // Kalkulasi tubuh ideal
-            $idealWeight = ($height - 100) - (($height - 100) * 0.1);
+            // Kalkulasi IMT
+            $imt = $weight / ($height * $height);
+            $item->imt = round($imt,2);
 
-            if ($weight == $idealWeight) {
-                // Tubuh ideal, ambil berita untuk mempertahankan tubuh ideal
-                $item->status = 'ideal';
+            if($imt < 18.5){
+                $item->status = 'Kurus';
+                $item->news = NewsModel::where('type', 'not_ideal')->get();
+            }elseif($imt >= 18.5 && $imt <= 24.9){
+                $item->status = 'Normal';
                 $item->news = NewsModel::where('type', 'ideal')->get();
-            } else {
-                // Tubuh tidak ideal, ambil berita untuk mencapai tubuh ideal
-                $item->status = 'not_ideal';
+            }elseif($imt >= 25 && $imt <= 29.9){
+                $item->status = 'Gemuk';
+                $item->news = NewsModel::where('type', 'not_ideal')->get();
+            }elseif($imt >= 30 && $imt <= 34.9){
+                $item->status = 'Obesitas Level I';
+                $item->news = NewsModel::where('type', 'not_ideal')->get();
+            }elseif($imt >= 35 && $imt <= 39.9){
+                $item->status = 'Obesitas Level II';
+                $item->news = NewsModel::where('type', 'not_ideal')->get();
+            }elseif($imt >= 40){
+                $item->status = 'Obesitas Level III';
                 $item->news = NewsModel::where('type', 'not_ideal')->get();
             }
         }
 
         return view('pages.check.index', ['data' => $data]);
-    }
-
-    public function manage()
-    {
-        $data = CheckModel::all();
-        return view('pages.check.manage', [
-            'data' => $data
-        ]);
     }
 
     /**

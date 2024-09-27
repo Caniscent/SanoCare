@@ -14,13 +14,13 @@
             </label>
             <ul tabindex="0" class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                 <li><a href="{{url('/')}}">Home</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="{{route('check.index')}}">kalkulator IMT</a></li>
                 <li><a href="#">Profile</a></li>
             </ul>
         </div>
         <div class="hidden lg:flex space-x-4">
             <a class="btn btn-ghost" href="{{url('/')}}">Home</a>
-            <a class="btn btn-ghost" href="#">About</a>
+            <a class="btn btn-ghost" href="{{route('check.index')}}">Kalkulator IMT</a>
             <a class="btn btn-ghost" href="#">Profile</a>
         </div>
     </div>

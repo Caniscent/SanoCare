@@ -10,7 +10,7 @@
         <div class="flex flex-col justify-center">
             <h1
                 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                Poduk kami sangat menyeluruh</h1>
+                Tambah Data</h1>
             <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt assumenda iure, atque iste debitis
                 perferendis. Unde aperiam cumque repellendus dignissimos nam! Commodi similique magnam non beatae
