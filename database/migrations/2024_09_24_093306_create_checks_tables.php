@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('check', function (Blueprint $table) {
+        Schema::create('checks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('weight_check');
-            $table->integer('height_check');
+            $table->integer('weight');
+            $table->integer('height');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('check');
+        Schema::dropIfExists('checks');
     }
 };

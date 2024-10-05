@@ -14,9 +14,9 @@
     <div class="max-w-md text-white">
         <h1 class="mb-5 text-5xl font-bold">Selamat Datang di <b>Sano Care!</b></h1>
         <p class="mb-5 ">
-            Disini kami menyediakan pengecekan dan tracking kebiasaan yang akan mengatur dan memantau kehidupanmu agar menjadi lebih sehat dan teratur
+            Disini kami menyediakan penjadwalan makan untuk anda agar dapat mencegah penyakit diabetes
         </p>
-        <a class="btn btn-primary bg-blue-400" href="{{route('habits.index')}}">Mulai Sekarang</a>
+        <a class="btn btn-primary bg-blue-400" href="{{route('check.create')}}">Mulai Sekarang</a>
     </div>
     </div>
     </div>

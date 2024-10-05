@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CheckModel;
+use App\Models\ChecksModel;
 use App\Models\NewsModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckController extends Controller
+class ChecksController extends Controller
 {
     public function __construct()
     {
@@ -19,7 +19,7 @@ class CheckController extends Controller
      */
     public function index()
     {
-        $data = CheckModel::where('user_id', auth::id())->get();
+        $data = ChecksModel::where('user_id', auth::id())->with('user')->get();
 
         foreach ($data as $item) {
             $height = $item->height_check / 100;
@@ -50,6 +50,7 @@ class CheckController extends Controller
             }
         }
 
+
         return view('pages.check.index', ['data' => $data]);
     }
 
@@ -67,27 +68,42 @@ class CheckController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'height_check' => 'required|numeric|min:50|max:300',
-            'weight_check' => 'required|numeric|min:10|max:500',
-        ], [
-            'height_check.required' => 'Tinggi badan harus diisi.',
-            'height_check.numeric' => 'Tinggi badan harus berupa angka.',
-            'height_check.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
-            'height_check.max' => 'Tinggi badan tidak boleh melebihi 300 cm.',
-            'weight_check.required' => 'Berat badan harus diisi.',
-            'weight_check.numeric' => 'Berat badan harus berupa angka.',
-            'weight_check.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
-            'weight_check.max' => 'Berat badan tidak boleh melebihi 500 kg.',
-        ]);
+    $request->validate([
+        'height' => 'required|numeric|min:50|max:300',
+        'weight' => 'required|numeric|min:10|max:500',
+    ], [
+        'height.required' => 'Tinggi badan harus diisi.',
+        'height.numeric' => 'Tinggi badan harus berupa angka.',
+        'height.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
+        'height.max' => 'Tinggi badan tidak boleh melebihi 300 cm.',
+        'weight.required' => 'Berat badan harus diisi.',
+        'weight.numeric' => 'Berat badan harus berupa angka.',
+        'weight.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
+        'weight.max' => 'Berat badan tidak boleh melebihi 500 kg.',
+    ]);
 
-        $data = $request->all();
-        $data['user_id'] = auth::id();
+    // mengambil data pengguna yang sedang login
+    $user = Auth::user();
 
-        CheckModel::create($data);
-
-        return redirect()->route('check.index');
+    // pastikan pengguna terautentikasi
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'Please login to continue.');
     }
+
+    // siapkan data untuk disimpan di tabel checks
+    $data = [
+        'user_id' => $user->id,
+        'height' => $request->height,
+        'weight' => $request->weight,
+    ];
+
+    // buat entri baru di tabel checks
+    ChecksModel::create($data);
+
+    // redirect ke halaman check.index
+    return redirect()->route('check.index');
+}
+
 
     /**
      * Display the specified resource.
@@ -102,7 +118,7 @@ class CheckController extends Controller
      */
     public function edit(string $id)
     {
-        $check = CheckModel::find($id);
+        $check = ChecksModel::find($id);
 
         return view('pages.check.update', [
             'check' => $check
@@ -128,7 +144,7 @@ class CheckController extends Controller
             'weight_check.max' => 'Berat badan tidak boleh melebihi 500 kg.',
         ]);
 
-        $check = CheckModel::find($id);
+        $check = ChecksModel::find($id);
 
         $check->height_check = $request->input('height_check');
         $check->weight_check = $request->input('weight_check');
@@ -144,7 +160,7 @@ class CheckController extends Controller
      */
     public function destroy(string $id)
     {
-        $check = CheckModel::find($id);
+        $check = ChecksModel::find($id);
 
         if ($check != null) {
             $check->delete();

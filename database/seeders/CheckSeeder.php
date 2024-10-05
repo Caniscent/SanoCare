@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CheckModel;
+use App\Models\ChecksModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,10 +13,10 @@ class CheckSeeder extends Seeder
      */
     public function run(): void
     {
-        $check = CheckModel::create([
-            'user_id' => 1,
-            'weight_check' => 100,
-            'height_check' => 180,
+        $checks = ChecksModel::create([
+            // 'user_id' => 1,
+            // 'weight_check' => 100,
+            // 'height_check' => 180,
         ]);
     }
 }
