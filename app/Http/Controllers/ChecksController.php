@@ -22,8 +22,8 @@ class ChecksController extends Controller
         $data = ChecksModel::where('user_id', auth::id())->with('user')->get();
 
         foreach ($data as $item) {
-            $height = $item->height_check / 100;
-            $weight = $item->weight_check;
+            $height = $item->height / 100;
+            $weight = $item->weight;
 
             // Kalkulasi IMT
             $imt = $weight / ($height * $height);

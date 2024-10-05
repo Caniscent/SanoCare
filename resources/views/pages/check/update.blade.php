@@ -25,17 +25,17 @@
                     @csrf
 
                     <div class="mb-5">
-                        <label for="height_check" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tinggi</label>
-                        <input type="number" name="height_check" id="height_check" value="{{$check['height_check']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                        @error('height_check')
+                        <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tinggi</label>
+                        <input type="number" name="height" id="height" value="{{$check['height']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                        @error('height')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-5">
-                        <label for="weight_check" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Berat</label>
-                        <input type="number" name="weight_check" id="weight_check" value="{{$check['weight_check']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                        @error('weight_check')
+                        <label for="weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Berat</label>
+                        <input type="number" name="weight" id="weight" value="{{$check['weight']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                        @error('weight')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
