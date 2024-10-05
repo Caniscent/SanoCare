@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
             //di comment lagi dan nyalakan check dan habit
 
             // NewsSeeder::class,
-            // UserSeeder::class,
-            CheckSeeder::class,
-            HabitSeeder::class,
+            UserSeeder::class,
+            // CheckSeeder::class,
+            // HabitSeeder::class,
             // 'isikan yang lain',
         ]);
     }

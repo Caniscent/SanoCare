@@ -15,7 +15,6 @@
             <ul tabindex="0" class="menu dropdown-content mt-3 p-2 shadow  bg-base-100 rounded-box w-52">
                 <li><a href="{{url('/')}}">Home</a></li>
                 <li><a href="{{route('check.index')}}">kalkulator IMT</a></li>
-                <li><a href="{{route('habits.index')}}">Tracker Kebiasaan</a></li>
                 <li>
                     @auth
                         <li><a href="{{route('profile.index')}}">Profile</a></li>
@@ -33,7 +32,6 @@
         <div class="hidden lg:flex space-x-4">
             <a class="btn btn-ghost" href="{{url('/')}}">Home</a>
             <a class="btn btn-ghost" href="{{route('check.index')}}">Kalkulator IMT</a>
-            <a class="btn btn-ghost" href="{{route('habits.index')}}">Tracker Kebiasaan</a>
             @auth
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost">Pengaturan Akun</div>

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CheckController;
+use App\Http\Controllers\ChecksController;
 use App\Http\Controllers\HabitController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -10,12 +10,12 @@ Route::get('/', function () {
 });
 
 Route::prefix('/check')->name('check.')->group( function () {
-    Route::get('/',[CheckController::class, 'index'])->name('index');
-    Route::get('/create',[CheckController::class, 'create'])->name('create');
-    Route::post('/store', [CheckController::class, 'store'])->name('store');
-    Route::get('/edit/{id}',[CheckController::class, 'edit'])->name('edit');
-    Route::put('/update/{id}', [CheckController::class, 'update'])->name('update');
-    Route::delete('/delete/{Check_id}', [CheckController::class, 'destroy'])->name('destroy');
+    Route::get('/',[ChecksController::class, 'index'])->name('index');
+    Route::get('/create',[ChecksController::class, 'create'])->name('create');
+    Route::post('/store', [ChecksController::class, 'store'])->name('store');
+    Route::get('/edit/{id}',[ChecksController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [ChecksController::class, 'update'])->name('update');
+    Route::delete('/delete/{Check_id}', [ChecksController::class, 'destroy'])->name('destroy');
 });
 
 Route::prefix('/habits')->name('habits.')->group( function () {
