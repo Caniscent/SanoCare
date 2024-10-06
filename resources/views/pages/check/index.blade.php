@@ -39,10 +39,10 @@
             <div class="w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-900">
                 <div class="px-5 pb-5 my-4">
                     <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Tinggi: {{ $item['height_check'] }} cm
+                        Tinggi: {{ $item['height'] }} cm
                     </h5>
                     <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Berat: {{ $item['weight_check'] }} kg
+                        Berat: {{ $item['weight'] }} kg
                     </h5>
                     <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                         IMT: {{ $item->imt }}

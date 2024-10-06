@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +14,6 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         return view('pages.profile.index', compact('user'));
     }
 
@@ -22,7 +22,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.profile.create'); // Tampilan form pembuatan profil baru (sesuaikan dengan kebutuhan)
     }
 
     /**
@@ -30,15 +30,23 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        // Validasi input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'age' => 'required|integer|min:1',
+            // Tambahkan validasi untuk field lain jika diperlukan
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        // Buat pengguna baru
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->gender = $request->input('gender');
+        $user->age = $request->input('age');
+        // Tambahkan field lain sesuai kebutuhan
+        $user->save();
+
+        return redirect()->route('profile.index')->with('success', 'Profil berhasil dibuat.');
     }
 
     /**
@@ -46,7 +54,8 @@ class ProfileController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id); // Ambil pengguna berdasarkan ID
+        return view('pages.profile.update', compact('user')); // Tampilkan halaman edit profil
     }
 
     /**
@@ -54,7 +63,23 @@ class ProfileController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'age' => 'required|integer|min:1|max:100',
+
+        ]);
+
+        $user = User::findOrFail($id); // Ambil pengguna berdasarkan ID
+
+        // Perbarui data pengguna
+        $user->name = $request->input('name');
+        $user->gender = $request->input('gender');
+        $user->age = $request->input('age');
+
+        $user->save();
+
+        return redirect()->route('profile.index');
     }
 
     /**
@@ -62,6 +87,10 @@ class ProfileController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id); // Ambil pengguna berdasarkan ID
+        $user->delete(); // Hapus pengguna
+
+        Auth::logout(); // Opsional: logout setelah menghapus akun
+        return redirect()->route('home')->with('success', 'Akun berhasil dihapus.');
     }
 }

@@ -35,8 +35,15 @@
         @endif
     </div> --}}
 
-    <div class="mt-4">
+    <div class="mt-4 flex justify-between">
         <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">Edit Profil</a>
+
+        <form action="{{ route('profile.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger bg-red-500 hover:bg-red-600 text-white">Hapus Akun</button>
+        </form>
     </div>
+
 </div>
 @endsection
