@@ -5,6 +5,7 @@ use App\Http\Controllers\Checkv2Controller;
 use App\Http\Controllers\HabitController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('pages.home.index');
