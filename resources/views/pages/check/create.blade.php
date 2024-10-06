@@ -8,53 +8,66 @@
 <section class="">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
         <div class="flex flex-col justify-center">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-black md:text-5xl lg:text-6xl dark:text-black">Kalkulasi IMT</h1>
+            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-black md:text-5xl lg:text-6xl dark:text-black">Meal Plan</h1>
             <p class="mb-6 text-lg font-normal text-black lg:text-xl dark:text-black">
-                Isikan tinggi dan berat badan anda untuk mengecek Indeks Massa Tubuh (IMT) yang merupakan indikator sederhana dari korelasi antara tinggi dan berat badan Anda.
-                IMT digunakan untuk mengukur ideal atau tidaknya berat badan, dan merupakan cara pengukuran yang baik untuk menilai risiko penyakit yang dapat terjadi akibat berat badan berlebih.
+                Isikan tinggi badan, berat badan, jenis aktivitas, dan kadar gula anda untuk mendapatkan
+                meal plan selama 7 hari ke depan yang berisi makanan makanan sehat guna mencegah anda dari penyakit diabetes.
             </p>
         </div>
         <div>
-            <div class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                    Check Tubuh Ideal
+            <div class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-50">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-dark text-center">
+                    Buat Meal Plan
                 </h2>
                 <form class="max-w-sm mx-auto" method="POST" action="{{ route('check.store') }}" enctype="multipart/form-data">
                     @csrf
+                    {{-- height input --}}
                     <div class="mb-5">
-                        <label for="height_check" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
-                        <input type="text" name="name" id="name" class="bg-gray-50 border @error('name') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" disabled />
-                        @error('name')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div class="mb-5">
-                        <label for="age" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Usia</label>
-                        <input type="number" name="age" id="age" class="bg-gray-50 border @error('age') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled/>
-                        @error('age')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div class="mb-5">
-                        <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tinggi</label>
-                        <input type="number" name="height" id="height" class="bg-gray-50 border @error('height') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                        <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Tinggi</label>
+                        <input type="number" name="height" id="height" class="bg-gray-50 no-spinners border @error('height') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-blue-200 dark:border-blue-100 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                         @error('height')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
 
+                    {{-- weight input --}}
                     <div class="mb-5">
-                        <label for="weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Berat</label>
-                        <input type="number" name="weight" id="weight" class="bg-gray-50 border @error('weight') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                        <label for="weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Berat</label>
+                        <input type="number" name="weight" id="weight" class="bg-gray-50 no-spinners border @error('weight') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-blue-200 dark:border-blue-100 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                         @error('weight')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
 
+                    {{-- activity input --}}
+                    <div class="mb-5">
+                        <label for="activity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Tingkat Aktivitas</label>
+                        <select id="activity" class="input input-bordered w-full @error('activity') input-error @enderror bg-blue-200 text-black" name="activity" required>
+                            <option value="" disabled selected>{{ __('Pilih Tingkat Aktivitas') }}</option>
+                            <option value="ringan" {{ old('activity') == 'ringan' ? 'selected' : '' }}>Ringan</option>
+                            <option value="sedang" {{ old('activity') == 'sedang' ? 'selected' : '' }}>Sedang</option>
+                            <option value="berat" {{ old('activity') == 'berat' ? 'selected' : '' }}>Berat</option>
+                        </select>
+                        @error('activity')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- sugar level input --}}
+                    <div class="mb-5">
+                        <label for="sugar_level" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Kadar Gula</label>
+                        <div class="relative">
+                            <input type="number" name="sugar_level" id="sugar_level" class="bg-gray-50 no-spinners border @error('sugar_level') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-20 dark:bg-blue-200 dark:border-blue-100 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                            <span class="absolute right-3 top-2 text-sm text-dark dark:text-gray-900">mg/dL</span>
+                        </div>
+                        @error('sugar_level')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Check
+                        Buat
                     </button>
                 </form>
             </div>

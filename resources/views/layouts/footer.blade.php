@@ -1,13 +1,13 @@
 <footer class="footer bottom-0 left-0 w-full bg-blue-500 text-white p-5">
     <aside>
-      <img src="{{asset('img/logonano.png')}}" alt="footer" width="80px" height="80px">
+      {{-- <img src="{{asset('img/logonano.png')}}" alt="footer" width="80px" height="80px"> --}}
       <p>
         Sano Care
         <br />
         Copyright &copy;2024 - nano nano
       </p>
     </aside>
-    <nav>
+    {{-- <nav>
       <h6 class="footer-title">Social</h6>
       <div class="grid grid-flow-col gap-4">
         <a href="#">
@@ -26,6 +26,6 @@
           </svg>
         </a>
       </div>
-    </nav>
+    </nav> --}}
   </footer>
 </body>
