@@ -64,9 +64,10 @@ class ProfileController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'gender' => 'required|string',
+            'name' => 'required|string|max:200',
             'age' => 'required|integer|min:1|max:100',
+            'gender' => 'required|string',
+            'email' => 'required|string|max:200',
 
         ]);
 
@@ -90,7 +91,7 @@ class ProfileController extends Controller
         $user = User::findOrFail($id); // Ambil pengguna berdasarkan ID
         $user->delete(); // Hapus pengguna
 
-        Auth::logout(); // Opsional: logout setelah menghapus akun
-        return redirect()->route('home')->with('success', 'Akun berhasil dihapus.');
+        Auth::logout();
+        return redirect()->view('pages.home.index');
     }
 }
