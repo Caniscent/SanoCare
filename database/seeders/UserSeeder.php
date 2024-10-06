@@ -23,5 +23,15 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        User::create([
+            'name' => 'oujirate',
+            'age' => 19,
+            'gender' => 'laki-laki',
+            'email' => 'oujirate.dev@gmail.com',
+            'password' => Hash::make('ouji1110010001010'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

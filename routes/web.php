@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChecksController;
+use App\Http\Controllers\Checkv2Controller;
 use App\Http\Controllers\HabitController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,11 @@ Route::prefix('/profile')->name('profile.')->group( function () {
     Route::get('/edit/{id}',[ProfileController::class, 'edit'])->name('edit');
     Route::put('/update/{id}', [ProfileController::class, 'update'])->name('update');
     Route::delete('/delete/{Profile_id}', [ProfileController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('/checkv2')->name('checkv2.')->group( function () {
+    Route::get('/create', [Checkv2Controller::class, 'create'])->name('create');
+
 });
 
 Auth::routes();

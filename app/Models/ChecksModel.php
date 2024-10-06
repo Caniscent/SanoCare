@@ -16,4 +16,14 @@ class ChecksModel extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function activityCategory()
+    {
+        return $this->belongsTo(ActivityModel::class, 'activity_category_id');
+    }
+
+    public function testMethod()
+    {
+        return $this->belongsTo(TestMethodModel::class, 'test_method_id');
+    }
 }
