@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Update Check
-@endsection
+@section('title','Perbarui Meal Plan')
 
 @section('content')
 <section class="">

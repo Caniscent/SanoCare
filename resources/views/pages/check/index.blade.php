@@ -1,74 +1,115 @@
 @extends('layouts.app')
 
-@section('title')
-    Check
-@endsection
+@section('title','Meal Plan')
 
 @section('content')
-    @php
-        $obesitas = false;
-        foreach ($data as $item) {
-        if(strpos($item->status, 'Obesitas') !== false){
-            $obesitas = true;
-            break;
-        }
-        }
-    @endphp
-<section class="bg-white dark:bg-gray-0 @if($obesitas) bg-red-500 @endif">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl text-dark">Check Tubuh Ideal</h1>
+@php
+$rekomendasiMakanan = [
+    'Senin' => [
+        'Sarapan' => ['Oatmeal dengan buah-buahan', 'Karbohidrat: Oatmeal', 'Lauk: N/A', 'Sayur: N/A', 'Buah: Buah-buahan'],
+        'Makan Siang' => ['Salad sayuran dengan protein', 'Karbohidrat: N/A', 'Lauk: Ayam', 'Sayur: Salad', 'Buah: N/A'],
+        'Makan Malam' => ['Ikan panggang dengan sayur', 'Karbohidrat: N/A', 'Lauk: Ikan', 'Sayur: Sayuran panggang', 'Buah: N/A']
+    ],
+    'Selasa' => [
+        'Sarapan' => ['Yogurt dengan granola', 'Karbohidrat: Granola', 'Lauk: N/A', 'Sayur: N/A', 'Buah: Buah segar'],
+        'Makan Siang' => ['Ayam bakar dengan sayur kukus', 'Karbohidrat: N/A', 'Lauk: Ayam', 'Sayur: Sayuran kukus', 'Buah: N/A'],
+        'Makan Malam' => ['Sup sayuran dengan roti gandum', 'Karbohidrat: Roti', 'Lauk: N/A', 'Sayur: Sup sayuran', 'Buah: N/A']
+    ],
+    'Rabu' => [
+        'Sarapan' => ['Smoothie hijau', 'Karbohidrat: N/A', 'Lauk: N/A', 'Sayur: Bayam', 'Buah: Pisang'],
+        'Makan Siang' => ['Salad quinoa', 'Karbohidrat: Quinoa', 'Lauk: N/A', 'Sayur: Sayuran segar', 'Buah: N/A'],
+        'Makan Malam' => ['Daging sapi panggang dengan ubi', 'Karbohidrat: Ubi', 'Lauk: Daging sapi', 'Sayur: N/A', 'Buah: N/A']
+    ],
+    'Kamis' => [
+        'Sarapan' => ['Pancake gandum', 'Karbohidrat: Pancake', 'Lauk: N/A', 'Sayur: N/A', 'Buah: N/A'],
+        'Makan Siang' => ['Sup ayam rendah lemak', 'Karbohidrat: N/A', 'Lauk: Ayam', 'Sayur: Sayuran', 'Buah: N/A'],
+        'Makan Malam' => ['Ikan salmon dengan asparagus', 'Karbohidrat: N/A', 'Lauk: Ikan', 'Sayur: Asparagus', 'Buah: N/A']
+    ],
+    'Jumat' => [
+        'Sarapan' => ['Buah-buahan segar', 'Karbohidrat: N/A', 'Lauk: N/A', 'Sayur: N/A', 'Buah: Buah-buahan'],
+        'Makan Siang' => ['Tahu tempe bakar', 'Karbohidrat: N/A', 'Lauk: Tahu/Tempe', 'Sayur: N/A', 'Buah: N/A'],
+        'Makan Malam' => ['Nasi merah dengan ayam kukus', 'Karbohidrat: Nasi merah', 'Lauk: Ayam', 'Sayur: N/A', 'Buah: N/A']
+    ],
+    'Sabtu' => [
+        'Sarapan' => ['Roti gandum dengan telur', 'Karbohidrat: Roti gandum', 'Lauk: Telur', 'Sayur: N/A', 'Buah: N/A'],
+        'Makan Siang' => ['Sup sayuran', 'Karbohidrat: N/A', 'Lauk: N/A', 'Sayur: Sayuran', 'Buah: N/A'],
+        'Makan Malam' => ['Ayam panggang dengan kentang', 'Karbohidrat: Kentang', 'Lauk: Ayam', 'Sayur: N/A', 'Buah: N/A']
+    ],
+    'Minggu' => [
+        'Sarapan' => ['Omelette sayur', 'Karbohidrat: N/A', 'Lauk: Telur', 'Sayur: Sayuran', 'Buah: N/A'],
+        'Makan Siang' => ['Tumis sayur dengan tahu', 'Karbohidrat: N/A', 'Lauk: Tahu', 'Sayur: Sayuran', 'Buah: N/A'],
+        'Makan Malam' => ['Steak dengan sayuran kukus', 'Karbohidrat: N/A', 'Lauk: Steak', 'Sayur: Sayuran kukus', 'Buah: N/A']
+    ],
+];
 
-        @foreach ($data as $item)
-            @if ($item->status == 'Normal')
-                <h1 class="mb-[95px] mt-[90px] text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-3xl text-green-500">Tubuh anda sudah ideal</h1>
-            @else
-                @if (strpos($item->status, 'Obesitas') !== false)
-                    <h1 class="mb-[95px] mt-[90px] text-4xl font-bold leading-none md:text-5xl lg:text-3xl text-black">Status Anda adalah {{ $item->status }}. Harap jaga kesehatan tubuh Anda.</h1>
-                @else
-                    <h1 class="mb-[95px] mt-[90px] text-4xl font-bold leading-none md:text-5xl lg:text-3xl text-red-500">Tubuh anda belum ideal</h1>
-                @endif
-            @endif
-        @endforeach
+// Mendapatkan hari yang dipilih dari query string
+$selectedDay = request('day', now()->locale('id')->format('l')); // Menggunakan locale 'id' untuk bahasa Indonesia
+$days = array_keys($rekomendasiMakanan);
+$currentDayIndex = array_search($selectedDay, $days);
+$prevDay = $days[($currentDayIndex - 1 + count($days)) % count($days)];
+$nextDay = $days[($currentDayIndex + 1) % count($days)];
+@endphp
+<section class="bg-white dark:bg-gray-0">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl text-dark">Meal Plan</h1>
+
+        {{-- jika data kosong --}}
         @if ($data->isEmpty())
-            <p class="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 lg:px-48 dark:text-black">Anda belum melakukan pengecekan. Ayo cek sekarang!</p>
+            <p class="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 lg:px-48 dark:text-black">Belum ada meal plan yang dibuat. Ayo buat sekarang!</p>
             <div class="flex justify-center pb-[22rem]">
-                <a href="{{ route('check.create') }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Check Sekarang</a>
+                <a href="{{ route('check.create') }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Buat Meal Plan</a>
             </div>
         @else
 
-        <div class="w-full flex justify-center gap-5 flex-wrap">
-            @foreach ($data as $item)
-            <div class="w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-900">
-                <div class="px-5 pb-5 my-4">
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Tinggi: {{ $item['height_check'] }} cm
-                    </h5>
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Berat: {{ $item['weight_check'] }} kg
-                    </h5>
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        IMT: {{ $item->imt }}
-                    </h5>
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Status: {{ $item->status }}
-                    </h5>
+        <div class="flex justify-between mb-10">
+            <a href="?day={{ $prevDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">&lt; {{ $prevDay }}</a>
+            <span class="text-xl font-bold text-gray-900">{{ $selectedDay }}</span>
+            <a href="?day={{ $nextDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">{{ $nextDay }} &gt;</a>
+        </div>
+
+        <div class="w-full flex justify-center gap-5 flex-wrap text-left">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">Sarapan</h3>
+                    <ul class="list-disc list-inside">
+                        @foreach ($rekomendasiMakanan[$selectedDay]['Sarapan'] as $detail)
+                            <li class="text-gray-900 dark:text-gray-100">{{ $detail }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <div class="mb-5">
 
-                        <a href="{{ route('check.edit', $item->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
+                <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">Makan Siang</h3>
+                    <ul class="list-disc list-inside">
+                        @foreach ($rekomendasiMakanan[$selectedDay]['Makan Siang'] as $detail)
+                            <li class="text-gray-900 dark:text-gray-100">{{ $detail }}</li>
+                        @endforeach
+                    </ul>
+                </div>
 
-                        <form action="{{ route('check.destroy', $item['id']) }}" method="post" class="inline">
-                            @method('delete')
-                            @csrf
-                            <button type="submit"
-                            class="ms-1 text-red-600 hover:underline">
-                            Hapus
-                        </button>
-                    </form>
+                <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">Makan Malam</h3>
+                    <ul class="list-disc list-inside">
+                        @foreach ($rekomendasiMakanan[$selectedDay]['Makan Malam'] as $detail)
+                            <li class="text-gray-900 dark:text-gray-100">{{ $detail }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
-            @endforeach
         </div>
+        {{-- <div class="mb-5">
+                <a href="{{ route('check.edit', $item->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
+
+                <form action="{{ route('check.destroy', $item['id']) }}" method="post" class="inline">
+                    @method('delete')
+                    @csrf
+                    <button type="submit"
+                    class="ms-1 text-red-600 hover:underline">
+                    Hapus
+                </button>
+            </form>
+        </div> --}}
+        @endif
     </div>
 </section>
 
@@ -108,5 +149,4 @@
         @endforeach
     </div>
 </div>
-@endif
 @endsection

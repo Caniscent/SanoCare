@@ -14,7 +14,7 @@
         <p class="mb-5 ">
             Disini kami menyediakan penjadwalan makan untuk anda agar dapat melakukan pencegahan dari penyakit diabetes
         </p>
-        <a class="btn btn-primary bg-blue-400" href="{{route('check.create')}}">Mulai Sekarang</a>
+        <a class="btn btn-primary bg-blue-500 hover:bg-blue-600" href="{{route('check.create')}}">Mulai Sekarang</a>
     </div>
     </div>
     </div>
