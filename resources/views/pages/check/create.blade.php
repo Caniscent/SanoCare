@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Check Tubuh
-@endsection
+@section('title','Buat Meal Plan')
 
 @section('content')
 <section class="">

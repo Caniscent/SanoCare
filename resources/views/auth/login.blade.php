@@ -16,7 +16,7 @@
             <!-- Name Input -->
             <div class="form-control">
                 <label for="name" class="label">
-                    <span class="label-text text-black">{{ __('Name') }}</span>
+                    <span class="label-text text-black">{{ __('Nama') }}</span>
                 </label>
                 <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus
                        class="input input-bordered w-full @error('name') input-error @enderror bg-blue-200 text-black">

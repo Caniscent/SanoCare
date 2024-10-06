@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Check
-@endsection
+@section('title','Meal Plan')
 
 @section('content')
     @php
