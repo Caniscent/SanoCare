@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','auth')
+
 @section('content')
 <div class="flex items-center justify-center min-h-screen bg-gray-50">
     <div class="w-full max-w-md p-8 space-y-8 shadow-lg card bg-white">
@@ -42,22 +44,22 @@
 
             <!-- Remember Me Checkbox -->
             <div class="form-control">
-                <label class="cursor-pointer label">
-                    <input type="checkbox" name="remember" class="checkbox" {{ old('remember') ? 'checked' : '' }}>
-                    <span class="label-text text-black">{{ __('Remember Me') }}</span>
+                <label class="label block">
+                    <input type="checkbox" name="remember" class="checkbox bg-blue-50" {{ old('remember') ? 'checked' : '' }}>
+                    <span class="label-text text-black">{{ __('Ingat Saya') }}</span>
                 </label>
             </div>
 
             <!-- Submit Button -->
             <div>
-                <button type="submit" class="btn btn-primary w-full">{{ __('Login') }}</button>
+                <button type="submit" class="btn btn-primary w-full bg-blue-500 hover:bg-blue-600">{{ __('Login') }}</button>
             </div>
 
             <!-- Forgot Password -->
             {{-- @if (Route::has('password.request'))
                 <div class="text-center">
-                    <a class="link link-primary" href="{{ route('password.request') }}">
-                        {{ __('Forgot Your Password?') }}
+                    <a class="text-blue-400 hover:underline" href="{{ route('password.request') }}">
+                        {{ __('Lupa Password?') }}
                     </a>
                 </div>
             @endif --}}
@@ -65,9 +67,9 @@
             {{-- Register --}}
             @if (Route::has('register'))
                 <div class="text-center text-black">
-                    Don't have account?
-                    <a class="text-blue-700 hover:underline" href="{{ route('register') }}">
-                        {{ __(" register now") }}
+                    {{__("Tidak punya akun?")}}
+                    <a class="text-blue-400 hover:underline" href="{{ route('register') }}">
+                        {{ __("daftar sekarang") }}
                     </a>
                 </div>
             @endif
