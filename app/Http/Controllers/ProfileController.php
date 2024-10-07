@@ -92,6 +92,6 @@ class ProfileController extends Controller
         $user->delete(); // Hapus pengguna
 
         Auth::logout();
-        return redirect()->view('pages.home.index');
+        return redirect()->route('login');
     }
 }

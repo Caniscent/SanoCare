@@ -36,7 +36,7 @@
     </div> --}}
 
     <div class="mt-4 flex justify-between">
-        <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">Edit Profil</a>
+        <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white">Edit Profil</a>
 
         <form action="{{ route('profile.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
             @csrf
