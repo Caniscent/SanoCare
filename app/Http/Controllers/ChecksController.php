@@ -21,35 +21,24 @@ class ChecksController extends Controller
     {
         $data = ChecksModel::where('user_id', auth::id())->with('user')->get();
 
+        $prediabetes = false;
+
         foreach ($data as $item) {
-            $height = $item->height / 100;
-            $weight = $item->weight;
+            if ($item->sugar = 1) {
+                if ($item->sugar >= 100 && $item->sugar <= 125) {
+                    $prediabetes = true;
+                }
+                else if ($item->sugar > 125) {
+                    //Diabetes
+                }
+            }
+            else if ($item->sugar = 2) {
+                
+            }
+            else {
 
-            // Kalkulasi IMT
-            $imt = $weight / ($height * $height);
-            $item->imt = round($imt,2);
-
-            if($imt < 18.5){
-                $item->status = 'Kurus';
-                $item->news = NewsModel::where('type', 'not_ideal')->get();
-            }elseif($imt >= 18.5 && $imt <= 24.9){
-                $item->status = 'Normal';
-                $item->news = NewsModel::where('type', 'ideal')->get();
-            }elseif($imt >= 25 && $imt <= 29.9){
-                $item->status = 'Gemuk';
-                $item->news = NewsModel::where('type', 'not_ideal')->get();
-            }elseif($imt >= 30 && $imt <= 34.9){
-                $item->status = 'Obesitas Level I';
-                $item->news = NewsModel::where('type', 'not_ideal')->get();
-            }elseif($imt >= 35 && $imt <= 39.9){
-                $item->status = 'Obesitas Level II';
-                $item->news = NewsModel::where('type', 'not_ideal')->get();
-            }elseif($imt >= 40){
-                $item->status = 'Obesitas Level III';
-                $item->news = NewsModel::where('type', 'not_ideal')->get();
             }
         }
-
 
         return view('pages.check.index', ['data' => $data]);
     }
@@ -95,6 +84,9 @@ class ChecksController extends Controller
         'user_id' => $user->id,
         'height' => $request->height,
         'weight' => $request->weight,
+        'activity' => $request->activity_categories_id,
+        'sugar' => $request->sugar_content,
+        'test_method' => $request->test_method_id,
     ];
 
     // buat entri baru di tabel checks

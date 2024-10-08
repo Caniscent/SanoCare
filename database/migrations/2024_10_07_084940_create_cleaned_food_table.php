@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('ingredients_name');
             $table->string('food_group');
             $table->string('type');
-            $table->integer('energy_kal');
-            $table->integer('protein_g');
-            $table->integer('fat_g');
-            $table->integer('carbs_g');
-            $table->integer('fiber_g');
+            $table->double('energy_kal');
+            $table->double('protein_g');
+            $table->double('fat_g');
+            $table->double('carbs_g');
+            $table->double('fiber_g');
             $table->timestamps();
         });
     }

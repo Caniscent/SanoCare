@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
             // UserSeeder::class,
             // CheckSeeder::class,
             // HabitSeeder::class,
-            ActivitySeeder::class,
-            TestMethodSeeder::class,
+            // ActivitySeeder::class,
+            // TestMethodSeeder::class,
         ]);
     }
 }
