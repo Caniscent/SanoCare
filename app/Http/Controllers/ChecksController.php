@@ -24,7 +24,7 @@ class ChecksController extends Controller
         $prediabetes = false;
 
         foreach ($data as $item) {
-            if ($item->sugar = 1) {
+            if ($item->test_method == 'puasa') {
                 if ($item->sugar >= 100 && $item->sugar <= 125) {
                     $prediabetes = true;
                 }
@@ -32,15 +32,40 @@ class ChecksController extends Controller
                     //Diabetes
                 }
             }
-            else if ($item->sugar = 2) {
-                
+            else if ($item->test_method == 'ttgo') {
+                if ($item->sugar >= 140 && $item->sugar <= 199) {
+                    $prediabetes = true;
+                }
+                else if ($item->sugar > 199) {
+                    //Diabetes
+                }
             }
             else {
-
+                // INVALID BLODD SUGAR TEST
             }
         }
 
-        return view('pages.check.index', ['data' => $data]);
+        if (!$prediabetes) {
+            // TIDAK PRE DIABETES
+        }
+
+        // Calculate BMI
+        $body_level = [
+            "underweight" => 18.5,
+            "normal" => 24.9,
+            "overweight" => 29.9,
+            "obese" => 30,
+        ];
+
+        foreach ($data as $item) {
+            $bmi = round($item->weight / (($item->height / 100) ** 2), 2);
+        }
+
+        foreach ($body_level as $category => $threshold ) {
+            //
+        }
+
+        // return view('pages.check.index', ['data' => $data]);
     }
 
     /**
