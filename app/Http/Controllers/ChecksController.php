@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChecksModel;
-use App\Models\NewsModel;
+use App\Models\ActivityModel;
+use App\Models\TestMethodModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -73,7 +74,9 @@ class ChecksController extends Controller
      */
     public function create()
     {
-        return view('pages.check.create');
+        $activities = ActivityModel::all();
+        $test_methods = TestMethodModel::all();
+        return view('pages.check.create', compact('activities','test_methods'));
     }
 
 
