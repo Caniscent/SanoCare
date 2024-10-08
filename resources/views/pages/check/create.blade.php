@@ -65,10 +65,12 @@
 
                     {{-- uji input --}}
                     <div class="mb-5">
-                        <label for="test_method" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Method Uji</label>
-                        <div class="relative">
-                            <input type="number" name="test_method" id="test_method" class="bg-gray-50 no-spinners border @error('test_method') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-20 dark:bg-blue-200 dark:border-blue-100 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                        </div>
+                        <label for="test_method" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Metode Uji</label>
+                        <select id="test_method" class="input input-bordered w-full @error('test_method') input-error @enderror bg-blue-200 text-black" name="test_method" required>
+                            <option value="" disabled selected>{{ __('Pilih Metode Uji') }}</option>
+                            <option value="puasa" {{ old('test_method') == 'puasa' ? 'selected' : '' }}>Puasa</option>
+                            <option value="ttgo" {{ old('test_method') == 'ttgo' ? 'selected' : '' }}>TTGO</option>
+                        </select>
                         @error('test_method')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                         @enderror
