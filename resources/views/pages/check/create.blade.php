@@ -41,10 +41,12 @@
                     <div class="mb-5">
                         <label for="activity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Tingkat Aktivitas</label>
                         <select id="activity" class="input input-bordered w-full @error('activity') input-error @enderror bg-blue-200 text-black" name="activity" required>
-                            <option value="" disabled selected>{{ __('Pilih Tingkat Aktivitas') }}</option>
-                            <option value="ringan" {{ old('activity') == 'ringan' ? 'selected' : '' }}>Ringan</option>
-                            <option value="sedang" {{ old('activity') == 'sedang' ? 'selected' : '' }}>Sedang</option>
-                            <option value="berat" {{ old('activity') == 'berat' ? 'selected' : '' }}>Berat</option>
+                            @foreach ( as )
+                                <option value="" disabled selected>{{ __('Pilih Tingkat Aktivitas') }}</option>
+                                <option value="ringan" {{ old('activity') == 'ringan' ? 'selected' : '' }}>Ringan</option>
+                                <option value="sedang" {{ old('activity') == 'sedang' ? 'selected' : '' }}>Sedang</option>
+                                <option value="berat" {{ old('activity') == 'berat' ? 'selected' : '' }}>Berat</option>
+                            @endforeach
                         </select>
                         @error('activity')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
