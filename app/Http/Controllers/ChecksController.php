@@ -25,7 +25,7 @@ class ChecksController extends Controller
         $personalData = ChecksModel::where('user_id',$user->id)->with(['activityCategories','testMethod'])->find(7);
 
         if ($personalData) {
-                return $this->calculatePersonalNeed(
+                $this->calculatePersonalNeed(
                 $personalData->weight,
                 $personalData->height,
                 $user->age,
@@ -36,8 +36,8 @@ class ChecksController extends Controller
             );
         }
 
-        // $dataUser = ChecksModel::where('user_id', auth::id())->with('user')->get();
-        // return view('pages.check.index', ['data' => $dataUser]);
+        $dataUser = ChecksModel::where('user_id', auth::id())->with('user')->get();
+        return view('pages.check.index', ['data' => $dataUser]);
     }
 
     public function calculatePersonalNeed($weight, $height, $age, $gender ,$bloodSugar, $testMethod, $activity) {
@@ -132,7 +132,7 @@ class ChecksController extends Controller
             "reqFat" => $required_fat,
             "reqFibr" => $required_fibr,
         ];
-        return var_dump($result);
+        return $result;
     }
 
 
