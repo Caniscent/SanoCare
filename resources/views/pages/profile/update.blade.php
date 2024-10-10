@@ -43,6 +43,15 @@
             @enderror
         </div>
 
+        {{-- <div class="mb-4">
+            <label for="password" class="block text-sm font-medium text-gray-900">Password</label>
+            <input type="password" name="password" id="password" value="{{ old('password', $user->password) }}" required class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-blue-200 dark:border-blue-100 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            @error('password')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div> --}}
+
+        
 
         <div class="mb-4">
             <button type="submit" class="btn btn-primary bg-blue-500 hover:bg-blue-600">Perbarui Profil</button>
