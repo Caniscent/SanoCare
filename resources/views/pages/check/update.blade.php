@@ -77,7 +77,7 @@
                         <label for="test_method" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Metode Uji</label>
                         <select id="test_method" class="input input-bordered w-full @error('test_method_id') input-error @enderror bg-blue-200 text-black" name="test_method_id" required>
                             <option value="" disabled {{ old('test_method_id', $check->test_method_id) == '' ? 'selected' : '' }}>
-                                {{ __('Pilih Tingkat Aktivitas') }}
+                                {{ __('Pilih Metode Uji') }}
                             </option>
                             @foreach ($test_methods as $method)
                                 <option value="{{ $method->id }}" title="{{ $method->description }}"
