@@ -5,37 +5,37 @@
 @section('content')
 @php
 $rekomendasiMakanan = [
-    'Senin' => [
+    'Monday' => [
         'Sarapan' => ['Oatmeal dengan buah-buahan', 'Karbohidrat: Oatmeal', 'Lauk: N/A', 'Sayur: N/A', 'Buah: Buah-buahan'],
         'Makan Siang' => ['Salad sayuran dengan protein', 'Karbohidrat: N/A', 'Lauk: Ayam', 'Sayur: Salad', 'Buah: N/A'],
         'Makan Malam' => ['Ikan panggang dengan sayur', 'Karbohidrat: N/A', 'Lauk: Ikan', 'Sayur: Sayuran panggang', 'Buah: N/A']
     ],
-    'Selasa' => [
+    'Tuesday' => [
         'Sarapan' => ['Yogurt dengan granola', 'Karbohidrat: Granola', 'Lauk: N/A', 'Sayur: N/A', 'Buah: Buah segar'],
         'Makan Siang' => ['Ayam bakar dengan sayur kukus', 'Karbohidrat: N/A', 'Lauk: Ayam', 'Sayur: Sayuran kukus', 'Buah: N/A'],
         'Makan Malam' => ['Sup sayuran dengan roti gandum', 'Karbohidrat: Roti', 'Lauk: N/A', 'Sayur: Sup sayuran', 'Buah: N/A']
     ],
-    'Rabu' => [
+    'Wednesday' => [
         'Sarapan' => ['Smoothie hijau', 'Karbohidrat: N/A', 'Lauk: N/A', 'Sayur: Bayam', 'Buah: Pisang'],
         'Makan Siang' => ['Salad quinoa', 'Karbohidrat: Quinoa', 'Lauk: N/A', 'Sayur: Sayuran segar', 'Buah: N/A'],
         'Makan Malam' => ['Daging sapi panggang dengan ubi', 'Karbohidrat: Ubi', 'Lauk: Daging sapi', 'Sayur: N/A', 'Buah: N/A']
     ],
-    'Kamis' => [
+    'Thursday' => [
         'Sarapan' => ['Pancake gandum', 'Karbohidrat: Pancake', 'Lauk: N/A', 'Sayur: N/A', 'Buah: N/A'],
         'Makan Siang' => ['Sup ayam rendah lemak', 'Karbohidrat: N/A', 'Lauk: Ayam', 'Sayur: Sayuran', 'Buah: N/A'],
         'Makan Malam' => ['Ikan salmon dengan asparagus', 'Karbohidrat: N/A', 'Lauk: Ikan', 'Sayur: Asparagus', 'Buah: N/A']
     ],
-    'Jumat' => [
+    'Friday' => [
         'Sarapan' => ['Buah-buahan segar', 'Karbohidrat: N/A', 'Lauk: N/A', 'Sayur: N/A', 'Buah: Buah-buahan'],
         'Makan Siang' => ['Tahu tempe bakar', 'Karbohidrat: N/A', 'Lauk: Tahu/Tempe', 'Sayur: N/A', 'Buah: N/A'],
         'Makan Malam' => ['Nasi merah dengan ayam kukus', 'Karbohidrat: Nasi merah', 'Lauk: Ayam', 'Sayur: N/A', 'Buah: N/A']
     ],
-    'Sabtu' => [
+    'Saturday' => [
         'Sarapan' => ['Roti gandum dengan telur', 'Karbohidrat: Roti gandum', 'Lauk: Telur', 'Sayur: N/A', 'Buah: N/A'],
         'Makan Siang' => ['Sup sayuran', 'Karbohidrat: N/A', 'Lauk: N/A', 'Sayur: Sayuran', 'Buah: N/A'],
         'Makan Malam' => ['Ayam panggang dengan kentang', 'Karbohidrat: Kentang', 'Lauk: Ayam', 'Sayur: N/A', 'Buah: N/A']
     ],
-    'Minggu' => [
+    'Sunday' => [
         'Sarapan' => ['Omelette sayur', 'Karbohidrat: N/A', 'Lauk: Telur', 'Sayur: Sayuran', 'Buah: N/A'],
         'Makan Siang' => ['Tumis sayur dengan tahu', 'Karbohidrat: N/A', 'Lauk: Tahu', 'Sayur: Sayuran', 'Buah: N/A'],
         'Makan Malam' => ['Steak dengan sayuran kukus', 'Karbohidrat: N/A', 'Lauk: Steak', 'Sayur: Sayuran kukus', 'Buah: N/A']
@@ -97,8 +97,9 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
                 </div>
             </div>
         </div>
-        {{-- <div class="mb-5">
-                <a href="{{ route('check.edit', $item->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
+        @foreach ($data as $item)
+        <div class="mb-5 mt-10">
+            <a href="{{ route('check.edit', $item->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
 
                 <form action="{{ route('check.destroy', $item['id']) }}" method="post" class="inline">
                     @method('delete')
@@ -108,7 +109,8 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
                     Hapus
                 </button>
             </form>
-        </div> --}}
+        </div>
+        @endforeach
         @endif
     </div>
 </section>
@@ -119,10 +121,10 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
         <h2 class="text-3xl font-extrabold mb-6 text-center text-gray-900 dark:text-white">Tips untuk Anda</h2>
 
         <!-- Loop through the data for tips -->
-        @foreach ($data as $item)
+        {{-- @foreach ($data as $item)
             @if ($item->status == 'Normal')
             <div class="mb-6">
-                {{-- <h3 class="text-2xl font-bold text-green-500">Tubuh Anda Ideal!</h3> --}}
+                <h3 class="text-2xl font-bold text-green-500">Tubuh Anda Ideal!</h3>
                 <ul class="list-disc list-inside text-gray-100 dark:text-gray-100">
                     @foreach ($item->news as $news)
                     <li>
@@ -147,6 +149,6 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
             </div>
             @endif
         @endforeach
-    </div>
+    </div> --}}
 </div>
 @endsection

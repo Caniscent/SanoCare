@@ -4,12 +4,12 @@
 
 @section('content')
 <section class="">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16" style="background-image: url('{{asset('img/buddha-bowl-dish-with-vegetables-legumes-top-view.jpg')}}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <div class="flex flex-col justify-center">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-black md:text-5xl lg:text-6xl dark:text-black">Kalkulasi IMT</h1>
+            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-black md:text-5xl lg:text-6xl dark:text-black">Meal Plan</h1>
             <p class="mb-6 text-lg font-normal text-black lg:text-xl dark:text-black">
-                Isikan tinggi dan berat badan anda untuk mengecek Indeks Massa Tubuh (IMT) yang merupakan indikator sederhana dari korelasi antara tinggi dan berat badan Anda.
-                IMT digunakan untuk mengukur ideal atau tidaknya berat badan, dan merupakan cara pengukuran yang baik untuk menilai risiko penyakit yang dapat terjadi akibat berat badan berlebih.
+                Isikan data tinggi badan, berat badan, jenis aktivitas, kadar gula, dan metode uji anda untuk mendapatkan
+                meal plan selama 7 hari ke depan yang berisi makanan makanan sehat guna mencegah anda dari penyakit diabetes.
             </p>
         </div>
         <div>

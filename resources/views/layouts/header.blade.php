@@ -13,14 +13,14 @@
                 </svg>
             </label>
             <ul tabindex="0" class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                <li class="!text-black"><a href="{{url('/')}}">Home</a></li>
-                <li class="!text-black"><a href="{{route('check.index')}}">Meal Plan</a></li>
+                <li class="!text-gray-500"><a href="{{url('/')}}">Home</a></li>
+                <li class="!text-gray-500"><a href="{{route('check.index')}}">Meal Plan</a></li>
                 <li>
                     @auth
-                        <li class="!text-black"><a href="{{route('profile.index')}}">Profile</a></li>
+                        <li class="!text-gray-500"><a href="{{route('profile.index')}}">Profile</a></li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <li class="!text-black"><button>{{ __('Logout') }}</button></li>
+                            <li class="!text-gray-500"><button>{{ __('Logout') }}</button></li>
                         </form>
                     @endauth
                     @guest
@@ -36,10 +36,10 @@
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost">Pengaturan Akun</div>
                 <ul tabindex="0" class="dropdown-content menu bg-base-100 dark:bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                    <li class="!text-black"><a href="{{route('profile.index')}}">Profile</a></li>
+                    <li class="!text-gray-500"><a href="{{route('profile.index')}}">Profile</a></li>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <li class="!text-black"><button>{{ __('Logout') }}</button></li>
+                        <li class="!text-gray-500"><button>{{ __('Logout') }}</button></li>
                     </form>
                 </ul>
             </div>
