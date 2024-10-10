@@ -20,13 +20,28 @@ class ChecksController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        // $personalData = ChecksModel::where('user_id',$user->id)->with(['activityCategories','testMethod'])->latest()->first();
+        $personalData = ChecksModel::where('user_id',$user->id)->with(['activityCategories','testMethod'])->find(7);
+
+        if ($personalData) {
+            return $this->calculatePersonalNeed(
+                $personalData->weight,
+                $personalData->height,
+                $user->age,
+                $user->gender,
+                $personalData->sugar_content,
+                $personalData->testMethod->method,
+                $personalData->activityCategories->activity,
+            );
+        }
 
     }
 
     public function calculatePersonalNeed($weight, $height, $age, $gender ,$bloodSugar, $testMethod, $activity) {
         $prediabetes = false;
 
-        if ($testMethod == 'puasa') {
+        if ($testMethod == 'Puasa') {
             if ($bloodSugar >= 100 && $bloodSugar <= 125) {
                 $prediabetes = true;
             }
@@ -37,7 +52,7 @@ class ChecksController extends Controller
                 ];
             }
         }
-        else if ($testMethod == 'ttgo') {
+        else if ($testMethod == 'TTGO') {
             if ($bloodSugar >= 140 && $bloodSugar <= 199) {
                 $prediabetes = true;
             }
@@ -73,6 +88,8 @@ class ChecksController extends Controller
         // Perhitungan BMI
         $bmi = round($weight / (($height / 100) ** 2), 2);
 
+        $body = [];
+
         foreach ($body_level as $category => $threshold ) {
             if ($bmi < $threshold) {
                 $body = [$bmi,$category];
@@ -80,19 +97,20 @@ class ChecksController extends Controller
             break;
         }
 
-        if (!$body) {
+        if (empty($body)){
             $body = [$bmi,'obese'];
         }
+
 
         // Calculate Daily Categories
         $cons = ($gender == 'perempuan') ? -161 : 5;
         $daily_calories = (10 * $weight) + (6.25 * $height) - (5 * $age) + $cons;
 
         $activity_level = [
-            "very light" => 1.2,
-            "light" => 1.375,
-            "medium" => 1.55,
-            "heavy" => 1.725,
+            "Sangat Ringan" => 1.2,
+            "Ringan" => 1.375,
+            "Sedang" => 1.55,
+            "Berat" => 1.725,
         ];
 
         $daily_calories += $activity_level[$activity];
@@ -114,6 +132,8 @@ class ChecksController extends Controller
         ];
         return var_dump($result);
     }
+
+
 
     /**
      * Show the form for creating a new resource.

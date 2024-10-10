@@ -17,9 +17,9 @@ class ChecksModel extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function activityCategory()
+    public function activityCategories()
     {
-        return $this->belongsTo(ActivityModel::class, 'activity_category_id');
+        return $this->belongsTo(ActivityModel::class, 'activity_categories_id');
     }
 
     public function testMethod()
