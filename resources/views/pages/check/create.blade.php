@@ -14,7 +14,7 @@
         </div>
         <div>
             <div class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-50">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-dark text-center">
+                <h2 class="text-2xl font-bold text-gray-900 text-white text-center">
                     Buat Meal Plan
                 </h2>
                 <form class="max-w-sm mx-auto" method="POST" action="{{ route('check.store') }}" enctype="multipart/form-data">

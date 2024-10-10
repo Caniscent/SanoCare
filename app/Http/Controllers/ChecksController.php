@@ -36,8 +36,8 @@ class ChecksController extends Controller
             );
         }
 
-        $dataUser = ChecksModel::where('user_id', auth::id())->with('user')->get();
-        return view('pages.check.index', ['data' => $dataUser]);
+        $check = ChecksModel::where('user_id', auth::id())->with(['user','activityCategories','testMethod'])->get();
+        return view('pages.check.index', ['check' => $check]);
     }
 
     public function calculatePersonalNeed($weight, $height, $age, $gender ,$bloodSugar, $testMethod, $activity) {
@@ -201,9 +201,13 @@ class ChecksController extends Controller
     public function edit(string $id)
     {
         $check = ChecksModel::find($id);
+        $activities = ActivityModel::all();
+        $test_methods = TestMethodModel::all();
 
         return view('pages.check.update', [
-            'check' => $check
+            'check' => $check,
+            'activities' => $activities,
+            'test_methods' => $test_methods
         ]);
     }
 
@@ -235,8 +239,8 @@ class ChecksController extends Controller
 
         $check = ChecksModel::find($id);
 
-        $check->weight = $request->input('weight');
         $check->height = $request->input('height');
+        $check->weight = $request->input('weight');
         $check->sugar_content = $request->input('sugar_content');
         $check->activity_categories_id = $request->input('activity_categories_id');
         $check->test_method_id = $request->input('test_method_id');

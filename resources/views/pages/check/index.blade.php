@@ -61,8 +61,11 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
             </div>
         @else
 
-        @foreach ($check as $item)
-            <p>Berdasarkan data yang kamu masukkan, kamu memiliki tinggi badan {{$item->height}} cm dengan berat badan {{$item->weight}} kg. Kegiatan fisik yang kamu lakukan adalah {{$item->activityCategory->activity}} dan kandungan gula darah dalam darah sebesar {{$item->sugar_content}} mg/dL ({{$item->testMethod->method}})</p>
+        @foreach ($check as $data)
+            <p class="text-gray-900 my-20 mx-60">Hai {{$data->user->name}}, kamu memiliki tinggi badan <b>{{$data->height}} cm</b> dan berat badan <b>{{$data->weight}} kg</b>.
+                Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityCategories->activity}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_content}} mg/dL</b> ({{$data->testMethod->method}}).
+                Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buatkan khusus untukmu.
+            </p>
         @endforeach
 
         <div class="flex justify-between mb-10">
@@ -101,11 +104,11 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
                 </div>
             </div>
         </div>
-        @foreach ($check as $item)
+        @foreach ($check as $data)
         <div class="mb-5 mt-10">
-            <a href="{{ route('check.edit', $item->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
+            <a href="{{ route('check.edit', $data->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
 
-                <form action="{{ route('check.destroy', $item['id']) }}" method="post" class="inline">
+                <form action="{{ route('check.destroy', $data->id) }}" method="post" class="inline">
                     @method('delete')
                     @csrf
                     <button type="submit"
