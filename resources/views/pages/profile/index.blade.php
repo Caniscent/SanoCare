@@ -7,7 +7,7 @@
     <h1 class="text-3xl font-bold text-black mb-6">Profil Pengguna</h1>
 
     <div class="flex items-center mb-6">
-        <img src="{{ asset('img/logonano.png') }}" alt="Profile Picture" class="w-32 h-32 rounded-full border-4 border-gray-300 shadow-lg" />
+        <img src="{{ asset('img/307ce493-b254-4b2d-8ba4-d12c080d6651.jpg') }}" alt="Profile Picture" class="w-32 h-32 rounded-full border-4 border-gray-300 shadow-lg" />
         <div class="ml-6 text-black">
             <h2 class="text-xl font-semibold">{{ $user->name }}</h2>
 
