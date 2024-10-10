@@ -54,12 +54,16 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl text-dark">Meal Plan</h1>
 
         {{-- jika data kosong --}}
-        @if ($data->isEmpty())
+        @if ($check->isEmpty())
             <p class="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 lg:px-48 dark:text-black">Belum ada meal plan yang dibuat. Ayo buat sekarang!</p>
             <div class="flex justify-center pb-[22rem]">
                 <a href="{{ route('check.create') }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Buat Meal Plan</a>
             </div>
         @else
+
+        @foreach ($check as $item)
+            <p>Berdasarkan data yang kamu masukkan, kamu memiliki tinggi badan {{$item->height}} cm dengan berat badan {{$item->weight}} kg. Kegiatan fisik yang kamu lakukan adalah {{$item->activityCategory->activity}} dan kandungan gula darah dalam darah sebesar {{$item->sugar_content}} mg/dL ({{$item->testMethod->method}})</p>
+        @endforeach
 
         <div class="flex justify-between mb-10">
             <a href="?day={{ $prevDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">&lt; {{ $prevDay }}</a>
@@ -97,7 +101,7 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
                 </div>
             </div>
         </div>
-        @foreach ($data as $item)
+        @foreach ($check as $item)
         <div class="mb-5 mt-10">
             <a href="{{ route('check.edit', $item->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
 

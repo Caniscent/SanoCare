@@ -20,8 +20,8 @@ class ChecksController extends Controller
      */
     public function index()
     {
-        // $data = ChecksModel::where('user_id', auth::id())->with('user')->get();
-        // return view('pages.check.index', ['data' => $data]);
+        $check = ChecksModel::where('user_id', auth::id())->with(['user', 'activityCategory', 'testMethod'])->get();
+        return view('pages.check.index', ['check' => $check]);
     }
 
     public function calculatePersonalNeed($weight, $height, $age, $gender ,$bloodSugar, $testMethod, $activity) {
@@ -193,8 +193,11 @@ class ChecksController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'height' => 'required|numeric|min:50|max:300',
             'weight' => 'required|numeric|min:10|max:500',
+            'height' => 'required|numeric|min:50|max:300',
+            'sugar_content' => 'nullable|numeric',
+            'activity_categories_id' => 'required|exists:activity_categories,id',
+            'test_method_id' => 'required|exists:test_method,id',
         ], [
             'height.required' => 'Tinggi badan harus diisi.',
             'height.numeric' => 'Tinggi badan harus berupa angka.',
@@ -204,6 +207,10 @@ class ChecksController extends Controller
             'weight.numeric' => 'Berat badan harus berupa angka.',
             'weight.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
             'weight.max' => 'Berat badan tidak boleh melebihi 500 kg.',
+            'activity_categories_id.required' => 'Kategori aktivitas harus dipilih.',
+            'activity_categories_id.exists' => 'Kategori aktivitas yang dipilih tidak valid.',
+            'test_method_id.required' => 'Metode pengujian harus dipilih.',
+            'test_method_id.exists' => 'Metode pengujian yang dipilih tidak valid.',
         ]);
 
         $check = ChecksModel::find($id);
