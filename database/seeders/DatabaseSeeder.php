@@ -22,14 +22,14 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             //untuk menggunakan seeder pertama nyalakan dulu activity, test_method, dan user setelah itu
-            //di comment lagi dan nyalakan check dan habit
+            //di comment lagi dan nyalakan check (jika ada datanya)
 
             // NewsSeeder::class,
-            // UserSeeder::class,
+            UserSeeder::class,
             // CheckSeeder::class,
             // HabitSeeder::class,
-            // ActivitySeeder::class,
-            // TestMethodSeeder::class,
+            ActivitySeeder::class,
+            TestMethodSeeder::class,
         ]);
     }
 }
