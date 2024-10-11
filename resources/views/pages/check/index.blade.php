@@ -7,13 +7,13 @@
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">Meal Plan</h1>
 
-        @if ($checks->isEmpty())
+        @if ($check->isEmpty())
             <p class="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 lg:px-48 dark:text-black">Belum ada meal plan yang dibuat. Ayo buat sekarang!</p>
             <div class="flex justify-center pb-[22rem]">
                 <a href="{{ route('check.create') }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Buat Meal Plan</a>
             </div>
         @else
-            @foreach ($checks as $data)
+            @foreach ($check as $data)
                 <p class="text-gray-900 my-20 mx-60">Hai {{$data->user->name}}, kamu memiliki tinggi badan <b>{{$data->height}} cm</b> dan berat badan <b>{{$data->weight}} kg</b>.
                     Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityCategories->activity}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_content}} mg/dL</b> ({{$data->testMethod->method}}).
                     Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buatkan khusus untukmu.
@@ -30,7 +30,7 @@
                 <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
                     <h3 class="text-xl font-bold mb-4">Sarapan</h3>
                     <ul class="list-disc list-inside">
-                        @if (isset($mealPlan[$selectedDay]['breakfast']))
+                        @if (!empty($mealPlan[$selectedDay]['breakfast']))
                             @foreach ($mealPlan[$selectedDay]['breakfast'] as $detail)
                                 <li class="text-gray-900 dark:text-gray-100">{{ $detail->ingredients_name }}</li>
                             @endforeach
@@ -43,7 +43,7 @@
                 <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
                     <h3 class="text-xl font-bold mb-4">Makan Siang</h3>
                     <ul class="list-disc list-inside">
-                        @if (isset($mealPlan[$selectedDay]['lunch']))
+                        @if (!empty($mealPlan[$selectedDay]['lunch']))
                             @foreach ($mealPlan[$selectedDay]['lunch'] as $detail)
                                 <li class="text-gray-900 dark:text-gray-100">{{ $detail->ingredients_name }}</li>
                             @endforeach
@@ -56,7 +56,7 @@
                 <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
                     <h3 class="text-xl font-bold mb-4">Makan Malam</h3>
                     <ul class="list-disc list-inside">
-                        @if (isset($mealPlan[$selectedDay]['dinner']))
+                        @if (!empty($mealPlan[$selectedDay]['dinner']))
                             @foreach ($mealPlan[$selectedDay]['dinner'] as $detail)
                                 <li class="text-gray-900 dark:text-gray-100">{{ $detail->ingredients_name }}</li>
                             @endforeach
@@ -67,10 +67,9 @@
                 </div>
             </div>
 
-            @foreach ($checks as $data)
+            @foreach ($check as $data)
             <div class="mb-5 mt-10">
                 <a href="{{ route('check.edit', $data->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
-
 
                 <form action="{{ route('check.destroy', $data->id) }}" method="post" class="inline">
                     @method('delete')
@@ -96,3 +95,4 @@
         {{-- Tambahkan tips di sini jika diperlukan --}}
     </div>
 </div>
+@endsection
