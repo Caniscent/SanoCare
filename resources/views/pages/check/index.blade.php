@@ -108,11 +108,17 @@ $nextDay = $days[($currentDayIndex + 1) % count($days)];
         <div class="mb-5 mt-10">
             <a href="{{ route('check.edit', $data->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
 
-                <form action="{{ route('check.destroy', $data->id) }}" method="post" class="inline">
-                    @method('delete')
-                    @csrf
-                    <button type="submit"
-                    class="ms-1 text-red-600 hover:underline">
+            <form action="{{ route('history.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="check_id" value="{{ $data->id }}">
+                <button type="submit" class="text-yellow-900 hover:underline">Tambah ke Histori</button>
+            </form>
+
+
+            <form action="{{ route('check.destroy', $data->id) }}" method="post" class="inline">
+                @method('delete')
+                @csrf
+                <button type="submit" class="ms-1 text-red-600 hover:underline">
                     Hapus
                 </button>
             </form>

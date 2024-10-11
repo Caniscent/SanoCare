@@ -14,7 +14,7 @@
         </div>
         <div>
             <div class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-50">
-                <h2 class="text-2xl font-bold text-gray-900 text-white text-center">
+                <h2 class="text-2xl font-bold text-gray-900 text-center">
                     Buat Meal Plan
                 </h2>
                 <form class="max-w-sm mx-auto" method="POST" action="{{ route('check.store') }}" enctype="multipart/form-data">
@@ -79,7 +79,6 @@
                         @enderror
                     </div>
 
-
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Buat
                     </button>
@@ -87,5 +86,13 @@
             </div>
         </div>
     </div>
+
+    <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden">
+        <span class="loading loading-spinner loading-lg text-white"></span>
+    </div>
 </section>
 @endsection
+
+@section('scripts')
+    <script src="{{asset('js/loading.js')}}"></script>
+@endsection 

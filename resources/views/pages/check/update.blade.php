@@ -100,5 +100,12 @@
             </div>
         </div>
     </div>
+    <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden">
+        <span class="loading loading-spinner loading-lg text-white"></span>
+    </div>
 </section>
+@endsection
+
+@section('scripts')
+    <script src="{{asset('js/loading.js')}}"></script>
 @endsection

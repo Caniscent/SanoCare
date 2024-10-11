@@ -24,5 +24,7 @@
     @if (!request()->routeIs('home','login','register'))
         @include('layouts.footer')
     @endif
+
+    @yield('scripts')
 </body>
 </html>
