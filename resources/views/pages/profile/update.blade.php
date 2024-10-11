@@ -51,7 +51,7 @@
             @enderror
         </div> --}}
 
-        
+
 
         <div class="mb-4">
             <button type="submit" class="btn btn-primary bg-blue-500 hover:bg-blue-600">Perbarui Profil</button>

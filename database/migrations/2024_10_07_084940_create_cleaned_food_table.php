@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('fat_g');
             $table->double('carbs_g');
             $table->double('fiber_g');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 
