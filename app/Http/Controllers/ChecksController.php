@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ChecksModel;
 use App\Models\ActivityModel;
 use App\Models\TestMethodModel;
+use App\Models\FoodModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,121 +19,224 @@ class ChecksController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user();
-        // $personalData = ChecksModel::where('user_id',$user->id)->with(['activityCategories','testMethod'])->latest()->first();
-        $personalData = ChecksModel::where('user_id',$user->id)->with(['activityCategories','testMethod'])->find(7);
+        $userId = Auth::id(); // Get the authenticated user's ID
 
-        if ($personalData) {
-                $this->calculatePersonalNeed(
-                $personalData->weight,
-                $personalData->height,
-                $user->age,
-                $user->gender,
-                $personalData->sugar_content,
-                $personalData->testMethod->method,
-                $personalData->activityCategories->activity,
-            );
+        if ($userId === null) {
+            return redirect()->route('login'); // If not authenticated, redirect to login
         }
 
-        $check = ChecksModel::where('user_id', auth::id())->with(['user','activityCategories','testMethod'])->get();
-        return view('pages.check.index', ['check' => $check]);
+        $checks = ChecksModel::where('user_id', $userId)
+            ->with('user', 'activityCategories', 'testMethod')
+            ->get();
+
+        if ($checks->isEmpty()) {
+            return view('pages.check.index', ['check' => $checks, 'mealPlan' => null]);
+        }
+
+        // Hitung kebutuhan personal
+        $personalNeed = $this->calculatePersonalNeed($checks);
+
+        // Jalankan algoritma genetika untuk menghasilkan meal plan
+        $mealPlan = $this->generateMealPlan($personalNeed);
+
+        // Mengambil hari yang dipilih dari query string
+        $selectedDay = $request->get('day', now()->locale('id')->format('l')); // Menggunakan locale 'id' untuk bahasa Indonesia
+
+
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $currentDayIndex = array_search($selectedDay, $days);
+        $prevDay = $days[($currentDayIndex - 1 + count($days)) % count($days)];
+        $nextDay = $days[($currentDayIndex + 1) % count($days)];
+
+        return view('pages.check.index', compact('checks', 'mealPlan', 'selectedDay', 'prevDay', 'nextDay'));
     }
 
-    public function calculatePersonalNeed($weight, $height, $age, $gender ,$bloodSugar, $testMethod, $activity) {
-        $prediabetes = false;
 
-        if ($testMethod == 'Puasa') {
-            if ($bloodSugar >= 100 && $bloodSugar <= 125) {
-                $prediabetes = true;
-            }
-            else if ($bloodSugar > 125) {
-                return [
-                    "error" => True,
-                    "code" => "DIABETES",
-                ];
-            }
-        }
-        else if ($testMethod == 'TTGO') {
-            if ($bloodSugar >= 140 && $bloodSugar <= 199) {
-                $prediabetes = true;
-            }
-            else if ($bloodSugar > 199) {
-                return [
-                    "error" => True,
-                    "code" => "DIABETES",
-                ];
-            }
-        }
-        else {
-            return [
-                "error" => True,
-                "code" => "INVALID_BLOOD_SUGAR_TEST",
-            ];
+    private function calculatePersonalNeed($checks)
+    {
+        // Mengambil data user yang dibutuhkan dari checks
+        $user = $checks->first()->user;  // Ambil user dari hasil checks (asumsi ada data user)
+        $check = $checks->first();  // Ambil salah satu record check untuk menghitung
+        $age = $user->age;
+        $gender = $user->gender;
+        $height = $check->height;  // Tinggi dalam cm
+        $weight = $check->weight;  // Berat dalam kg
+
+        // Kategori aktivitas fisik user (diambil dari activity_categories)
+        $activityCategory = $check->activityCategories->activity;
+        $activityFactor = $this->getActivityFactor($activityCategory);
+
+        // Menghitung BMR (Basal Metabolic Rate) dengan rumus Mifflin-St Jeor
+        if ($gender === 'laki-laki') {
+            $bmr = 10 * $weight + 6.25 * $height - 5 * $age + 5;  // Untuk pria
+        } else {
+            $bmr = 10 * $weight + 6.25 * $height - 5 * $age - 161;  // Untuk wanita
         }
 
-        if (!$prediabetes) {
-            return [
-                "error" => True,
-                "code" => "NOT_PRE_DIABETES",
-            ];
-        }
+        // Menghitung TDEE (Total Daily Energy Expenditure) berdasarkan aktivitas fisik
+        $tdee = $bmr * $activityFactor;
 
-        // Calculate BMI
-        $body_level = [
-            "underweight" => 18.5,
-            "normal" => 24.9,
-            "overweight" => 29.9,
-            "obese" => 30,
-        ];
+        // Distribusi Makronutrien
+        // Anggaplah distribusi 15% protein, 30% lemak, 55% karbohidrat dari total kalori
+        $protein_g = ($tdee * 0.15) / 4;  // 1 gram protein = 4 kalori
+        $fat_g = ($tdee * 0.30) / 9;  // 1 gram lemak = 9 kalori
+        $carbs_g = ($tdee * 0.55) / 4;  // 1 gram karbohidrat = 4 kalori
+        $fiber_g = $this->calculateFiberNeed($age, $gender);  // Serat berdasarkan rekomendasi umum
 
-        // Perhitungan BMI
-        $bmi = round($weight / (($height / 100) ** 2), 2);
-
-        $body = [];
-
-        foreach ($body_level as $category => $threshold ) {
-            if ($bmi < $threshold) {
-                $body = [$bmi,$category];
-            }
-            break;
-        }
-
-        if (empty($body)){
-            $body = [$bmi,'obese'];
-        }
-
-
-        // Calculate Daily Categories
-        $cons = ($gender == 'perempuan') ? -161 : 5;
-        $daily_calories = (10 * $weight) + (6.25 * $height) - (5 * $age) + $cons;
-
-        $activity_level = [
-            "Sangat Ringan" => 1.2,
-            "Ringan" => 1.375,
-            "Sedang" => 1.55,
-            "Berat" => 1.725,
-        ];
-
-        $daily_calories += $activity_level[$activity];
-
-        $required_carb = round($daily_calories * 0.5  / 4, 2);
-        $required_prot = round($daily_calories * 0.2  / 4, 2);
-        $required_fat  = round($daily_calories * 0.2  / 9, 2);
-        $required_fibr = round($daily_calories * 0.05 / 1, 2);
-
+        // Return hasil kebutuhan personal
         $result = [
-            "error" => False,
-            "bmi" => $body[0],
-            "bodyLevel" => $body[1],
-            "dailyCal" => $daily_calories,
-            "reqCarb" => $required_carb,
-            "reqProt" => $required_prot,
-            "reqFat" => $required_fat,
-            "reqFibr" => $required_fibr,
+            'energy_kal' => $tdee,
+            'protein_g' => $protein_g,
+            'fat_g' => $fat_g,
+            'carbs_g' => $carbs_g,
+            'fiber_g' => $fiber_g,
         ];
+
         return $result;
+    }
+
+    // Mengambil faktor aktivitas berdasarkan kategori
+    private function getActivityFactor($activityCategory)
+    {
+        switch ($activityCategory) {
+            case 'Sangat Ringan': // Sedentari (minim aktivitas)
+                return 1.2;
+            case 'Ringan': // Aktivitas ringan
+                return 1.375;
+            case 'Sedang': // Aktivitas sedang
+                return 1.55;
+            case 'Berat': // Aktivitas berat
+                return 1.725;
+            default:
+                return 1.2; // Default jika tidak diketahui
+        }
+    }
+
+    // Menghitung kebutuhan serat berdasarkan usia dan jenis kelamin
+    private function calculateFiberNeed($age, $gender)
+    {
+        if ($gender === 'laki-laki') {
+            return $age <= 50 ? 38 : 30; // Pria: 38g serat (<=50), 30g (>50)
+        } else {
+            return $age <= 50 ? 25 : 21; // Wanita: 25g serat (<=50), 21g (>50)
+        }
+    }
+
+    private function generateMealPlan($personalNeed)
+    {
+        $populationSize = 100;
+        $generations = 100;
+        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']; // Array hari dalam bahasa Inggris
+
+        // Initialize population
+        $population = [];
+        for ($i = 0; $i < $populationSize; $i++) {
+            $population[] = $this->randomMealPlan();
+        }
+
+        // Run the genetic algorithm
+        for ($generation = 0; $generation < $generations; $generation++) {
+            // Calculate fitness for each meal plan
+            $fitness = array_map(function($mealPlan) use ($personalNeed) {
+                return $this->calculateFitness($mealPlan, $personalNeed);
+            }, $population);
+
+            // Select the best meal plans
+            $population = $this->selectBest($population, $fitness);
+
+            // Perform crossover and mutation
+            $population = $this->crossoverAndMutate($population);
+        }
+
+        // Return meal plans for each day
+        $weeklyMealPlan = [];
+        foreach ($days as $day) {
+            $weeklyMealPlan[$day] = $population[array_rand($population)]; // Ambil secara acak dari populasi terbaik
+        }
+
+        return $weeklyMealPlan; // Kembalikan array untuk setiap hari
+    }
+
+
+    private function randomMealPlan()
+    {
+        return [
+            'breakfast' => FoodModel::inRandomOrder()->take(3)->get(),
+            'lunch' => FoodModel::inRandomOrder()->take(3)->get(),
+            'dinner' => FoodModel::inRandomOrder()->take(3)->get(),
+        ];
+    }
+
+    private function calculateFitness($mealPlan, $personalNeed)
+    {
+        $totalNutrients = [
+            'energy_kal' => 0,
+            'protein_g' => 0,
+            'fat_g' => 0,
+            'carbs_g' => 0,
+            'fiber_g' => 0,
+        ];
+
+        // Summing the nutrients from all meals
+        foreach ($mealPlan as $meal) {
+            foreach ($meal as $food) {
+                $totalNutrients['energy_kal'] += $food->energy_kal;
+                $totalNutrients['protein_g'] += $food->protein_g;
+                $totalNutrients['fat_g'] += $food->fat_g;
+                $totalNutrients['carbs_g'] += $food->carbs_g;
+                $totalNutrients['fiber_g'] += $food->fiber_g;
+            }
+        }
+
+        // Calculate fitness based on how close the meal plan meets personal needs
+        $fitness = 0;
+        $fitness += abs($personalNeed['energy_kal'] - $totalNutrients['energy_kal']);
+        $fitness += abs($personalNeed['protein_g'] - $totalNutrients['protein_g']);
+        $fitness += abs($personalNeed['fat_g'] - $totalNutrients['fat_g']);
+        $fitness += abs($personalNeed['carbs_g'] - $totalNutrients['carbs_g']);
+        $fitness += abs($personalNeed['fiber_g'] - $totalNutrients['fiber_g']);
+
+        return 1 / ($fitness + 1); // Inverse of the error (lower error -> higher fitness)
+    }
+
+    private function selectBest($population, $fitness)
+    {
+        // Sort population by fitness (higher fitness is better)
+        array_multisort($fitness, SORT_DESC, $population);
+
+        // Select the top 50% of the population
+        return array_slice($population, 0, count($population) / 2);
+    }
+
+    private function crossoverAndMutate($population)
+    {
+        // Perform crossover and mutation to create new individuals
+        $newPopulation = [];
+
+        while (count($newPopulation) < count($population) * 2) {
+            // Randomly select two parents from the population
+            $parent1 = $population[array_rand($population)];
+            $parent2 = $population[array_rand($population)];
+
+            // Crossover: Mix meals between parents
+            $child = [
+                'breakfast' => rand(0, 1) ? $parent1['breakfast'] : $parent2['breakfast'],
+                'lunch' => rand(0, 1) ? $parent1['lunch'] : $parent2['lunch'],
+                'dinner' => rand(0, 1) ? $parent1['dinner'] : $parent2['dinner'],
+            ];
+
+            // Mutation: Randomly change one meal in the child
+            if (rand(0, 100) < 10) { // 10% chance of mutation
+                $mealType = ['breakfast', 'lunch', 'dinner'][array_rand(['breakfast', 'lunch', 'dinner'])];
+                $child[$mealType] = FoodModel::inRandomOrder()->take(3)->get();
+            }
+
+            $newPopulation[] = $child;
+        }
+
+        return $newPopulation;
     }
 
 
