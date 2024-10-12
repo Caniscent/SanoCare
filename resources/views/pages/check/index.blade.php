@@ -17,15 +17,15 @@
             <p class="text-gray-900 my-20 mx-auto text-center max-w-2xl">
                 Hai {{$data->user->name}}, kamu memiliki tinggi badan <b>{{$data->height}} cm</b> dan berat badan <b>{{$data->weight}} kg</b>.
                 Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityCategories->activity}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_content}} mg/dL</b> ({{$data->testMethod->method}}).
-                Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buatkan khusus untukmu.
+                Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buat untukmu.
             </p>
         @endforeach
 
 
             <div class="flex justify-between mb-10">
-                <a href="?day={{ $prevDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">&lt; {{ $prevDay }}</a>
-                <span class="text-xl font-bold text-gray-900">{{ $selectedDay }}</span>
-                <a href="?day={{ $nextDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">{{ $nextDay }} &gt;</a>
+                <a href="?day={{ $prevDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">&lt; {{ \Carbon\Carbon::parse($prevDay)->locale('id')->isoFormat('dddd') }}</a>
+                <span class="text-xl font-bold text-gray-900">{{ \Carbon\Carbon::parse($selectedDay)->locale('id')->isoFormat('dddd') }}</span>
+                <a href="?day={{ $nextDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">{{ \Carbon\Carbon::parse($nextDay)->locale('id')->isoFormat('dddd') }} &gt;</a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -124,14 +124,29 @@
 
             @foreach ($check as $data)
             <div class="mb-5 mt-10">
+                {{-- update --}}
                 <a href="{{ route('check.edit', $data->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
+
+                {{-- delete --}}
+                <button type="button" id="openDeleteModal" class="ms-1 text-red-600 hover:underline">
+                    Hapus
+                </button>
+
+                <input type="checkbox" id="delete-confirm-modal" class="modal-toggle" />
+                <div class="modal">
+                    <div class="modal-box">
+                        <h3 class="font-bold text-lg">Konfirmasi Penghapusan Meal Plan</h3>
+                        <p>Tindakan anda sekarang akan menghapus seluruh meal plan, apakah anda ingin melanjutkan?</p>
+                        <div class="modal-action justify-center">
+                            <label for="delete-confirm-modal" class="btn bg-gray-400 hover:bg-gray-500 text-gray-900">Tidak</label>
+                            <button id="confirmDeleteButton" class="btn btn-error">Ya, Lanjutkan</button>
+                        </div>
+                    </div>
+                </div>
 
                 <form action="{{ route('check.destroy', $data->id) }}" method="post" class="inline">
                     @method('delete')
                     @csrf
-                    <button type="submit" class="ms-1 text-red-600 hover:underline">
-                        Hapus
-                    </button>
                 </form>
                 {{-- <form action="{{ route('history.store') }}" method="POST">
                     @csrf
@@ -150,4 +165,16 @@
 
     </div>
 </div> --}}
+
+<script>
+    // Ketika tombol Hapus diklik, buka modal konfirmasi
+    document.getElementById('openDeleteModal').addEventListener('click', function() {
+        document.getElementById('delete-confirm-modal').checked = true;
+    });
+
+    // Ketika tombol Ya, Hapus diklik, submit form penghapusan
+    document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+        document.getElementById('deleteForm').submit();
+    });
+</script>
 @endsection

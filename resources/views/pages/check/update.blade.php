@@ -18,7 +18,7 @@
                     Perbarui Data
                 </h2>
 
-                <form class="max-w-sm mx-auto" method="POST" action="{{ route('check.update', $check->id) }}" enctype="multipart/form-data">
+                <form class="max-w-sm mx-auto" method="POST" action="{{ route('check.update', $check->id) }}" enctype="multipart/form-data" onsubmit="showLoadingScreen()">
                     @method('PUT')
                     @csrf
 
@@ -100,12 +100,15 @@
             </div>
         </div>
     </div>
-    <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden">
-        <span class="loading loading-spinner loading-lg text-white"></span>
+    <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden">
+        <span class="loading loading-spinner loading-lg text-white mb-4"></span>
+        <p class="text-white text-lg">Tunggu 2-3 menit, sistem sedang memproses...</p>
     </div>
 </section>
-@endsection
 
-@section('scripts')
-    <script src="{{asset('js/loading.js')}}"></script>
+<script>
+    function showLoadingScreen() {
+        document.getElementById('loading-screen').classList.remove('hidden');
+    }
+</script>
 @endsection

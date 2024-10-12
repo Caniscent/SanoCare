@@ -51,7 +51,7 @@ class ChecksController extends Controller
         if ($mealPlanHistoryCount < 7) {
             foreach ($days as $day) {
                 $weeklyMealPlan = $this->GenerateMealPlan($personalNeed);
-                $this->SaveMealPlanHistory($userId, $day, $weeklyMealPlan[$day]);
+                $this->SaveMealPlanHistory($userId, $check->id,$day, $weeklyMealPlan[$day]);
             }
         }
 
@@ -302,9 +302,9 @@ class ChecksController extends Controller
     }
 
 
-    private function SaveMealPlanHistory($userId,$day,$mealPlanForDay){
+    private function SaveMealPlanHistory($userId,$checkId,$day,$mealPlanForDay){
         HistoryModel::updateOrCreate(
-            ['user_id' => $userId, 'day' => $day],
+            ['user_id' => $userId, 'check_id' => $checkId, 'day' => $day],
             ['meal_plan' => json_encode($mealPlanForDay)]
         );
     }
@@ -354,14 +354,13 @@ class ChecksController extends Controller
 
         $check = ChecksModel::create($data);
 
-        $mealPlanData = [
-            'user_id' => $user->id,
-            'check_id' => $check->id,
-            'day' => now()->locale('id')->format('l'),
-            'meal_plan' => json_encode([]),
-        ];
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $personalNeed = $this->CalculatePersonalNeed(collect([$check]));
 
-        HistoryModel::create($mealPlanData);
+        foreach ($days as $day) {
+            $weeklyMealPlan = $this->GenerateMealPlan($personalNeed);
+            $this->SaveMealPlanHistory($user->id, $check->id, $day, $weeklyMealPlan[$day]);
+        }
 
 
         return redirect()->route('check.index');
@@ -434,7 +433,7 @@ class ChecksController extends Controller
 
         foreach ($days as $day) {
             $weeklyMealPlan = $this->GenerateMealPlan($personalNeed);
-            $this->SaveMealPlanHistory($userId, $day, $weeklyMealPlan[$day]);
+            $this->SaveMealPlanHistory($userId, $check->id,$day, $weeklyMealPlan[$day]);
         }
 
         return redirect()->route('check.index');
