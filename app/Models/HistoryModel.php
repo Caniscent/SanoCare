@@ -9,7 +9,7 @@ class HistoryModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'history';
+    protected $table = 'meal_plan_histories';
     protected $guarded = ['id'];
 
     public function user()

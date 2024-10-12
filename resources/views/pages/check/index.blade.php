@@ -32,7 +32,7 @@
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['breakfast']))
                             @foreach ($mealPlan[$selectedDay]['breakfast'] as $detail)
-                                <li class="text-gray-900 dark:text-gray-100">{{ $detail->ingredients_name }}</li>
+                                <li class="text-gray-900 dark:text-gray-100">{{ $detail['ingredients_name'] }}</li> <!-- Perubahan di sini -->
                             @endforeach
                         @else
                             <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Sarapan.</li>
@@ -45,7 +45,7 @@
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['lunch']))
                             @foreach ($mealPlan[$selectedDay]['lunch'] as $detail)
-                                <li class="text-gray-900 dark:text-gray-100">{{ $detail->ingredients_name }}</li>
+                                <li class="text-gray-900 dark:text-gray-100">{{ $detail['ingredients_name'] }}</li> <!-- Perubahan di sini -->
                             @endforeach
                         @else
                             <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Makan Siang.</li>
@@ -58,7 +58,7 @@
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['dinner']))
                             @foreach ($mealPlan[$selectedDay]['dinner'] as $detail)
-                                <li class="text-gray-900 dark:text-gray-100">{{ $detail->ingredients_name }}</li>
+                                <li class="text-gray-900 dark:text-gray-100">{{ $detail['ingredients_name'] }}</li> <!-- Perubahan di sini -->
                             @endforeach
                         @else
                             <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Makan Malam.</li>
@@ -66,6 +66,7 @@
                     </ul>
                 </div>
             </div>
+
 
             @foreach ($check as $data)
             <div class="mb-5 mt-10">
