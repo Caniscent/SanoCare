@@ -32,48 +32,42 @@ class ChecksController extends Controller
             ->with('user', 'activityCategories', 'testMethod')
             ->get();
 
-        if ($check->isEmpty()) {
+        if ($check->count() === 0) {
             return view('pages.check.index', ['check' => $check, 'mealPlan' => null]);
         }
 
         $personalNeed = $this->CalculatePersonalNeed($check);
-
-        $mealPlan = $this->GenerateMealPlan($personalNeed);
-
-        // Pengaturan hari
         $selectedDay = $request->get('day', now()->locale('id')->format('l'));
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $currentDay = array_search($selectedDay, $days);
         $prevDay = $days[($currentDay - 1 + count($days)) % count($days)];
         $nextDay = $days[($currentDay + 1) % count($days)];
 
-        // Cek meal plan sudah disimpan di tabel meal_plan_histories
-        $mealPlanHistory = HistoryModel::where('user_id', $userId)->count();
+        // Cek meal plan di tabel meal_plan_histories
+        $mealPlanHistoryCount = HistoryModel::where('user_id', $userId)->count();
 
-        if ($mealPlanHistory < 7) {
-            $personalNeed = $this->CalculatePersonalNeed($check);
-            $weeklyMealPlan = $this->GenerateMealPlan($personalNeed);
-            foreach($days as $day){
-                $this->SaveMealPlanHistory($userId,$day,$weeklyMealPlan[$day]);
+        if ($mealPlanHistoryCount < 7) {
+            foreach ($days as $day) {
+                $weeklyMealPlan = $this->GenerateMealPlan($personalNeed);
+                $this->SaveMealPlanHistory($userId, $day, $weeklyMealPlan[$day]);
             }
         }
 
-        // Ambil meal plan dari database
+        // Ambil meal plan dari db
         $mealPlan = HistoryModel::where('user_id', $userId)
-        ->get()
-        ->keyBy('day')
-        ->map(function ($mealPlanHistory) {
-            return json_decode($mealPlanHistory->meal_plan, true);
-        });
-
+            ->get()
+            ->keyBy('day')
+            ->map(function ($mealPlanHistory) {
+                return json_decode($mealPlanHistory->meal_plan, true);
+            });
 
         return view('pages.check.index', compact('check', 'mealPlan', 'selectedDay', 'prevDay', 'nextDay'));
+
     }
 
 
     private function CalculatePersonalNeed($checks)
     {
-        // Mengambil data user yang dibutuhkan
         $user = $checks->first()->user;
         $check = $checks->first();
         $age = $user->age;
@@ -81,7 +75,6 @@ class ChecksController extends Controller
         $height = $check->height;
         $weight = $check->weight;
 
-        // Kategori aktivitas fisik user
         $activityCategory = $check->activityCategories->activity;
         $activityFactor = $this->getActivityFactor($activityCategory);
 
@@ -99,7 +92,7 @@ class ChecksController extends Controller
         $protein_g = ($tdee * 0.15) / 4;  // 1 gram protein = 4 kalori
         $fat_g = ($tdee * 0.30) / 9;  // 1 gram lemak = 9 kalori
         $carbs_g = ($tdee * 0.55) / 4;  // 1 gram karbohidrat = 4 kalori
-        $fiber_g = $this->calculateFiberNeed($age, $gender);
+        $fiber_g = $this->CalculateFiberNeed($age, $gender);
 
         $result = [
             'energy_kal' => $tdee,
@@ -112,7 +105,6 @@ class ChecksController extends Controller
         return $result;
     }
 
-    // Mengambil faktor aktivitas berdasarkan kategori
     private function getActivityFactor($activityCategory)
     {
         switch ($activityCategory) {
@@ -129,8 +121,7 @@ class ChecksController extends Controller
         }
     }
 
-    // Menghitung kebutuhan serat berdasarkan usia dan jenis kelamin
-    private function calculateFiberNeed($age, $gender)
+    private function CalculateFiberNeed($age, $gender)
     {
         if ($gender === 'laki-laki') {
             return $age <= 50 ? 38 : 30;
@@ -162,20 +153,15 @@ class ChecksController extends Controller
             $population[] = $this->RandomMealPlan();
         }
 
-        // Iterasi generasi untuk mengembangkan populasi meal plan harian
         for ($generation = 0; $generation < $generations; $generation++) {
             $fitness = array_map(function ($mealPlan) use ($personalNeed) {
                 return $this->CalculateFitness($mealPlan, $personalNeed);
             }, $population);
 
-            // Pilih individu terbaik
             $population = $this->SelectBest($population, $fitness);
-
-            // Crossover dan Mutasi
             $population = $this->CrossoverAndMutate($population);
         }
 
-        // Mengambil meal plan terbaik sebagai hasil untuk hari tersebut
         return $this->getBestMealPlan($population);
     }
 
