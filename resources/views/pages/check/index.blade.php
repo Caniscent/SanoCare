@@ -32,7 +32,24 @@
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['breakfast']))
                             @foreach ($mealPlan[$selectedDay]['breakfast'] as $detail)
-                                <li class="text-gray-900 dark:text-gray-100">{{ $detail['ingredients_name'] }}</li> <!-- Perubahan di sini -->
+                                <li class="flex items-center text-gray-900 dark:text-gray-100 mb-2">
+                                    @if ($detail['food_group'] == 'serealia')
+                                    <img src="{{ asset('icons/karbohidrat.png') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'daging dan unggas')
+                                        <img src="{{ asset('icons/protein_hewan.png') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'biji bijian')
+                                        <img src="{{ asset('icons/protein_nabati.png') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'sayuran')
+                                        <img src="{{ asset('icons/sayuran.png') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'buah')
+                                        <img src="{{ asset('icons/buah.png') }}" alt="Buah" class="w-6 h-6 mr-2">
+                                    @endif
+
+                                    <span class="flex-1" title="{{ $detail['ingredients_name'] }}">
+                                        {{ $detail['ingredients_name'] }}
+                                    </span>
+                                    <span class="text-sm ml-4">{{ $detail['portion'] }} ({{ $detail['calories'] }} kalori)</span>
+                                </li>
                             @endforeach
                         @else
                             <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Sarapan.</li>
@@ -45,7 +62,24 @@
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['lunch']))
                             @foreach ($mealPlan[$selectedDay]['lunch'] as $detail)
-                                <li class="text-gray-900 dark:text-gray-100">{{ $detail['ingredients_name'] }}</li> <!-- Perubahan di sini -->
+                                <li class="flex items-center text-gray-900 dark:text-gray-100 mb-2">
+                                    @if ($detail['food_group'] == 'serealia')
+                                    <img src="{{ asset('icons/karbohidrat.png') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'daging dan unggas')
+                                        <img src="{{ asset('icons/protein_hewan.png') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'biji bijian')
+                                        <img src="{{ asset('icons/protein_nabati.png') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'sayuran')
+                                        <img src="{{ asset('icons/sayuran.png') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'buah')
+                                        <img src="{{ asset('icons/buah.png') }}" alt="Buah" class="w-6 h-6 mr-2">
+                                    @endif
+
+                                    <span class="flex-1 text-left" title="{{ $detail['ingredients_name'] }}">
+                                        {{ $detail['ingredients_name'] }}
+                                    </span>
+                                    <span class="text-sm ml-4">{{ $detail['portion'] }} ({{ $detail['calories'] }} kalori)</span>
+                                </li>
                             @endforeach
                         @else
                             <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Makan Siang.</li>
@@ -58,7 +92,24 @@
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['dinner']))
                             @foreach ($mealPlan[$selectedDay]['dinner'] as $detail)
-                                <li class="text-gray-900 dark:text-gray-100">{{ $detail['ingredients_name'] }}</li> <!-- Perubahan di sini -->
+                                <li class="flex items-center text-gray-900 dark:text-gray-100 mb-2">
+                                    @if ($detail['food_group'] == 'serealia')
+                                    <img src="{{ asset('icons/karbohidrat.png') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'daging dan unggas')
+                                        <img src="{{ asset('icons/protein_hewan.png') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'biji bijian')
+                                        <img src="{{ asset('icons/protein_nabati.png') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'sayuran')
+                                        <img src="{{ asset('icons/sayuran.png') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 'buah')
+                                        <img src="{{ asset('icons/buah.png') }}" alt="Buah" class="w-6 h-6 mr-2">
+                                    @endif
+
+                                    <span class="flex-1 text-left" title="{{ $detail['ingredients_name'] }}">
+                                        {{ $detail['ingredients_name'] }}
+                                    </span>
+                                    <span class="text-sm ml-4">{{ $detail['portion'] }} ({{ $detail['calories'] }} kalori)</span>
+                                </li>
                             @endforeach
                         @else
                             <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Makan Malam.</li>
@@ -66,6 +117,7 @@
                     </ul>
                 </div>
             </div>
+
 
 
             @foreach ($check as $data)
@@ -90,10 +142,10 @@
     </div>
 </section>
 
-<div class="flex justify-center bg-gray-900 dark:bg-gray-900 py-8">
+{{-- <div class="flex justify-center bg-gray-900 dark:bg-gray-900 py-8">
     <div class="mx-auto max-w-screen-lg px-4">
         <h2 class="text-3xl font-extrabold mb-6 text-center text-gray-900 dark:text-white">Tips untuk Anda</h2>
-        {{-- Tambahkan tips di sini jika diperlukan --}}
+
     </div>
-</div>
+</div> --}}
 @endsection
