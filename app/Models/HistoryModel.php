@@ -16,4 +16,9 @@ class HistoryModel extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function checks()
+    {
+        return $this->belongsTo(ChecksModel::class, 'check_id');
+    }
 }

@@ -23,11 +23,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             //untuk menggunakan seeder pertama nyalakan dulu activity, test_method, dan user setelah itu
             //di comment lagi dan nyalakan check (jika ada datanya)
+            //untuk data makanannya bisa cek ke public/csv
 
             // NewsSeeder::class,
             UserSeeder::class,
             // CheckSeeder::class,
-            // HabitSeeder::class,
             ActivitySeeder::class,
             TestMethodSeeder::class,
         ]);

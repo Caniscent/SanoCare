@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('meal_plan_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('check_id')->constrained()->onDelete('cascade');
             $table->string('day');
             $table->json('meal_plan'); // Menyimpan rekomendasi makanan dalam bentuk JSON
             $table->timestamps();

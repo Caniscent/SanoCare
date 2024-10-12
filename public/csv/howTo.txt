@@ -1,0 +1,19 @@
+Langkah-langkah sederhana untuk menambahkan tabel cleaned_food ke dalam database menggunakan import:
+
+Buka Database Tool:
+Gunakan database phpMyAdmin atau database mysql lainnya
+
+Opsi import:
+Pilih database yang akan digunakan, lalu buka bagian import
+
+Pilih File CSV:
+Unggah file CSV yang sudah ada yaitu cleaned_food.csv
+
+Tambahkan pada bagian column name:
+ingredients_name, food_group, type, energy_kal, protein_g, fat_g, carbs_g, fiber_g
+
+Jalankan import:
+Pastikan kolom-kolom sudah sesuai, lalu import
+
+Cek hasil:
+Periksa tabel cleaned_food untuk memastikan data sudah masuk

@@ -20,15 +20,6 @@ Route::prefix('/check')->name('check.')->group( function () {
     Route::delete('/delete/{Check_id}', [ChecksController::class, 'destroy'])->name('destroy');
 });
 
-// Route::prefix('/habits')->name('habits.')->group( function () {
-//     Route::get('/',[HabitController::class, 'index'])->name('index');
-//     Route::get('/create',[HabitController::class, 'create'])->name('create');
-//     Route::post('/store', [HabitController::class, 'store'])->name('store');
-//     Route::get('/edit/{id}',[HabitController::class, 'edit'])->name('edit');
-//     Route::put('/update/{id}', [HabitController::class, 'update'])->name('update');
-//     Route::delete('/delete/{Habits_id}', [HabitController::class, 'destroy'])->name('destroy');
-// });
-
 Route::prefix('/profile')->name('profile.')->group( function () {
     Route::get('/',[ProfileController::class, 'index'])->name('index');
     Route::get('/create',[ProfileController::class, 'create'])->name('create');
@@ -45,11 +36,6 @@ Route::prefix('/history')->name('history.')->group( function () {
     Route::get('/edit/{id}',[HistoryController::class, 'edit'])->name('edit');
     Route::put('/update/{id}', [HistoryController::class, 'update'])->name('update');
     Route::delete('/delete/{History_id}', [HistoryController::class, 'destroy'])->name('destroy');
-});
-
-Route::prefix('/checkv2')->name('checkv2.')->group( function () {
-    Route::get('/create', [Checkv2Controller::class, 'create'])->name('create');
-
 });
 
 Auth::routes();

@@ -26,4 +26,9 @@ class ChecksModel extends Model
     {
         return $this->belongsTo(TestMethodModel::class, 'test_method_id');
     }
+
+    public function mealPlanHistories()
+    {
+        return $this->hasMany(HistoryModel::class, 'check_id');
+    }
 }

@@ -79,11 +79,11 @@
                         Hapus
                     </button>
                 </form>
-                <form action="{{ route('history.store') }}" method="POST">
+                {{-- <form action="{{ route('history.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="check_id" value="{{ $data->id }}">
                     <button type="submit" class="text-yellow-900 hover:underline">Tambah ke Histori</button>
-                </form>
+                </form> --}}
             </div>
             @endforeach
         @endif
