@@ -164,8 +164,8 @@ class ChecksController extends Controller
     // Menghasilkan meal plan harian
     private function GenerateDailyMealPlan($personalNeed, $day)
     {
-        $populationSize = 100;
-        $generations = 100;
+        $populationSize = 50;
+        $generations = 50;
 
         $population = [];
         for ($i = 0; $i < $populationSize; $i++) {
@@ -352,7 +352,17 @@ class ChecksController extends Controller
             'activity_categories_id' => $request->input('activity'),
         ];
 
-        ChecksModel::create($data);
+        $check = ChecksModel::create($data);
+
+        $mealPlanData = [
+            'user_id' => $user->id,
+            'check_id' => $check->id,
+            'day' => now()->locale('id')->format('l'),
+            'meal_plan' => json_encode([]),
+        ];
+
+        HistoryModel::create($mealPlanData);
+
 
         return redirect()->route('check.index');
     }
