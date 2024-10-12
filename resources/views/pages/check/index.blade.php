@@ -13,12 +13,14 @@
                 <a href="{{ route('check.create') }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Buat Meal Plan</a>
             </div>
         @else
-            @foreach ($check as $data)
-                <p class="text-gray-900 my-20 mx-60">Hai {{$data->user->name}}, kamu memiliki tinggi badan <b>{{$data->height}} cm</b> dan berat badan <b>{{$data->weight}} kg</b>.
-                    Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityCategories->activity}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_content}} mg/dL</b> ({{$data->testMethod->method}}).
-                    Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buatkan khusus untukmu.
-                </p>
-            @endforeach
+        @foreach ($check as $data)
+            <p class="text-gray-900 my-20 mx-auto text-center max-w-2xl">
+                Hai {{$data->user->name}}, kamu memiliki tinggi badan <b>{{$data->height}} cm</b> dan berat badan <b>{{$data->weight}} kg</b>.
+                Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityCategories->activity}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_content}} mg/dL</b> ({{$data->testMethod->method}}).
+                Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buatkan khusus untukmu.
+            </p>
+        @endforeach
+
 
             <div class="flex justify-between mb-10">
                 <a href="?day={{ $prevDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">&lt; {{ $prevDay }}</a>
@@ -27,25 +29,25 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-bold mb-4">Sarapan</h3>
+                <div class="p-6 bg-gray-100 dark:bg-green-300 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Sarapan</h3>
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['breakfast']))
                             @foreach ($mealPlan[$selectedDay]['breakfast'] as $detail)
-                                <li class="flex items-center text-gray-900 dark:text-gray-100 mb-2">
+                                <li class="flex items-center text-gray-900 dark:text-gray-900 mb-2">
                                     @if ($detail['food_group'] == 'serealia')
-                                    <img src="{{ asset('icons/karbohidrat.png') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/bowl-rice-solid.svg') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'daging dan unggas')
-                                        <img src="{{ asset('icons/protein_hewan.png') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'biji bijian')
-                                        <img src="{{ asset('icons/protein_nabati.png') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'sayuran')
-                                        <img src="{{ asset('icons/sayuran.png') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'buah')
-                                        <img src="{{ asset('icons/buah.png') }}" alt="Buah" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
 
-                                    <span class="flex-1" title="{{ $detail['ingredients_name'] }}">
+                                    <span class="flex-1 text-left" title="{{ $detail['ingredients_name'] }}">
                                         {{ $detail['ingredients_name'] }}
                                     </span>
                                     <span class="text-sm ml-4">{{ $detail['portion'] }} ({{ $detail['calories'] }} kalori)</span>
@@ -57,22 +59,22 @@
                     </ul>
                 </div>
 
-                <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-bold mb-4">Makan Siang</h3>
+                <div class="p-6 bg-gray-100 dark:bg-yellow-200 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Makan Siang</h3>
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['lunch']))
                             @foreach ($mealPlan[$selectedDay]['lunch'] as $detail)
-                                <li class="flex items-center text-gray-900 dark:text-gray-100 mb-2">
+                                <li class="flex items-center text-gray-900 dark:text-gray-900 mb-2">
                                     @if ($detail['food_group'] == 'serealia')
-                                    <img src="{{ asset('icons/karbohidrat.png') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/bowl-rice-solid.svg') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'daging dan unggas')
-                                        <img src="{{ asset('icons/protein_hewan.png') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'biji bijian')
-                                        <img src="{{ asset('icons/protein_nabati.png') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'sayuran')
-                                        <img src="{{ asset('icons/sayuran.png') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'buah')
-                                        <img src="{{ asset('icons/buah.png') }}" alt="Buah" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
 
                                     <span class="flex-1 text-left" title="{{ $detail['ingredients_name'] }}">
@@ -87,22 +89,22 @@
                     </ul>
                 </div>
 
-                <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-bold mb-4">Makan Malam</h3>
+                <div class="p-6 bg-gray-100 dark:bg-blue-300 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Makan Malam</h3>
                     <ul class="list-disc list-inside">
                         @if (!empty($mealPlan[$selectedDay]['dinner']))
                             @foreach ($mealPlan[$selectedDay]['dinner'] as $detail)
-                                <li class="flex items-center text-gray-900 dark:text-gray-100 mb-2">
+                                <li class="flex items-center text-gray-900 dark:text-gray-900 mb-2">
                                     @if ($detail['food_group'] == 'serealia')
-                                    <img src="{{ asset('icons/karbohidrat.png') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/bowl-rice-solid.svg') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'daging dan unggas')
-                                        <img src="{{ asset('icons/protein_hewan.png') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'biji bijian')
-                                        <img src="{{ asset('icons/protein_nabati.png') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'sayuran')
-                                        <img src="{{ asset('icons/sayuran.png') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 'buah')
-                                        <img src="{{ asset('icons/buah.png') }}" alt="Buah" class="w-6 h-6 mr-2">
+                                        <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
 
                                     <span class="flex-1 text-left" title="{{ $detail['ingredients_name'] }}">
