@@ -36,9 +36,9 @@ class ChecksController extends Controller
             return view('pages.check.index', ['check' => $check, 'mealPlan' => null]);
         }
 
-        $this->CheckPrediabetes($check);
+        $this->checkPrediabetes($check);
 
-        $personalNeed = $this->CalculatePersonalNeed($check);
+        $personalNeed = $this->calculatePersonalNeed($check);
         $selectedDay = $request->get('day', now()->locale('id')->format('l'));
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $currentDay = array_search($selectedDay, $days);
@@ -50,8 +50,8 @@ class ChecksController extends Controller
 
         if ($mealPlanHistoryCount < 7) {
             foreach ($days as $day) {
-                $weeklyMealPlan = $this->GenerateMealPlan($personalNeed);
-                $this->SaveMealPlanHistory($userId, $check->id,$day, $weeklyMealPlan[$day]);
+                $weeklyMealPlan = $this->generateMealPlan($personalNeed);
+                $this->saveMealPlanHistory($userId, $check->id,$day, $weeklyMealPlan[$day]);
             }
         }
 
@@ -67,7 +67,7 @@ class ChecksController extends Controller
 
     }
 
-    private function CheckPrediabetes($check){
+    private function checkPrediabetes($check){
         $bloodSugar = $check->first()->sugar_content;
         $testMethod = $check->first()->testMethod->method;
 
@@ -84,7 +84,7 @@ class ChecksController extends Controller
         }
     }
 
-    private function CalculatePersonalNeed($check)
+    private function calculatePersonalNeed($check)
     {
         $user = $check->first()->user;
         $check = $check->first();
@@ -94,7 +94,7 @@ class ChecksController extends Controller
         $weight = $check->weight;
 
         $activityCategory = $check->activityCategories->activity;
-        $activityFactor = $this->GetActivityFactor($activityCategory);
+        $activityFactor = $this->getActivityFactor($activityCategory);
 
         // Menghitung BMR (Basal Metabolic Rate) dengan rumus Mifflin-St Jeor
         if ($gender === 'laki-laki') {
@@ -110,7 +110,7 @@ class ChecksController extends Controller
         $protein_g = ($tdee * 0.15) / 4;  // 1 gram protein = 4 kalori
         $fat_g = ($tdee * 0.30) / 9;  // 1 gram lemak = 9 kalori
         $carbs_g = ($tdee * 0.55) / 4;  // 1 gram karbohidrat = 4 kalori
-        $fiber_g = $this->CalculateFiberNeed($age, $gender);
+        $fiber_g = $this->calculateFiberNeed($age, $gender);
 
         $result = [
             'energy_kal' => $tdee,
@@ -123,7 +123,7 @@ class ChecksController extends Controller
         return $result;
     }
 
-    private function GetActivityFactor($activityCategory)
+    private function getActivityFactor($activityCategory)
     {
         switch ($activityCategory) {
             case 'Sangat Ringan':
@@ -139,7 +139,7 @@ class ChecksController extends Controller
         }
     }
 
-    private function CalculateFiberNeed($age, $gender)
+    private function calculateFiberNeed($age, $gender)
     {
         if ($gender === 'laki-laki') {
             return $age <= 50 ? 38 : 30;
@@ -149,52 +149,52 @@ class ChecksController extends Controller
     }
 
     // Membuat meal plan untuk 1 minggu
-    private function GenerateMealPlan($personalNeed)
+    private function generateMealPlan($personalNeed)
     {
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         $weeklyMealPlan = [];
 
         foreach ($days as $day) {
-            $weeklyMealPlan[$day] = $this->GenerateDailyMealPlan($personalNeed, $day);
+            $weeklyMealPlan[$day] = $this->generateDailyMealPlan($personalNeed, $day);
         }
 
         return $weeklyMealPlan;
     }
 
     // Menghasilkan meal plan harian
-    private function GenerateDailyMealPlan($personalNeed, $day)
+    private function generateDailyMealPlan($personalNeed, $day)
     {
         $populationSize = 50;
         $generations = 50;
 
         $population = [];
         for ($i = 0; $i < $populationSize; $i++) {
-            $population[] = $this->RandomMealPlan();
+            $population[] = $this->randomMealPlan();
         }
 
         for ($generation = 0; $generation < $generations; $generation++) {
             $fitness = array_map(function ($mealPlan) use ($personalNeed) {
-                return $this->CalculateFitness($mealPlan, $personalNeed);
+                return $this->calculateFitness($mealPlan, $personalNeed);
             }, $population);
 
-            $population = $this->SelectBest($population, $fitness);
-            $population = $this->CrossoverAndMutate($population);
+            $population = $this->selectBest($population, $fitness);
+            $population = $this->crossoverAndMutate($population);
         }
 
-        return $this->GetBestMealPlan($population);
+        return $this->getBestMealPlan($population);
     }
 
     // Membuat meal plan random berdasarkan masing masing food group
-    private function RandomMealPlan()
+    private function randomMealPlan()
     {
         return [
-            'breakfast' => $this->SelectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
-            'lunch' => $this->SelectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
-            'dinner' => $this->SelectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
+            'breakfast' => $this->selectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
+            'lunch' => $this->selectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
+            'dinner' => $this->selectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
         ];
     }
 
-    private function SelectUniqueFoods($count, $foodGroups)
+    private function selectUniqueFoods($count, $foodGroups)
     {
         $selectedFoods = [];
         foreach ($foodGroups as $group) {
@@ -218,12 +218,12 @@ class ChecksController extends Controller
         return $selectedFoods;
     }
 
-    private function CalculateCalories($food, $portion)
+    private function calculateCalories($food, $portion)
     {
         return round(($food->energy_kal / 100) * $portion, 2);
     }
 
-    private function CalculateFitness($mealPlan, $personalNeed)
+    private function calculateFitness($mealPlan, $personalNeed)
     {
         $totalNutrients = [
             'energy_kal' => 0,
@@ -264,19 +264,19 @@ class ChecksController extends Controller
         return 1 / ($fitness + 1);
     }
 
-    private function GetBestMealPlan($population)
+    private function getBestMealPlan($population)
     {
         return $population[0];
     }
 
-    private function SelectBest($population, $fitness)
+    private function selectBest($population, $fitness)
     {
         array_multisort($fitness, SORT_DESC, $population);
 
         return array_slice($population, 0, count($population) / 2);
     }
 
-    private function CrossoverAndMutate($population)
+    private function crossoverAndMutate($population)
     {
         $newPopulation = [];
 
@@ -292,7 +292,7 @@ class ChecksController extends Controller
 
             if (rand(0, 100) < 10) {
                 $mealType = ['breakfast', 'lunch', 'dinner'][array_rand(['breakfast', 'lunch', 'dinner'])];
-                $child[$mealType] = $this->SelectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']);
+                $child[$mealType] = $this->selectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']);
             }
 
             $newPopulation[] = $child;
@@ -302,7 +302,7 @@ class ChecksController extends Controller
     }
 
 
-    private function SaveMealPlanHistory($userId,$checkId,$day,$mealPlanForDay){
+    private function saveMealPlanHistory($userId,$checkId,$day,$mealPlanForDay){
         HistoryModel::updateOrCreate(
             ['user_id' => $userId, 'check_id' => $checkId, 'day' => $day],
             ['meal_plan' => json_encode($mealPlanForDay)]
@@ -355,11 +355,11 @@ class ChecksController extends Controller
         $check = ChecksModel::create($data);
 
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $personalNeed = $this->CalculatePersonalNeed(collect([$check]));
+        $personalNeed = $this->calculatePersonalNeed(collect([$check]));
 
         foreach ($days as $day) {
-            $weeklyMealPlan = $this->GenerateMealPlan($personalNeed);
-            $this->SaveMealPlanHistory($user->id, $check->id, $day, $weeklyMealPlan[$day]);
+            $weeklyMealPlan = $this->generateMealPlan($personalNeed);
+            $this->saveMealPlanHistory($user->id, $check->id, $day, $weeklyMealPlan[$day]);
         }
 
 
@@ -428,12 +428,12 @@ class ChecksController extends Controller
         $check->save();
 
         $userId = Auth::id();
-        $personalNeed = $this->CalculatePersonalNeed($check);
+        $personalNeed = $this->calculatePersonalNeed($check);
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
         foreach ($days as $day) {
-            $weeklyMealPlan = $this->GenerateMealPlan($personalNeed);
-            $this->SaveMealPlanHistory($userId, $check->id,$day, $weeklyMealPlan[$day]);
+            $weeklyMealPlan = $this->generateMealPlan($personalNeed);
+            $this->saveMealPlanHistory($userId, $check->id,$day, $weeklyMealPlan[$day]);
         }
 
         return redirect()->route('check.index');

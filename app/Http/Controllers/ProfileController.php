@@ -22,7 +22,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        return view('pages.profile.create'); // Tampilan form pembuatan profil baru (sesuaikan dengan kebutuhan)
+        return view('pages.profile.create');
     }
 
     /**
@@ -30,20 +30,16 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'gender' => 'required|string',
             'age' => 'required|integer|min:1',
-            // Tambahkan validasi untuk field lain jika diperlukan
         ]);
 
-        // Buat pengguna baru
         $user = new User();
         $user->name = $request->input('name');
         $user->gender = $request->input('gender');
         $user->age = $request->input('age');
-        // Tambahkan field lain sesuai kebutuhan
         $user->save();
 
         return redirect()->route('profile.index')->with('success', 'Profil berhasil dibuat.');
@@ -54,8 +50,8 @@ class ProfileController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id); // Ambil pengguna berdasarkan ID
-        return view('pages.profile.update', compact('user')); // Tampilkan halaman edit profil
+        $user = User::findOrFail($id);
+        return view('pages.profile.update', compact('user'));
     }
 
     /**
@@ -71,9 +67,8 @@ class ProfileController extends Controller
 
         ]);
 
-        $user = User::findOrFail($id); // Ambil pengguna berdasarkan ID
+        $user = User::findOrFail($id);
 
-        // Perbarui data pengguna
         $user->name = $request->input('name');
         $user->gender = $request->input('gender');
         $user->age = $request->input('age');
@@ -88,8 +83,8 @@ class ProfileController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id); // Ambil pengguna berdasarkan ID
-        $user->delete(); // Hapus pengguna
+        $user = User::findOrFail($id);
+        $user->delete();
 
         Auth::logout();
         return redirect()->route('login');

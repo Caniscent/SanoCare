@@ -144,7 +144,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('check.destroy', $data->id) }}" method="post" class="inline">
+                <form action="{{ route('check.destroy', $data->id) }}" id="deleteForm" method="post" class="inline">
                     @method('delete')
                     @csrf
                 </form>
