@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class testMethodModel extends Model
+class foodGroupModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'test_methods';
+    protected $table = 'food_groups';
     protected $guarded = ['id'];
 }

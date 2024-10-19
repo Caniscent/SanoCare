@@ -2,21 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\TestMethodModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use app\Models\testMethodModel;
 
-class TestMethodSeeder extends Seeder
+class testMethodSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        TestMethodModel::insert([
+        testMethodModel::insert([
             [
                 "method" => "Puasa",
-                "description" => "Pemeriksaan kadar gula darah saat perut kosong"
+                "description" => "Pemeriksaan kadar gula darah saat perut kosong",
             ],
             [
                 "method" => "TTGO",

@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('meal_plan_histories', function (Blueprint $table) {
+        Schema::create('meal_plan_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('check_id')->constrained()->onDelete('cascade');
-            $table->string('day');
-            $table->json('meal_plan'); // Menyimpan rekomendasi makanan dalam bentuk JSON
+            $table->foreignId('meal_plan_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('meal_plan_histories');
+        Schema::dropIfExists('meal_plan_logs');
     }
 };

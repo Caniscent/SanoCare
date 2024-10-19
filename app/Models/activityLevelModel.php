@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class testMethodModel extends Model
+class activityLevelModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'test_methods';
+    protected $table = 'activity_levels';
     protected $guarded = ['id'];
 }
