@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\HistoryModel;
-use app\Models\ChecksModel;
+use app\Models\MealPlanLogModel;
+use app\Models\MeasurementModel;
 use Illuminate\Support\Facades\Auth;
 
 class HistoryController extends Controller
@@ -20,7 +20,7 @@ class HistoryController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $histories = ChecksModel::where('user_id', $user->id)->whereNotNull('saved_to_history')->get();
+        $histories = MeasurementModel::where('user_id', $user->id)->whereNotNull('saved_to_history')->get();
 
         return view('pages.history.index', ['histories' => $histories]);
 
@@ -43,7 +43,7 @@ class HistoryController extends Controller
             'check_id' => 'required|exists:checks,id',
         ]);
 
-        $check = ChecksModel::find($request->input('check_id'));
+        $check = MeasurementModel::find($request->input('check_id'));
 
         if ($check) {
             $check->saved_to_history = true; // Misalkan ada kolom untuk menandai bahwa sudah disimpan ke histori

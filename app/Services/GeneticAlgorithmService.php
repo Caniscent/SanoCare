@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Models\FoodModel;
-use App\Models\HistoryModel;
+use App\Models\CleanFoodModel;
+use App\Models\MealPlanLogModel;
 
 class GeneticAlgorithmService {
     // Membuat meal plan untuk 1 minggu
@@ -43,7 +43,7 @@ class GeneticAlgorithmService {
     }
 
     public function saveMealPlanHistory($userId,$checkId,$day,$mealPlanForDay){
-        HistoryModel::updateOrCreate(
+        MealPlanLogModel::updateOrCreate(
             ['user_id' => $userId, 'check_id' => $checkId, 'day' => $day],
             ['meal_plan' => json_encode($mealPlanForDay)]
         );
@@ -143,7 +143,7 @@ class GeneticAlgorithmService {
     {
         $selectedFoods = [];
         foreach ($foodGroups as $group) {
-            $foods = FoodModel::where('food_group', $group)->inRandomOrder()->take($count)->get();
+            $foods = CleanFoodModel::where('food_group', $group)->inRandomOrder()->take($count)->get();
             foreach ($foods as $food) {
                 $portion = rand(100, 200);
                 $selectedFoods[] = [

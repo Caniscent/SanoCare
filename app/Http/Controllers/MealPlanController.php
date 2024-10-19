@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ChecksModel;
-use App\Models\ActivityModel;
+use App\Models\MeasurementModel;
+use App\Models\ActivityLevelModel;
 use App\Models\TestMethodModel;
-use App\Models\HistoryModel;
+use App\Models\MealPlanLogModel;
 use App\Service\GeneticAlgorithmService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +31,7 @@ class ChecksController extends Controller
             return redirect()->route('login');
         }
 
-        $check = ChecksModel::where('user_id', $userId)
+        $check = MeasurementModel::where('user_id', $userId)
             ->with('user', 'activityCategories', 'testMethod')
             ->first();
 
@@ -48,7 +48,7 @@ class ChecksController extends Controller
         $prevDay = $days[($currentDay - 1 + count($days)) % count($days)];
         $nextDay = $days[($currentDay + 1) % count($days)];
 
-        $mealPlanHistoryCount = HistoryModel::where('user_id', $userId)->count();
+        $mealPlanHistoryCount = MealPlanLogModel::where('user_id', $userId)->count();
 
         if ($mealPlanHistoryCount < 7) {
             $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
@@ -57,7 +57,7 @@ class ChecksController extends Controller
             }
         }
 
-        $mealPlan = HistoryModel::where('user_id', $userId)
+        $mealPlan = MealPlanLogModel::where('user_id', $userId)
             ->get()
             ->keyBy('day')
             ->map(function ($mealPlanHistory) {
@@ -73,7 +73,7 @@ class ChecksController extends Controller
      */
     public function create()
     {
-        $activities = ActivityModel::all();
+        $activities = ActivityLevelModel::all();
         $test_methods = TestMethodModel::all();
         return view('pages.check.create', compact('activities','test_methods'));
     }
@@ -121,7 +121,7 @@ class ChecksController extends Controller
             'activity_categories_id' => $request->input('activity'),
         ];
 
-        $check = ChecksModel::create($data);
+        $check = MeasurementModel::create($data);
 
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $personalNeed = $this->geneticAlgorithm->calculatePersonalNeed(collect([$check]));
@@ -140,8 +140,8 @@ class ChecksController extends Controller
      */
     public function edit(string $id)
     {
-        $check = ChecksModel::find($id);
-        $activities = ActivityModel::all();
+        $check = MeasurementModel::find($id);
+        $activities = ActivityLevelModel::all();
         $test_methods = TestMethodModel::all();
 
         return view('pages.check.update', [
@@ -178,7 +178,7 @@ class ChecksController extends Controller
             'test_method_id.exists' => 'Metode pengujian yang dipilih tidak valid.',
         ]);
 
-        $check = ChecksModel::find($id);
+        $check = MeasurementModel::find($id);
 
         $check->height = $request->input('height');
         $check->weight = $request->input('weight');
@@ -206,7 +206,7 @@ class ChecksController extends Controller
      */
     public function destroy(string $id)
     {
-        $check = ChecksModel::find($id);
+        $check = MeasurementModel::find($id);
 
         if ($check != null) {
             $check->mealPlanHistories()->delete();
