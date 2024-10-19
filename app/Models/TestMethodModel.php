@@ -11,6 +11,7 @@ class TestMethodModel extends Model
 
     protected $table = 'test_methods';
     protected $guarded = ['id'];
+    public $timestamps = false;
 
     public function measurements() {
         return $this->hasMany(MeasurementModel::class,'test_method_id');
