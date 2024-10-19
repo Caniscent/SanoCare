@@ -57,7 +57,6 @@ class ChecksController extends Controller
             }
         }
 
-        // Ambil meal plan dari db
         $mealPlan = HistoryModel::where('user_id', $userId)
             ->get()
             ->keyBy('day')
@@ -85,14 +84,26 @@ class ChecksController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $request->validate([
             'height' => 'required|numeric|min:50|max:300',
             'weight' => 'required|numeric|min:10|max:500',
-            'sugar_content' => 'required|numeric',
+            'sugar_content' => 'required|numeric|min:50|max:300',
             'activity' => 'required|exists:activity_categories,id',
             'test_method' => 'required|exists:test_method,id',
+        ], [
+            'height.required' => 'Tinggi badan harus diisi.',
+            'height.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
+            'height.max' => 'Tinggi badan tidak boleh melebihi 300 cm.',
+            'weight.required' => 'Berat badan harus diisi.',
+            'weight.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
+            'weight.max' => 'Berat badan tidak boleh melebihi 500 kg.',
+            'sugar_content.required' => 'Gula darah harus diisi.',
+            'sugar_content.min' => 'Gula darah tidak boleh kurang dari 50 mg/dL',
+            'sugar_content.max' => 'Gula darah tidak boleh melebihi 300 mg/dL',
+            'activity_categories_id.required' => 'Kategori aktivitas harus dipilih.',
+            'activity_categories_id.exists' => 'Kategori aktivitas yang dipilih tidak valid.',
+            'test_method_id.required' => 'Metode pengujian harus dipilih.',
+            'test_method_id.exists' => 'Metode pengujian yang dipilih tidak valid.',
         ]);
 
         $user = Auth::user();
@@ -148,18 +159,19 @@ class ChecksController extends Controller
         $request->validate([
             'weight' => 'required|numeric|min:10|max:500',
             'height' => 'required|numeric|min:50|max:300',
-            'sugar_content' => 'nullable|numeric',
+            'sugar_content' => 'nullable|numeric|min:50|max:300',
             'activity_categories_id' => 'required|exists:activity_categories,id',
             'test_method_id' => 'required|exists:test_method,id',
         ], [
             'height.required' => 'Tinggi badan harus diisi.',
-            'height.numeric' => 'Tinggi badan harus berupa angka.',
             'height.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
             'height.max' => 'Tinggi badan tidak boleh melebihi 300 cm.',
             'weight.required' => 'Berat badan harus diisi.',
-            'weight.numeric' => 'Berat badan harus berupa angka.',
             'weight.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
             'weight.max' => 'Berat badan tidak boleh melebihi 500 kg.',
+            'sugar_content.required' => 'Gula darah harus diisi.',
+            'sugar_content.min' => 'Gula darah tidak boleh kurang dari 50 mg/dL',
+            'sugar_content.max' => 'Gula darah tidak boleh melebihi 300 mg/dL',
             'activity_categories_id.required' => 'Kategori aktivitas harus dipilih.',
             'activity_categories_id.exists' => 'Kategori aktivitas yang dipilih tidak valid.',
             'test_method_id.required' => 'Metode pengujian harus dipilih.',
