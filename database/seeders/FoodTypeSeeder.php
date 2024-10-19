@@ -16,6 +16,7 @@ class FoodTypeSeeder extends Seeder
         $type = [];
 
         $typeFood = [
+            // type
             'single',
             'processed'
         ];

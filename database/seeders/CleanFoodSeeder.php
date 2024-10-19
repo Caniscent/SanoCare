@@ -16,6 +16,7 @@ class CleanFoodSeeder extends Seeder
         $cleanFood = [];
 
         $data = [
+            // [food_name,food_group_id,food_type_id,calorie,protein,fats,carbs,fiber]
             ['Kacang arab kering', 1, 1, '330.0', '23.8', '1.4', '60.2', '17.4'] ,
             ['Kacang belimbing (kecipir) kering', 1, 1, '400.0', '34.4', '16.9', '34.1', '10.7'] ,
             ['Kacang bogor kering', 1, 1, '370.0', '16.0', '6.0', '65.0', '26.3'] ,

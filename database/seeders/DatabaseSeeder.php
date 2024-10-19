@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             //di comment lagi dan nyalakan check (jika ada datanya)
             //untuk data makanannya bisa cek ke public/csv
 
-            // UserSeeder::class,
+            UserSeeder::class,
             ActivityLevelSeeder::class,
             TestMethodSeeder::class,
             FoodGroupSeeder::class,

@@ -16,6 +16,7 @@ class FoodGroupSeeder extends Seeder
         $foodGroups = [];
 
         $data = [
+            // group
             'biji bijian',
             'buah',
             'bumbu',
