@@ -24,4 +24,8 @@ class MeasurementModel extends Model
     public function user() {
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function mealPlans() {
+        return $this->hasMany(MealPlanModel::class,'measurement_id');
+    }
 }

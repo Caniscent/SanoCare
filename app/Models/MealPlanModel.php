@@ -17,4 +17,8 @@ class MealPlanModel extends Model
     public function mealPlanLogs() {
         return $this->hasMany(MealPlanLogModel::class,'meal_plan_id');
     }
+
+    public function measurement() {
+        return $this->belongsTo(MeasurementModel::class,'measurement_id');
+    }
 }
