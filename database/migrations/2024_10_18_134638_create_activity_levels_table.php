@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('test_method', function (Blueprint $table) {
+        Schema::create('activity_levels', function (Blueprint $table) {
             $table->id();
-            $table->string("method");
-            $table->string("description");
-            $table->timestamps();
+            $table->string('level');
+            $table->string('description');
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('test_method');
+        Schema::dropIfExists('activity_levels');
     }
 };

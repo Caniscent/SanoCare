@@ -25,11 +25,12 @@ class DatabaseSeeder extends Seeder
             //di comment lagi dan nyalakan check (jika ada datanya)
             //untuk data makanannya bisa cek ke public/csv
 
-            // NewsSeeder::class,
-            UserSeeder::class,
-            // CheckSeeder::class,
-            ActivitySeeder::class,
+            // UserSeeder::class,
+            ActivityLevelSeeder::class,
             TestMethodSeeder::class,
+            FoodGroupSeeder::class,
+            FoodTypeSeeder::class,
+            CleanFoodSeeder::class,
         ]);
     }
 }

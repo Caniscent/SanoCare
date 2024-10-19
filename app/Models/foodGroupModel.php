@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ActivityModel extends Model
+class FoodGroupModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'activity_categories';
+    protected $table = 'food_groups';
     protected $guarded = ['id'];
 
-    public function checks()
-    {
-        return $this->hasMany(ChecksModel::class, 'activity_category_id');
+    public function cleanFoods() {
+        return $this->hasMany(CleanFoodModel::class,'food_group_id');
     }
 }

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TestMethodModel extends Model
+class ActivityLevelModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'test_methods';
+    protected $table = 'activity_levels';
     protected $guarded = ['id'];
 
     public function measurements() {
-        return $this->hasMany(MeasurementModel::class,'test_method_id');
+        return $this->hasMany(MeasurementModel::class,'activity_level_id');
     }
 }
