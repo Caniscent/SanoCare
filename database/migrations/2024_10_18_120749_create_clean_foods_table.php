@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('food_type_id')->constrained()->onDelete('cascade');
             $table->decimal('calorie',5,2);
             $table->decimal('protein',4,2);
+            $table->decimal('fats',5,2);
             $table->decimal('carbs',4,2);
             $table->decimal('fiber',4,2);
             $table->timestamps();

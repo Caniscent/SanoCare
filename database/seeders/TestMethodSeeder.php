@@ -4,24 +4,30 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use app\Models\testMethodModel;
+use App\Models\TestMethodModel;
 
-class testMethodSeeder extends Seeder
+class TestMethodSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        testMethodModel::insert([
-            [
-                "method" => "Puasa",
-                "description" => "Pemeriksaan kadar gula darah saat perut kosong",
-            ],
-            [
-                "method" => "TTGO",
-                "description" => "Tes Toleransi Glukosa Oral (TTGO) adalah metode pengukuran glukosa setelah mengonsumsi larutan gula khusus"
-            ]
-        ]);
+
+        $methodTest = [];
+
+        $data = [
+            ['Puasa','Pemeriksaan kadar gula darah saat perut kosong'],
+            ['TTGO','Tes Toleransi Glukosa Oral (TTGO) adalah metode pengukuran glukosa setelah mengonsumsi larutan gula khusus']
+        ];
+
+        foreach ($data as $item) {
+            $methodTest[] = [
+                'method' => $item[0],
+                'description' => $item[1]
+            ];
+        }
+
+        TestMethodModel::insert($methodTest);
     }
 }

@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class foodTypeModel extends Model
+class FoodTypeModel extends Model
 {
     use HasFactory;
 
     protected $table = 'food_types';
     protected $guarded = ['id'];
+
+    public function foodTypes() {
+        return $this->hasMany(FoodTypeModel::class,'food_type_id');
+    }
 }
