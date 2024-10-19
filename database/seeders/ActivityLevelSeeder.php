@@ -17,6 +17,7 @@ class ActivityLevelSeeder extends Seeder
         $activityLevels = [];
 
         $data = [
+            // [level,description]
             ['Sangat Ringan','Tidak mempunyai kegiatan fisik sama sekali, seperti menonton TV, membaca, menggunakan komputer atau melakukan kegiatan menetap lainnya selama waktu luang'],
             ['Ringan','Aktivitas seperti guru, dokter praktek, ibu rumah tangga, dan pekerja kantor'],
             ['Sedang','Aktivitas seperti mahasiswa aktif, pedagang, petani, berenang, berlari, bersepeda, dan lain-lain'],

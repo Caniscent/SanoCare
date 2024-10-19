@@ -14,24 +14,26 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'rangg',
-            'age' => 19,
-            'gender' => 'laki-laki',
-            'email' => 'darkroyal505@gmail.com',
-            'password' => Hash::make('********'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $users = [];
 
-        User::create([
-            'name' => 'oujirate',
-            'age' => 19,
-            'gender' => 'laki-laki',
-            'email' => 'oujirate.dev@gmail.com',
-            'password' => Hash::make('ouji1110010001010'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $data = [
+            // [name,age,gender,email,password]
+            ['rangg',19,'laki-laki','darkroyal505@gmail.com','********'],
+            ['oujirate',20,'laki-laki','oujirate.dev@gmail.com','ouji1110010001010']
+        ];
+
+        foreach ($data as $item) {
+            $users[] = [
+                'name' => $item[0],
+                'age' => $item[1],
+                'gender' => $item[2],
+                'email' => $item[3],
+                'password' => Hash::make($item[4]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        User::insert($users);
     }
 }

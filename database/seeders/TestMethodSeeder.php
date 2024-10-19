@@ -17,6 +17,7 @@ class TestMethodSeeder extends Seeder
         $methodTest = [];
 
         $data = [
+            // [method,description]
             ['Puasa','Pemeriksaan kadar gula darah saat perut kosong'],
             ['TTGO','Tes Toleransi Glukosa Oral (TTGO) adalah metode pengukuran glukosa setelah mengonsumsi larutan gula khusus']
         ];
