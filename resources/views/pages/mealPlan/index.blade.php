@@ -7,16 +7,16 @@
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">Meal Plan</h1>
 
-        @if ($check->isEmpty())
+        @if ($measurement->isEmpty())
             <p class="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 lg:px-48 dark:text-black">Belum ada meal plan yang dibuat. Ayo buat sekarang!</p>
             <div class="flex justify-center pb-[22rem]">
-                <a href="{{ route('check.create') }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Buat Meal Plan</a>
+                <a href="{{ route('meal-plan.create') }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Buat Meal Plan</a>
             </div>
         @else
-        @foreach ($check as $data)
+        @foreach ($measurement as $data)
             <p class="text-gray-900 my-20 mx-auto text-center max-w-2xl">
                 Hai {{$data->user->name}}, kamu memiliki tinggi badan <b>{{$data->height}} cm</b> dan berat badan <b>{{$data->weight}} kg</b>.
-                Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityCategories->activity}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_content}} mg/dL</b> ({{$data->testMethod->method}}).
+                Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityLevel->level}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_blood}} mg/dL</b> ({{$data->testMethod->method}}).
                 Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buat untukmu.
             </p>
         @endforeach
@@ -122,10 +122,10 @@
 
 
 
-            @foreach ($check as $data)
+            @foreach ($measurement as $data)
             <div class="mb-5 mt-10">
                 {{-- update --}}
-                <a href="{{ route('check.edit', $data->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
+                <a href="{{ route('meal-plan.edit', $data->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
 
                 {{-- delete --}}
                 <button type="button" id="openDeleteModal" class="ms-1 text-red-600 hover:underline">
@@ -144,7 +144,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('check.destroy', $data->id) }}" id="deleteForm" method="post" class="inline">
+                <form action="{{ route('meal-plan.destroy', $data->id) }}" id="deleteForm" method="post" class="inline">
                     @method('delete')
                     @csrf
                 </form>

@@ -18,7 +18,7 @@
                     Perbarui Data
                 </h2>
 
-                <form class="max-w-sm mx-auto" method="POST" action="{{ route('check.update', $check->id) }}" enctype="multipart/form-data" onsubmit="showLoadingScreen()">
+                <form class="max-w-sm mx-auto" method="POST" action="{{ route('meal-plan.update', $check->id) }}" enctype="multipart/form-data" onsubmit="showLoadingScreen()">
                     @method('PUT')
                     @csrf
 

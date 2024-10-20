@@ -1,11 +1,70 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
 use App\Models\CleanFoodModel;
+use App\Models\MealPlanModel;
 use App\Models\MealPlanLogModel;
 
 class GeneticAlgorithmService {
+    // pengecekan prediabetes
+    public function checkPrediabetes($measurement){
+        $bloodSugar = $measurement->first()->sugar_blood;
+        $testMethod = $measurement->first()->testMethod->method;
+
+        if ($testMethod == 'Puasa') {
+            if ($bloodSugar >= 100 && $bloodSugar <= 125) {
+            } else if ($bloodSugar > 125) {
+                abort(403, 'Diabetes');
+            }
+        } else if ($testMethod == 'TTGO') {
+            if ($bloodSugar >= 140 && $bloodSugar <= 199) {
+            } else if ($bloodSugar > 199) {
+                abort(403, 'Diabetes');
+            }
+        }
+    }
+
+    // menghitung kebutuhan personal dari user
+    public function calculatePersonalNeed($measurement)
+    {
+        $user = $measurement->first()->user;
+        $measurement = $measurement->first();
+        $age = $user->age;
+        $gender = $user->gender;
+        $height = $measurement->height;
+        $weight = $measurement->weight;
+
+        $activityCategory = $measurement->activityLevel->activity;
+        $activityFactor = $this->getActivityFactor($activityCategory);
+
+        // Menghitung BMR (Basal Metabolic Rate) dengan rumus Mifflin-St Jeor
+        if ($gender === 'laki-laki') {
+            $bmr = 10 * $weight + 6.25 * $height - 5 * $age + 5;
+        } else {
+            $bmr = 10 * $weight + 6.25 * $height - 5 * $age - 161;
+        }
+
+        // Menghitung TDEE (Total Daily Energy Expenditure) berdasarkan aktivitas fisik
+        $tdee = $bmr * $activityFactor;
+
+        // Distribusi Makronutrien
+        $protein_g = ($tdee * 0.15) / 4;  // 1 gram protein = 4 kalori
+        $fat_g = ($tdee * 0.30) / 9;  // 1 gram lemak = 9 kalori
+        $carbs_g = ($tdee * 0.55) / 4;  // 1 gram karbohidrat = 4 kalori
+        $fiber_g = $this->calculateFiberNeed($age, $gender);
+
+        $result = [
+            'energy_kal' => $tdee,
+            'protein_g' => $protein_g,
+            'fat_g' => $fat_g,
+            'carbs_g' => $carbs_g,
+            'fiber_g' => $fiber_g,
+        ];
+
+        return $result;
+    }
+
     // Membuat meal plan untuk 1 minggu
     public function generateMealPlan($personalNeed)
     {
@@ -43,67 +102,13 @@ class GeneticAlgorithmService {
     }
 
     public function saveMealPlanHistory($userId,$checkId,$day,$mealPlanForDay){
-        MealPlanLogModel::updateOrCreate(
-            ['user_id' => $userId, 'check_id' => $checkId, 'day' => $day],
-            ['meal_plan' => json_encode($mealPlanForDay)]
+        MealPlanModel::updateOrCreate(
+            ['user_id' => $userId, 'day' => $day],
+            ['meal_plans' => json_encode($mealPlanForDay)]
         );
     }
 
-    public function checkPrediabetes($check){
-        $bloodSugar = $check->first()->sugar_content;
-        $testMethod = $check->first()->testMethod->method;
 
-        if ($testMethod == 'Puasa') {
-            if ($bloodSugar >= 100 && $bloodSugar <= 125) {
-            } else if ($bloodSugar > 125) {
-                abort(403, 'Diabetes');
-            }
-        } else if ($testMethod == 'TTGO') {
-            if ($bloodSugar >= 140 && $bloodSugar <= 199) {
-            } else if ($bloodSugar > 199) {
-                abort(403, 'Diabetes');
-            }
-        }
-    }
-
-    public function calculatePersonalNeed($check)
-    {
-        $user = $check->first()->user;
-        $check = $check->first();
-        $age = $user->age;
-        $gender = $user->gender;
-        $height = $check->height;
-        $weight = $check->weight;
-
-        $activityCategory = $check->activityCategories->activity;
-        $activityFactor = $this->getActivityFactor($activityCategory);
-
-        // Menghitung BMR (Basal Metabolic Rate) dengan rumus Mifflin-St Jeor
-        if ($gender === 'laki-laki') {
-            $bmr = 10 * $weight + 6.25 * $height - 5 * $age + 5;
-        } else {
-            $bmr = 10 * $weight + 6.25 * $height - 5 * $age - 161;
-        }
-
-        // Menghitung TDEE (Total Daily Energy Expenditure) berdasarkan aktivitas fisik
-        $tdee = $bmr * $activityFactor;
-
-        // Distribusi Makronutrien
-        $protein_g = ($tdee * 0.15) / 4;  // 1 gram protein = 4 kalori
-        $fat_g = ($tdee * 0.30) / 9;  // 1 gram lemak = 9 kalori
-        $carbs_g = ($tdee * 0.55) / 4;  // 1 gram karbohidrat = 4 kalori
-        $fiber_g = $this->calculateFiberNeed($age, $gender);
-
-        $result = [
-            'energy_kal' => $tdee,
-            'protein_g' => $protein_g,
-            'fat_g' => $fat_g,
-            'carbs_g' => $carbs_g,
-            'fiber_g' => $fiber_g,
-        ];
-
-        return $result;
-    }
 
     public function getActivityFactor($activityCategory)
     {
@@ -133,9 +138,9 @@ class GeneticAlgorithmService {
     public function randomMealPlan()
     {
         return [
-            'breakfast' => $this->selectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
-            'lunch' => $this->selectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
-            'dinner' => $this->selectUniqueFoods(1, ['serealia', 'daging dan unggas', 'biji bijian', 'sayuran', 'buah']),
+            'breakfast' => $this->selectUniqueFoods(1, [1,2,3,4,5,6,7,8,9,10,11,12,13]),
+            'lunch' => $this->selectUniqueFoods(1,[1,2,3,4,5,6,7,8,9,10,11,12,13]),
+            'dinner' => $this->selectUniqueFoods(1, [1,2,3,4,5,6,7,8,9,10,11,12,13]),
         ];
     }
 
@@ -143,7 +148,7 @@ class GeneticAlgorithmService {
     {
         $selectedFoods = [];
         foreach ($foodGroups as $group) {
-            $foods = CleanFoodModel::where('food_group', $group)->inRandomOrder()->take($count)->get();
+            $foods = CleanFoodModel::where('food_group_id', $group)->inRandomOrder()->take($count)->get();
             foreach ($foods as $food) {
                 $portion = rand(100, 200);
                 $selectedFoods[] = [
