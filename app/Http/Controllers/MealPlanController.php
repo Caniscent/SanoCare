@@ -36,8 +36,8 @@ class MealPlanController extends Controller
             ->with('user', 'activityLevel', 'testMethod', 'mealPlans')
             ->get();
 
-        if (!$measurement) {
-            return view('pages.mealPlan.index', ['measurement' => null, 'mealPlans' => null]);
+        if ($measurement->count() === 0) {
+            return view('pages.mealPlan.index', ['measurement' => $measurement, 'mealPlans' => null]);
         }
 
         $this->geneticAlgorithm->checkPrediabetes($measurement);

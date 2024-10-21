@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\MeasurementModel;
 use App\Models\CleanFoodModel;
 use App\Models\MealPlanModel;
 use App\Models\MealPlanLogModel;
@@ -9,8 +10,13 @@ use App\Models\MealPlanLogModel;
 class GeneticAlgorithmService {
     // pengecekan prediabetes
     public function checkPrediabetes($measurement){
+        // $firstMeasurement = $measurement->first();
+        // if(!$firstMeasurement){
+        //     abort(404, 'Tidak ditemukan');
+        // }
         $bloodSugar = $measurement->first()->sugar_blood;
         $testMethod = $measurement->first()->testMethod->method;
+
 
         if ($testMethod == 'Puasa') {
             if ($bloodSugar >= 100 && $bloodSugar <= 125) {
@@ -79,7 +85,7 @@ class GeneticAlgorithmService {
     }
 
     // Membuat meal plan harian
-    public function generateDailyMealPlan($personalNeed, $day)
+    public function generateDailyMealPlan($personalNeed)
     {
         $populationSize = 50;
         $generations = 50;
@@ -101,7 +107,7 @@ class GeneticAlgorithmService {
         return $this->getBestMealPlan($population);
     }
 
-    public function saveMealPlanHistory($userId,$checkId,$day,$mealPlanForDay){
+    public function saveMealPlanHistory($userId,$day,$mealPlanForDay){
         MealPlanModel::updateOrCreate(
             ['user_id' => $userId, 'day' => $day],
             ['meal_plans' => json_encode($mealPlanForDay)]
