@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('meal_plans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('measurement_id')->constrained()->onDelete('cascade');
+            $table->string('day');
             $table->json('meal_plan');
             $table->timestamps();
         });
