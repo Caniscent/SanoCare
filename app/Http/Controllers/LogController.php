@@ -7,7 +7,7 @@ use app\Models\MealPlanLogModel;
 use app\Models\MeasurementModel;
 use Illuminate\Support\Facades\Auth;
 
-class HistoryController extends Controller
+class LogController extends Controller
 {
     public function __construct()
     {

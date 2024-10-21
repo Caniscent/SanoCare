@@ -3,6 +3,7 @@
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\LogController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,12 +30,12 @@ Route::prefix('/profile')->name('profile.')->group( function () {
 });
 
 Route::prefix('/log')->name('log.')->group( function () {
-    Route::get('/',[HistoryController::class, 'index'])->name('index');
-    Route::get('/create',[HistoryController::class, 'create'])->name('create');
-    Route::post('/store', [HistoryController::class, 'store'])->name('store');
-    Route::get('/edit/{id}',[HistoryController::class, 'edit'])->name('edit');
-    Route::put('/update/{id}', [HistoryController::class, 'update'])->name('update');
-    Route::delete('/delete/{Log_id}', [HistoryController::class, 'destroy'])->name('destroy');
+    Route::get('/',[LogController::class, 'index'])->name('index');
+    Route::get('/create',[LogController::class, 'create'])->name('create');
+    Route::post('/store', [LogController::class, 'store'])->name('store');
+    Route::get('/edit/{id}',[LogController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [LogController::class, 'update'])->name('update');
+    Route::delete('/delete/{Log_id}', [LogController::class, 'destroy'])->name('destroy');
 });
 
 Auth::routes();
