@@ -17,7 +17,7 @@
                 <h2 class="text-2xl font-bold text-gray-900 text-center">
                     Buat Meal Plan
                 </h2>
-                <form class="max-w-sm mx-auto" method="POST" action="{{ route('check.store') }}" enctype="multipart/form-data" onsubmit="showLoadingScreen()">
+                <form class="max-w-sm mx-auto" method="POST" action="{{ route('meal-plan.store') }}" enctype="multipart/form-data" onsubmit="showLoadingScreen()">
                     @csrf
                     {{-- height input --}}
                     <div class="mb-5">

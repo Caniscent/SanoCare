@@ -14,7 +14,7 @@
             </label>
             <ul tabindex="0" class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                 <li class="!text-gray-500"><a href="{{url('/')}}">Home</a></li>
-                <li class="!text-gray-500"><a href="{{route('check.index')}}">Meal Plan</a></li>
+                <li class="!text-gray-500"><a href="{{route('meal-plan.index')}}">Meal Plan</a></li>
                 <li>
                     @auth
                         <li class="!text-gray-500"><a href="{{route('profile.index')}}">Profile</a></li>
@@ -31,7 +31,7 @@
         </div>
         <div class="hidden lg:flex space-x-4">
             <a class="btn btn-ghost" href="{{url('/')}}">Home</a>
-            <a class="btn btn-ghost" href="{{route('check.index')}}">Meal Plan</a>
+            <a class="btn btn-ghost" href="{{route('meal-plan.index')}}">Meal Plan</a>
             @auth
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost">Pengaturan Akun</div>
