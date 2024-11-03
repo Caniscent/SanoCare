@@ -111,10 +111,10 @@ class GeneticAlgorithmService {
     }
 
     // Menyimpan meal plan yang sudah dibuat
-    public function saveMealPlan($userId,$measurement,$day,$mealPlanForDay){
+    public function saveMealPlan($measurementId,$day,$mealPlanForDay){
         MealPlanModel::updateOrCreate(
-            ['user_id' => $userId, 'measurement' => $measurement, 'day' => $day],
-            ['meal_plans' => json_encode($mealPlanForDay)]
+            ['measurement_id' => $measurementId, 'day' => $day],
+            ['meal_plan' => json_encode($mealPlanForDay)]
         );
     }
 
