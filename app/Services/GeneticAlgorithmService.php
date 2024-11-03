@@ -10,10 +10,6 @@ use App\Models\MealPlanLogModel;
 class GeneticAlgorithmService {
     // pengecekan prediabetes
     public function checkPrediabetes($measurement){
-        // $firstMeasurement = $measurement->first();
-        // if(!$firstMeasurement){
-        //     abort(404, 'Tidak ditemukan');
-        // }
         $bloodSugar = $measurement->first()->sugar_blood;
         $testMethod = $measurement->first()->testMethod->method;
 
@@ -55,17 +51,17 @@ class GeneticAlgorithmService {
         $tdee = $bmr * $activityFactor;
 
         // Distribusi Makronutrien
-        $protein_g = ($tdee * 0.15) / 4;  // 1 gram protein = 4 kalori
-        $fat_g = ($tdee * 0.30) / 9;  // 1 gram lemak = 9 kalori
-        $carbs_g = ($tdee * 0.55) / 4;  // 1 gram karbohidrat = 4 kalori
-        $fiber_g = $this->calculateFiberNeed($age, $gender);
+        $protein = ($tdee * 0.15) / 4;  // 1 gram protein = 4 kalori
+        $fats = ($tdee * 0.30) / 9;  // 1 gram lemak = 9 kalori
+        $carbs = ($tdee * 0.55) / 4;  // 1 gram karbohidrat = 4 kalori
+        $fiber = $this->calculateFiberNeed($age, $gender);
 
         $result = [
-            'energy_kal' => $tdee,
-            'protein_g' => $protein_g,
-            'fat_g' => $fat_g,
-            'carbs_g' => $carbs_g,
-            'fiber_g' => $fiber_g,
+            'calorie' => $tdee,
+            'protein' => $protein,
+            'fats' => $fats,
+            'carbs' => $carbs,
+            'fiber' => $fiber,
         ];
 
         return $result;
@@ -85,32 +81,39 @@ class GeneticAlgorithmService {
     }
 
     // Membuat meal plan harian
-    public function generateDailyMealPlan($personalNeed)
+    public function generateDailyMealPlan($personalNeed, $day)
     {
         $populationSize = 50;
         $generations = 50;
 
+        // Inisialisasi populasi dengan rencana makan acak
         $population = [];
         for ($i = 0; $i < $populationSize; $i++) {
             $population[] = $this->randomMealPlan();
         }
 
         for ($generation = 0; $generation < $generations; $generation++) {
-            $fitness = array_map(function ($mealPlan) use ($personalNeed) {
-                return $this->calculateFitness($mealPlan, $personalNeed);
-            }, $population);
+            // Hitung fitness untuk setiap meal plan
+            $fitnessScores = [];
+            foreach ($population as $mealPlan) {
+                $fitnessScores[] = $this->calculateFitness($mealPlan, $personalNeed);
+            }
 
-            $population = $this->selectBest($population, $fitness);
+            // Seleksi dan tentukan populasi terbaik berdasarkan nilai fitness
+            $population = $this->selectBest($population, $fitnessScores);
+
+            // Buat generasi baru melalui crossover dan mutasi
             $population = $this->crossoverAndMutate($population);
         }
 
+        // Ambil meal plan terbaik dengan fitness tertinggi
         return $this->getBestMealPlan($population);
     }
 
     // Menyimpan meal plan yang sudah dibuat
-    public function saveMealPlan($userId,$day,$mealPlanForDay){
+    public function saveMealPlan($userId,$measurement,$day,$mealPlanForDay){
         MealPlanModel::updateOrCreate(
-            ['user_id' => $userId, 'day' => $day],
+            ['user_id' => $userId, 'measurement' => $measurement, 'day' => $day],
             ['meal_plans' => json_encode($mealPlanForDay)]
         );
     }
@@ -136,7 +139,7 @@ class GeneticAlgorithmService {
     // Menghitung kalori yang dibutuhkan user
     public function calculateCalories($food, $portion)
     {
-        return round(($food->energy_kal / 100) * $portion, 2);
+        return round(($food->calorie / 100) * $portion, 2);
     }
 
     // Menghitung serat yang dibutuhkan user
@@ -153,38 +156,38 @@ class GeneticAlgorithmService {
     public function calculateFitness($mealPlan, $personalNeed)
     {
         $totalNutrients = [
-            'energy_kal' => 0,
-            'protein_g' => 0,
-            'fat_g' => 0,
-            'carbs_g' => 0,
-            'fiber_g' => 0,
+            'calorie' => 0,
+            'protein' => 0,
+            'fats' => 0,
+            'carbs' => 0,
+            'fiber' => 0,
         ];
 
         foreach ($mealPlan as $meal) {
             foreach ($meal as $food) {
                 $portion = (int)filter_var($food['portion'], FILTER_SANITIZE_NUMBER_INT);
-                $totalNutrients['energy_kal'] += $this->calculateCalories((object)$food, $portion);
-                $totalNutrients['protein_g'] += ($food['protein'] / 100) * $portion;
-                $totalNutrients['fat_g'] += ($food['fats'] / 100) * $portion;
-                $totalNutrients['carbs_g'] += ($food['carbs'] / 100) * $portion;
-                $totalNutrients['fiber_g'] += ($food['fiber'] / 100) * $portion;
+                $totalNutrients['calorie'] += $this->calculateCalories((object)$food, $portion);
+                $totalNutrients['protein'] += ($food['protein'] / 100) * $portion;
+                $totalNutrients['fats'] += ($food['fats'] / 100) * $portion;
+                $totalNutrients['carbs'] += ($food['carbs'] / 100) * $portion;
+                $totalNutrients['fiber'] += ($food['fiber'] / 100) * $portion;
             }
         }
 
         $uniqueFoodGroups = [];
         foreach ($mealPlan as $meal) {
             foreach ($meal as $food) {
-                $uniqueFoodGroups[$food['food_group_id']] = true;
+                $uniqueFoodGroups[$food['food_group']] = true;
             }
         }
         $diversityScore = count($uniqueFoodGroups);
 
         $fitness = 0;
-        $fitness += abs($personalNeed['energy_kal'] - $totalNutrients['energy_kal']);
-        $fitness += abs($personalNeed['protein_g'] - $totalNutrients['protein_g']);
-        $fitness += abs($personalNeed['fat_g'] - $totalNutrients['fat_g']);
-        $fitness += abs($personalNeed['carbs_g'] - $totalNutrients['carbs_g']);
-        $fitness += abs($personalNeed['fiber_g'] - $totalNutrients['fiber_g']);
+        $fitness += abs($personalNeed['calorie'] - $totalNutrients['calorie']);
+        $fitness += abs($personalNeed['protein'] - $totalNutrients['protein']);
+        $fitness += abs($personalNeed['fats'] - $totalNutrients['fats']);
+        $fitness += abs($personalNeed['carbs'] - $totalNutrients['carbs']);
+        $fitness += abs($personalNeed['fiber'] - $totalNutrients['fiber']);
 
         $fitness -= $diversityScore;
 
@@ -202,12 +205,12 @@ class GeneticAlgorithmService {
                     'ingredients_name' => $food->ingredients_name,
                     'food_group' => $food->food_group_id,
                     'portion' => $portion . ' g',
-                    'energy_kal' => $this->calculateCalories($food, $portion),
-                    'calories' => $food->calorie,
-                    'protein_g' => $food->protein,
-                    'fat_g' => $food->fats,
-                    'carbs_g' => $food->carbs,
-                    'fiber_g' => $food->fiber
+                    'calories' => $this->calculateCalories($food, $portion),
+                    'calorie' => $food->calorie,
+                    'protein' => $food->protein,
+                    'fats' => $food->fats,
+                    'carbs' => $food->carbs,
+                    'fiber' => $food->fiber
                 ];
             }
         }
@@ -218,9 +221,9 @@ class GeneticAlgorithmService {
     public function randomMealPlan()
     {
         return [
-            'breakfast' => $this->selectUniqueFoods(1, [10 | 13, 3 | 4 | 5 | 8 | 12, 1, 9, 2 | 6 | 7 | 11]),
-            'lunch' => $this->selectUniqueFoods(1,[10 | 13, 3 | 4 | 5 | 8 | 12, 1, 9, 2 | 6 | 7 | 11]),
-            'dinner' => $this->selectUniqueFoods(1, [10 | 13, 3 | 4 | 5 | 8 | 12, 1, 9, 2 | 6 | 7 | 11]),
+            'breakfast' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
+            'lunch' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
+            'dinner' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
         ];
     }
 
@@ -248,7 +251,7 @@ class GeneticAlgorithmService {
 
             if (rand(0, 100) < 10) {
                 $mealType = ['breakfast', 'lunch', 'dinner'][array_rand(['breakfast', 'lunch', 'dinner'])];
-                $child[$mealType] = $this->selectUniqueFoods(1, [10 | 13, 3 | 4 | 5 | 8 | 12, 1, 9, 2 | 6 | 7 | 11]);
+                $child[$mealType] = $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]);
             }
 
             $newPopulation[] = $child;
