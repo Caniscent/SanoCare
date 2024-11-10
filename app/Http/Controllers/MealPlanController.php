@@ -32,42 +32,50 @@ class MealPlanController extends Controller
             return redirect()->route('login');
         }
 
-        $measurement = MeasurementModel::where('user_id', $userId)
+        $measurements = MeasurementModel::where('user_id', $userId)
             ->with('user', 'activityLevel', 'testMethod', 'mealPlans')
             ->get();
 
-        if ($measurement->count() === 0) {
-            return view('pages.mealPlan.index', ['measurement' => $measurement, 'mealPlans' => null]);
+        if ($measurements->isEmpty()) {
+            return view('pages.mealPlan.index', ['measurement' => null, 'mealPlans' => null]);
         }
+
+        $measurement = $measurements->first();
 
         $this->geneticAlgorithm->checkPrediabetes($measurement);
 
         $personalNeed = $this->geneticAlgorithm->calculatePersonalNeed($measurement);
+
         $selectedDay = $request->get('day', now()->locale('id')->format('l'));
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $currentDay = array_search($selectedDay, $days);
         $prevDay = $days[($currentDay - 1 + count($days)) % count($days)];
         $nextDay = $days[($currentDay + 1) % count($days)];
 
-        $mealPlanCount = MeasurementModel::where('user_id', $userId)->with('mealPlans')->count();
+        $mealPlanCount = MealPlanModel::whereHas('measurement', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->count();
 
         if ($mealPlanCount < 7) {
             $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
             foreach ($days as $day) {
-                $this->geneticAlgorithm->saveMealPlan($userId, $measurement->id,$day, $weeklyMealPlan[$day]);
+                $this->geneticAlgorithm->saveMealPlan($measurement->first()->id, $day, $weeklyMealPlan[$day]);
             }
         }
 
-        $mealPlan = MeasurementModel::where('user_id', $userId)->with('MealPlans')
-            ->get()
-            ->keyBy('day')
-            ->map(function ($mealPlans) {
-                return json_decode($mealPlans->meal_plans, true);
-            });
+        // $mealPlans = MealPlanModel::where('measurement_id', $measurement->id)
+        //     ->get()
+        //     ->keyBy('day')
+        //     ->map(function ($mealPlan) {
+        //         return json_decode($mealPlan->meal_plan, true);
+        //     });
+        $mealPlans = MealPlanModel::whereHas('measurement', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
 
         return view('pages.mealPlan.index', compact('measurement', 'mealPlans', 'selectedDay', 'prevDay', 'nextDay'));
-
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -85,41 +93,39 @@ class MealPlanController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'height' => 'required|numeric|min:50|max:300',
-            'weight' => 'required|numeric|min:10|max:500',
-            'sugar_content' => 'required|numeric|min:50|max:300',
-            'activity' => 'required|exists:activity_categories,id',
-            'test_method' => 'required|exists:test_method,id',
-        ], [
-            'height.required' => 'Tinggi badan harus diisi.',
-            'height.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
-            'height.max' => 'Tinggi badan tidak boleh melebihi 300 cm.',
-            'weight.required' => 'Berat badan harus diisi.',
-            'weight.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
-            'weight.max' => 'Berat badan tidak boleh melebihi 500 kg.',
-            'sugar_content.required' => 'Gula darah harus diisi.',
-            'sugar_content.min' => 'Gula darah tidak boleh kurang dari 50 mg/dL',
-            'sugar_content.max' => 'Gula darah tidak boleh melebihi 300 mg/dL',
-            'activity_categories_id.required' => 'Kategori aktivitas harus dipilih.',
-            'activity_categories_id.exists' => 'Kategori aktivitas yang dipilih tidak valid.',
-            'test_method_id.required' => 'Metode pengujian harus dipilih.',
-            'test_method_id.exists' => 'Metode pengujian yang dipilih tidak valid.',
-        ]);
+        // $request->validate([
+        //     'height' => 'required|numeric|min:50|max:300',
+        //     'weight' => 'required|numeric|min:10|max:500',
+        //     'sugar_blood' => 'required|numeric|min:50|max:300',
+        //     'level' => 'required|exists:activity_level_id',
+        //     'test_method' => 'required|exists:test_methods_id',
+        // ], [
+        //     'height.required' => 'Tinggi badan harus diisi.',
+        //     'height.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
+        //     'height.max' => 'Tinggi badan tidak boleh melebihi 300 cm.',
+        //     'weight.required' => 'Berat badan harus diisi.',
+        //     'weight.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
+        //     'weight.max' => 'Berat badan tidak boleh melebihi 500 kg.',
+        //     'sugar_blood.required' => 'Gula darah harus diisi.',
+        //     'sugar_blood.min' => 'Gula darah tidak boleh kurang dari 50 mg/dL',
+        //     'sugar_blood.max' => 'Gula darah tidak boleh melebihi 300 mg/dL',
+        //     'level.required' => 'Kategori aktivitas harus dipilih.',
+        //     'test_method.required' => 'Metode pengujian harus dipilih.',
+        // ]);
 
         $user = Auth::user();
 
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Please login to continue.');
+            return redirect()->route('login');
         }
 
         $data = [
             'user_id' => $user->id,
-            'height' => $request->input('weight'),
-            'weight' => $request->input('height'),
-            'sugar_content' => $request->input('sugar_content'),
+            'height' => $request->input('height'),
+            'weight' => $request->input('weight'),
+            'activity_level_id' => $request->input('level'),
+            'sugar_blood' => $request->input('sugar_blood'),
             'test_method_id' => $request->input('test_method'),
-            'activity_categories_id' => $request->input('activity'),
         ];
 
         $measurement = MeasurementModel::create($data);
@@ -129,7 +135,7 @@ class MealPlanController extends Controller
 
         foreach ($days as $day) {
             $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
-            $this->geneticAlgorithm->saveMealPlan($user->id, $measurement->id, $day, $weeklyMealPlan[$day]);
+            $this->geneticAlgorithm->saveMealPlan($measurement->id, $day, $weeklyMealPlan[$day]);
         }
 
 
@@ -160,9 +166,9 @@ class MealPlanController extends Controller
         $request->validate([
             'weight' => 'required|numeric|min:10|max:500',
             'height' => 'required|numeric|min:50|max:300',
-            'sugar_content' => 'nullable|numeric|min:50|max:300',
-            'activity_categories_id' => 'required|exists:activity_categories,id',
-            'test_method_id' => 'required|exists:test_method,id',
+            'sugar_blood' => 'nullable|numeric|min:50|max:300',
+            'activity_level_id' => 'required|exists:activity_categories,id',
+            'test_method_id' => 'required|exists:test_methods,id',
         ], [
             'height.required' => 'Tinggi badan harus diisi.',
             'height.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
@@ -170,11 +176,11 @@ class MealPlanController extends Controller
             'weight.required' => 'Berat badan harus diisi.',
             'weight.min' => 'Berat badan tidak boleh kurang dari 10 kg.',
             'weight.max' => 'Berat badan tidak boleh melebihi 500 kg.',
-            'sugar_content.required' => 'Gula darah harus diisi.',
-            'sugar_content.min' => 'Gula darah tidak boleh kurang dari 50 mg/dL',
-            'sugar_content.max' => 'Gula darah tidak boleh melebihi 300 mg/dL',
-            'activity_categories_id.required' => 'Kategori aktivitas harus dipilih.',
-            'activity_categories_id.exists' => 'Kategori aktivitas yang dipilih tidak valid.',
+            'sugar_blood.required' => 'Gula darah harus diisi.',
+            'sugar_blood.min' => 'Gula darah tidak boleh kurang dari 50 mg/dL',
+            'sugar_blood.max' => 'Gula darah tidak boleh melebihi 300 mg/dL',
+            'activity_level_id.required' => 'Kategori aktivitas harus dipilih.',
+            'activity_level_id.exists' => 'Kategori aktivitas yang dipilih tidak valid.',
             'test_method_id.required' => 'Metode pengujian harus dipilih.',
             'test_method_id.exists' => 'Metode pengujian yang dipilih tidak valid.',
         ]);
@@ -183,8 +189,8 @@ class MealPlanController extends Controller
 
         $measurement->height = $request->input('height');
         $measurement->weight = $request->input('weight');
-        $measurement->sugar_content = $request->input('sugar_content');
-        $measurement->activity_categories_id = $request->input('activity_categories_id');
+        $measurement->sugar_blood = $request->input('sugar_blood');
+        $measurement->activity_level_id = $request->input('activity_level_id');
         $measurement->test_method_id = $request->input('test_method_id');
 
         $measurement->save();

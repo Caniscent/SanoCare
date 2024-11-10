@@ -38,6 +38,11 @@ Route::prefix('/log')->name('log.')->group( function () {
     Route::delete('/delete/{Log_id}', [LogController::class, 'destroy'])->name('destroy');
 });
 
+Route::prefix('/admin')->name('admin.')->group( function(){
+    Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
+
+});
+
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
