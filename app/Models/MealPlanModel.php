@@ -21,4 +21,8 @@ class MealPlanModel extends Model
     public function measurement() {
         return $this->belongsTo(MeasurementModel::class,'measurement_id');
     }
+
+    public function user() {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }
