@@ -111,9 +111,9 @@ class GeneticAlgorithmService {
     }
 
     // Menyimpan meal plan yang sudah dibuat
-    public function saveMealPlan($measurementId,$day,$mealPlanForDay){
+    public function saveMealPlan($measurementId,$userId,$day,$mealPlanForDay){
         MealPlanModel::updateOrCreate(
-            ['measurement_id' => $measurementId, 'day' => $day],
+            ['measurement_id' => $measurementId, 'user_id' => $userId, 'day' => $day],
             ['meal_plan' => json_encode($mealPlanForDay)]
         );
     }
@@ -202,7 +202,7 @@ class GeneticAlgorithmService {
             foreach ($foods as $food) {
                 $portion = rand(100, 200);
                 $selectedFoods[] = [
-                    'ingredients_name' => $food->ingredients_name,
+                    'food_name' => $food->food_name,
                     'food_group' => $food->food_group_id,
                     'portion' => $portion . ' g',
                     'calories' => $this->calculateCalories($food, $portion),

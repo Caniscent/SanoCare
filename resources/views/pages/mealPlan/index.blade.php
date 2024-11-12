@@ -7,17 +7,17 @@
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">Meal Plan</h1>
 
-        @if ($measurement)
+        @if ($measurements->isEmpty())
             <p class="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 lg:px-48 dark:text-black">Belum ada meal plan yang dibuat. Ayo buat sekarang!</p>
             <div class="flex justify-center pb-[22rem]">
                 <a href="{{ route('meal-plan.create') }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Buat Meal Plan</a>
             </div>
         @else
-        @foreach ($measurement as $data)
+        @foreach ($measurements as $data)
             <p class="text-gray-900 my-20 mx-auto text-center max-w-2xl">
                 Hai {{$data->user->name}}, kamu memiliki tinggi badan <b>{{$data->height}} cm</b> dan berat badan <b>{{$data->weight}} kg</b>.
                 Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityLevel->level}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_blood}} mg/dL</b> ({{$data->testMethod->method}}).
-                Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buat untukmu.
+                Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buat khusus untukmu.
             </p>
         @endforeach
 
@@ -35,26 +35,26 @@
                         @if (!empty($mealPlan[$selectedDay]['breakfast']))
                             @foreach ($mealPlan[$selectedDay]['breakfast'] as $detail)
                                 <li class="flex items-center text-gray-900 dark:text-gray-900 mb-2">
-                                    @if ($detail['food_group'] == 'serealia')
+                                    @if ($detail['food_group'] == 10)
                                         <img src="{{ asset('img/icons/bowl-rice-solid.svg') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'daging dan unggas')
+                                    @elseif ($detail['food_group'] == 4)
                                         <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'biji bijian')
+                                    @elseif ($detail['food_group'] == 9)
                                         <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'sayuran')
+                                    @elseif ($detail['food_group'] == 1)
                                         <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'buah')
+                                    @elseif ($detail['food_group'] == 2)
                                         <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
 
-                                    <span class="flex-1 text-left" title="{{ $detail['ingredients_name'] }}">
-                                        {{ $detail['ingredients_name'] }}
+                                    <span class="flex-1 text-left" title="{{ $detail['food_name'] }}">
+                                        {{ $detail['food_name'] }}
                                     </span>
                                     <span class="text-sm ml-4">{{ $detail['portion'] }} ({{ $detail['calories'] }} kalori)</span>
                                 </li>
                             @endforeach
                         @else
-                            <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Sarapan.</li>
+                            <li class="text-gray-900 dark:text-gray-900">Data tidak tersedia untuk Sarapan.</li>
                         @endif
                     </ul>
                 </div>
@@ -65,26 +65,26 @@
                         @if (!empty($mealPlan[$selectedDay]['lunch']))
                             @foreach ($mealPlan[$selectedDay]['lunch'] as $detail)
                                 <li class="flex items-center text-gray-900 dark:text-gray-900 mb-2">
-                                    @if ($detail['food_group'] == 'serealia')
+                                    @if ($detail['food_group'] == 10)
                                         <img src="{{ asset('img/icons/bowl-rice-solid.svg') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'daging dan unggas')
+                                    @elseif ($detail['food_group'] == 4)
                                         <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'biji bijian')
+                                    @elseif ($detail['food_group'] == 9)
                                         <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'sayuran')
+                                    @elseif ($detail['food_group'] == 1)
                                         <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'buah')
+                                    @elseif ($detail['food_group'] == 2)
                                         <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
 
-                                    <span class="flex-1 text-left" title="{{ $detail['ingredients_name'] }}">
-                                        {{ $detail['ingredients_name'] }}
+                                    <span class="flex-1 text-left" title="{{ $detail['food_name'] }}">
+                                        {{ $detail['food_name'] }}
                                     </span>
                                     <span class="text-sm ml-4">{{ $detail['portion'] }} ({{ $detail['calories'] }} kalori)</span>
                                 </li>
                             @endforeach
                         @else
-                            <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Makan Siang.</li>
+                            <li class="text-gray-900 dark:text-gray-900">Data tidak tersedia untuk Makan Siang.</li>
                         @endif
                     </ul>
                 </div>
@@ -95,26 +95,26 @@
                         @if (!empty($mealPlan[$selectedDay]['dinner']))
                             @foreach ($mealPlan[$selectedDay]['dinner'] as $detail)
                                 <li class="flex items-center text-gray-900 dark:text-gray-900 mb-2">
-                                    @if ($detail['food_group'] == 'serealia')
+                                    @if ($detail['food_group'] == 10)
                                         <img src="{{ asset('img/icons/bowl-rice-solid.svg') }}" alt="Karbohidrat" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'daging dan unggas')
+                                    @elseif ($detail['food_group'] == 4)
                                         <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'biji bijian')
+                                    @elseif ($detail['food_group'] == 9)
                                         <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'sayuran')
+                                    @elseif ($detail['food_group'] == 1)
                                         <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 'buah')
+                                    @elseif ($detail['food_group'] == 2)
                                         <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
 
-                                    <span class="flex-1 text-left" title="{{ $detail['ingredients_name'] }}">
-                                        {{ $detail['ingredients_name'] }}
+                                    <span class="flex-1 text-left" title="{{ $detail['food_name'] }}">
+                                        {{ $detail['food_name'] }}
                                     </span>
                                     <span class="text-sm ml-4">{{ $detail['portion'] }} ({{ $detail['calories'] }} kalori)</span>
                                 </li>
                             @endforeach
                         @else
-                            <li class="text-gray-900 dark:text-gray-100">Data tidak tersedia untuk Makan Malam.</li>
+                            <li class="text-gray-900 dark:text-gray-900">Data tidak tersedia untuk Makan Malam.</li>
                         @endif
                     </ul>
                 </div>
@@ -122,7 +122,7 @@
 
 
 
-            @foreach ($measurement as $data)
+            @foreach ($measurements as $data)
             <div class="mb-5 mt-10">
                 {{-- update --}}
                 <a href="{{ route('meal-plan.edit', $data->id) }}" class="me-1 text-yellow-400 hover:underline">Ubah data</a>
@@ -134,9 +134,9 @@
 
                 <input type="checkbox" id="delete-confirm-modal" class="modal-toggle" />
                 <div class="modal">
-                    <div class="modal-box">
-                        <h3 class="font-bold text-lg">Konfirmasi Penghapusan Meal Plan</h3>
-                        <p>Tindakan anda sekarang akan menghapus seluruh meal plan, apakah anda ingin melanjutkan?</p>
+                    <div class="modal-box bg-gray-900">
+                        <h3 class="font-bold text-lg text-white">Konfirmasi Penghapusan Meal Plan</h3>
+                        <p class="text-white">Tindakan anda sekarang akan menghapus seluruh meal plan, apakah anda ingin melanjutkan?</p>
                         <div class="modal-action justify-center">
                             <label for="delete-confirm-modal" class="btn bg-gray-400 hover:bg-gray-500 text-gray-900">Tidak</label>
                             <button id="confirmDeleteButton" class="btn btn-error">Ya, Lanjutkan</button>
@@ -172,7 +172,7 @@
         document.getElementById('delete-confirm-modal').checked = true;
     });
 
-    // Ketika tombol Ya, Hapus diklik, submit form penghapusan
+    // Submit form penghapusan
     document.getElementById('confirmDeleteButton').addEventListener('click', function() {
         document.getElementById('deleteForm').submit();
     });

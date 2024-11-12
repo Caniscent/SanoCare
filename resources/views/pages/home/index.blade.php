@@ -12,7 +12,7 @@
     <div class="max-w-md text-white">
         <h1 class="mb-5 text-5xl font-bold">Selamat Datang di <b>Sano Care!</b></h1>
         <p class="mb-5 ">
-            Disini menyediakan penjadwalan makan untuk memenuhi kebutuhan diri anda agar dapat melakukan pencegahan dari penyakit diabetes.
+            Disini kami menyediakan penjadwalan makan untuk memenuhi kebutuhan diri anda agar dapat melakukan pencegahan dari penyakit diabetes.
         </p>
         <a class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white" href="{{route('meal-plan.index')}}">Mulai Sekarang</a>
     </div>
