@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             FoodGroupSeeder::class,
             FoodTypeSeeder::class,
             CleanFoodSeeder::class,
+            ArticleSeeder::class,
         ]);
     }
 }
