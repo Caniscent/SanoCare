@@ -43,7 +43,7 @@
             </ul>
           </details>
         </li>
-        <li><a>Item 3</a></li>
+        <li><a href="{{route('admin.article.index')}}">Artikel</a></li>
       </ul>
     </div>
     <div class="navbar-end">

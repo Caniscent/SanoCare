@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\MealPlanController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\LogController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LogController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MealPlanController;
 
 Route::get('/', function () {
     return view('pages.home.index');
@@ -40,8 +41,9 @@ Route::prefix('/log')->name('log.')->group( function () {
 
 Route::prefix('/admin')->name('admin.')->group( function(){
     Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
-
+    Route::resource('article', ArticleController::class);
 });
+
 
 Auth::routes();
 
