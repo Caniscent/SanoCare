@@ -5,3 +5,18 @@
 body{
     font-family: "Inter", sans-serif;
 }
+[x-cloak] { display: none !important; }
+
+/* Pastikan sidebar di bawah header */
+aside {
+    position: fixed;
+    z-index: 10; /* Posisi yang lebih rendah dari header */
+}
+#sidebar {
+    z-index: 30; /* Sidebar */
+}
+
+#sidebar-toggle {
+    z-index: 40; /* Tombol Toggle */
+}
+

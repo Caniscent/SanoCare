@@ -7,6 +7,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MealPlanController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('pages.home.index');
@@ -42,6 +43,7 @@ Route::prefix('/log')->name('log.')->group( function () {
 Route::prefix('/admin')->name('admin.')->group( function(){
     Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
     Route::resource('article', ArticleController::class);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 
