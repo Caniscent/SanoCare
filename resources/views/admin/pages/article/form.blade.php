@@ -12,7 +12,7 @@
                     @csrf
                     <!-- Field Title -->
                     <div class="mb-6">
-                        <x-input-label for="name" :value="__('Judul Postingan')" />
+                        <x-input-label for="name" :value="__('Judul Artikel')" />
                         <x-text-input id="title"  type="text" value="{{ old('title', $article->title) }}" name="title"/>
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>

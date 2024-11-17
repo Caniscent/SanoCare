@@ -16,9 +16,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-50">
+  <div class="flex h-screen bg-gray-100">
+    <!-- Sidebar -->
     @include('admin.layouts.navbar')
-    @include('admin.layouts.sidebar')
 
-    @yield('content')
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+        @include('admin.layouts.header')
+
+        <!-- Dynamic Content -->
+        <main class="flex-1 overflow-y-auto p-6">
+            @yield('content')
+        </main>
+    </div>
+</div>
+
 </body>
+
 </html>
