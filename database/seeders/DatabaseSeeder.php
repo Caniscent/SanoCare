@@ -21,13 +21,14 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            UserSeeder::class,
-            ActivityLevelSeeder::class,
-            TestMethodSeeder::class,
-            FoodGroupSeeder::class,
-            FoodTypeSeeder::class,
-            CleanFoodSeeder::class,
-            ArticleSeeder::class,
+            // UserSeeder::class,
+            // ActivityLevelSeeder::class,
+            // TestMethodSeeder::class,
+            // FoodGroupSeeder::class,
+            // FoodTypeSeeder::class,
+            // CleanFoodSeeder::class,
+            // ArticleSeeder::class,
+            RoleSeeder::class,
         ]);
     }
 }
