@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Log;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -47,5 +51,35 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+    
+    /**
+     * Create a new controller instance.
+     *
+     * @return RedirectResponse
+     */
+    public function login(Request $request): RedirectResponse
+    {   
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($request->only('name', 'password'))) {
+            $user = Auth::user();
+
+            if ($user->role->name === 'admin') {
+                return redirect()->route('admin.index');
+            } elseif ($user->role->name === 'user') {
+                return redirect()->route('meal-plan.index');
+            } else {
+                return redirect()->route('login')
+                    ->with('error', 'Your role does not have access.');
+            }
+        }
+
+        return redirect()->route('login')
+            ->with('error', 'Invalid username or password.');
+          
     }
 }
