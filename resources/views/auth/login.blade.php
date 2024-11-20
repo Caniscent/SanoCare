@@ -9,7 +9,7 @@
             <a href="{{url('/')}}" class="text-2xl font-bold text-center text-blue-400 hover:underline">{{ __('Sano Care') }}</a>
             {{ __('Login') }}
         </h2>
-
+    
         <form method="POST" action="{{ route('login') }}" class="space-y-6">
             @csrf
 
@@ -25,6 +25,11 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+                @if(session('error'))
+                <span class="text-error">
+                    <strong>{{session('error')}}</strong>
+                </span>
+            @endif
             </div>
 
 
