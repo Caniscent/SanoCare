@@ -18,15 +18,16 @@
                 <label for="name" class="label">
                     <span class="label-text text-black">{{ __('Nama') }}</span>
                 </label>
-                <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus
+                <input id="name" type="text" name="name" value="{{ old('name') }}" 
                        class="input input-bordered w-full @error('name') input-error @enderror bg-blue-200 text-black">
                 @error('name')
-                    <span class="text-error">
+                    <span class="text-red-500 text-sm">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+                {{-- @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror --}}
                 @if(session('error'))
-                <span class="text-error">
+                <span class="text-red-500 text-sm">
                     <strong>{{session('error')}}</strong>
                 </span>
             @endif
@@ -41,7 +42,7 @@
                 <input id="password" type="password" name="password" required autocomplete="current-password"
                        class="input input-bordered w-full @error('password') input-error @enderror bg-blue-200 text-black">
                 @error('password')
-                    <span class="text-error">
+                    <span class="text-red-500 text-sm">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
@@ -72,9 +73,9 @@
             {{-- Register --}}
             @if (Route::has('register'))
                 <div class="text-center text-black">
-                    {{__("Tidak punya akun?")}}
+                    {{__("Belum punya akun Sano Care?")}}
                     <a class="text-blue-400 hover:underline" href="{{ route('register') }}">
-                        {{ __("daftar sekarang") }}
+                        {{ __("Daftar") }}
                     </a>
                 </div>
             @endif

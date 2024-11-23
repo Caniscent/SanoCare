@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
+            RoleSeeder::class,
             UserSeeder::class,
             ActivityLevelSeeder::class,
             TestMethodSeeder::class,
@@ -28,7 +29,6 @@ class DatabaseSeeder extends Seeder
             FoodTypeSeeder::class,
             CleanFoodSeeder::class,
             ArticleSeeder::class,
-            RoleSeeder::class,
         ]);
     }
 }

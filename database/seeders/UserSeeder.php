@@ -18,8 +18,9 @@ class UserSeeder extends Seeder
 
         $data = [
             // [name,age,gender,email,password]
-            ['rangg',19,'laki-laki','darkroyal505@gmail.com','********'],
-            ['oujirate',20,'laki-laki','oujirate.dev@gmail.com','ouji1110010001010']
+            ['satya',20,'laki-laki','satyabr147@gmail.com','admin123',1],
+            ['rangg',19,'laki-laki','darkroyal505@gmail.com','********',2],
+            ['oujirate',20,'laki-laki','oujirate.dev@gmail.com','ouji1110010001010',2]
         ];
 
         foreach ($data as $item) {
@@ -29,6 +30,7 @@ class UserSeeder extends Seeder
                 'gender' => $item[2],
                 'email' => $item[3],
                 'password' => Hash::make($item[4]),
+                'role_id' => $item[5],
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
