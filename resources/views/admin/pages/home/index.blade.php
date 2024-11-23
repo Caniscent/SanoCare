@@ -10,13 +10,13 @@
         <div class="bg-white shadow rounded-lg p-4">
             <canvas id="lineChart"></canvas>
         </div>
-    
+
         <!-- Bar Chart -->
         <div class="bg-white shadow rounded-lg p-4">
             <canvas id="barChart"></canvas>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Line Chart
@@ -36,7 +36,7 @@
                 responsive: true
             }
         });
-    
+
         // Bar Chart
         const barCtx = document.getElementById('barChart').getContext('2d');
         const barChart = new Chart(barCtx, {
@@ -54,11 +54,11 @@
             }
         });
     </script>
-    
-        
-      
+
+
+
     </div>
 </div>
 </div>
-    
+
 @endsection

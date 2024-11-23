@@ -18,33 +18,38 @@
             {{-- Step 1: Basic Information --}}
             @if ($step == 1)
                 <div class="form-control mb-4">
-                    <label for="name" class="label">Nama</label>
-                    <input 
-                        type="text" 
-                        name="name" 
-                        id="name" 
-                        class="w-full bg-blue-200  border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500" 
+                    <label for="name" class="label text-black">Nama</label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        class="w-full bg-blue-200  border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                         value="{{ old('name') }}"
-                        placeholder="Masukkan nama Anda">
+                        placeholder="Masukkan nama Anda"
+                        required
+                        autofocus>
                     @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-control mb-4">
-                    <label for="age" class="label">Usia</label>
-                    <input 
-                        type="number" 
-                        name="age" 
-                        id="age" 
-                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500" 
+                    <label for="age" class="label text-black">Usia</label>
+                    <input
+                        type="number"
+                        name="age"
+                        id="age"
+                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 no-spinners text-black"
                         value="{{ old('age') }}"
-                        placeholder="Masukkan usia Anda">
+                        placeholder="Masukkan usia Anda"
+                        required>
                     @error('age') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-control mb-4">
-                    <label for="gender" class="label">Jenis Kelamin</label>
-                    <select 
-                        name="gender" 
-                        id="gender" 
-                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500">
+                    <label for="gender" class="label text-black">Jenis Kelamin</label>
+                    <select
+                        name="gender"
+                        id="gender"
+                        required
+                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 text-black">
+                        <option value="" disabled selected>{{ __('Pilih jenis kelamin') }}</option>
                         <option value="laki-laki" {{ old('gender') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                         <option value="perempuan" {{ old('gender') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
                     </select>
@@ -58,37 +63,40 @@
             {{-- Step 2: Account Information --}}
             @if ($step == 2)
                 <div class="mb-4">
-                    <label for="email" class="label">Email</label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        id="email" 
-                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500" 
+                    <label for="email" class="label text-black">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                         value="{{ old('email') }}"
-                        placeholder="Masukkan email Anda">
+                        placeholder="Masukkan email Anda"
+                        required>
                     @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="password" class="label">Password</label>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        id="password" 
-                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500" 
-                        placeholder="Masukkan password">
+                    <label for="password" class="label text-black">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 text-black"
+                        placeholder="Masukkan password"
+                        required>
                     @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="password_confirmation" class="label">Konfirmasi Password</label>
-                    <input 
-                        type="password" 
-                        name="password_confirmation" 
-                        id="password_confirmation" 
-                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500" 
-                        placeholder="Konfirmasi password">
+                    <label for="password_confirmation" class="label text-black">Konfirmasi Password</label>
+                    <input
+                        type="password"
+                        name="password_confirmation"
+                        id="password_confirmation"
+                        class="w-full bg-blue-200 border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 text-black"
+                        placeholder="Konfirmasi password"
+                        required>
                 </div>
                 <div class="flex justify-between items-center">
-                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg">Register</button>
+                    <button type="submit" class="btn btn-primary w-full mt-5 bg-blue-500 hover:bg-blue-600">Register</button>
                 </div>
             @endif
         </form>

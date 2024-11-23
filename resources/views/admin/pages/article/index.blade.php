@@ -9,7 +9,7 @@
     <div class="flex justify-between items-center mb-4">
         <x-primary-button>
             <a href="{{route('admin.article.create')}}">
-                Tambah 
+                Tambah
             </a>
         </x-primary-button>
     </div>
