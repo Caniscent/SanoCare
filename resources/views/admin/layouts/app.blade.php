@@ -18,7 +18,7 @@
 <body class="bg-gray-50">
   <div class="flex h-screen bg-gray-100">
     <!-- Sidebar -->
-    @include('admin.layouts.navbar')
+    @include('admin.layouts.sidebar')
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col">

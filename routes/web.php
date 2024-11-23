@@ -12,7 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', function () {
     return view('pages.home.index');
-});
+})->name('home');
 
 Auth::routes();
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -35,7 +35,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::put('/update/{id}', [MealPlanController::class, 'update'])->name('update');
         Route::delete('/delete/{MealPlan_id}', [MealPlanController::class, 'destroy'])->name('destroy');
     });
-    
+
     Route::prefix('/profile')->name('profile.')->group( function () {
         Route::get('/',[ProfileController::class, 'index'])->name('index');
         Route::get('/create',[ProfileController::class, 'create'])->name('create');
@@ -44,7 +44,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::post('/update/{id}', [ProfileController::class, 'update'])->name('update');
         Route::delete('/delete/{Profile_id}', [ProfileController::class, 'destroy'])->name('destroy');
     });
-    
+
     Route::prefix('/log')->name('log.')->group( function () {
         Route::get('/',[LogController::class, 'index'])->name('index');
         Route::get('/create',[LogController::class, 'create'])->name('create');
