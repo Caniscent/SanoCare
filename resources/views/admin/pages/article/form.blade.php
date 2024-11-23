@@ -52,7 +52,7 @@
                     <x-primary-button>
                         {{ $page_meta['submit_text'] }}
                     </x-primary-button>
-                
+
                 </form>
             </div>
         </div>

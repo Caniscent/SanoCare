@@ -25,7 +25,9 @@
                         id="name" 
                         class="input input-bordered w-full @error('name') input-error @enderror bg-blue-200 text-black" 
                         value="{{ old('name') }}"
-                        placeholder="Masukkan nama Anda">
+                        placeholder="Masukkan nama Anda"
+                        required
+                        autofocus>
                     @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 
@@ -38,10 +40,13 @@
                         name="age" 
                         id="age" 
                         class="input input-bordered w-full @error('age') input-error @enderror bg-blue-200 text-black" 
+
                         value="{{ old('age') }}"
-                        placeholder="Masukkan usia Anda">
+                        placeholder="Masukkan usia Anda"
+                        required>
                     @error('age') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
+                
                 <div class="form-control mb-4">
                     <label for="gender" class="label">
                         <span class="label-text text-black">{{ __('Jenis Kelamin') }}</span>
@@ -50,11 +55,13 @@
                         name="gender" 
                         id="gender" 
                         class="w-full select select-bordered  bg-blue-200 text-black">
+                        <option value="" disabled selected>{{ __('Pilih jenis kelamin') }}</option>
                         <option value="laki-laki" {{ old('gender') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                         <option value="perempuan" {{ old('gender') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
                     </select>
                     @error('gender') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
+                
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" class="btn btn-primary w-full mb-2 bg-blue-500 hover:bg-blue-600">{{ __('Next') }}</button>
@@ -74,6 +81,7 @@
             <form method="POST" action="{{ route('register.step') }}">
                 @csrf
                 <input type="hidden" name="step" value="2">
+                
                 <div class="mb-4">
                     <label for="email" class="label">Email</label>
                     <input 
@@ -82,9 +90,11 @@
                         id="email" 
                         class="input input-bordered w-full @error('email') input-error @enderror bg-blue-200 text-black 
                         value="{{ old('email') }}"
-                        placeholder="Masukkan email Anda">
+                        placeholder="Masukkan email Anda"
+                        required>
                     @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
+                
                 <div class="mb-4">
                     <label for="password" class="label">Password</label>
                     <input 
@@ -95,6 +105,7 @@
                         placeholder="Masukkan password">
                     @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
+                
                 <div class="mb-4">
                     <label for="password_confirmation" class="label">Konfirmasi Password</label>
                     <input 
