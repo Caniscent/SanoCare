@@ -1,18 +1,14 @@
 <header class="flex flex-wrap items-center justify-between bg-white px-4 py-4 shadow w-full">
-    <button class="lg:hidden text-gray-600 hover:text-gray-900 focus:outline-none" id="sidebar-toggle">
+    <!-- Sidebar Toggle Button -->
+    <button class="lg:hidden  text-gray-600 hover:text-gray-900 focus:outline-none" id="sidebar-toggle">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
         </svg>
     </button>
-    <h2 class="text-xl font-semibold">@yield('title', 'Dashboard')</h2>
-    <div class="breadcrumbs text-sm">
-        <ul>
-        <li><p class="text-blue-500">Admin</p></li>
-        <li><a href="{{route('home')}}" class="text-gray-600">Home</a></li>
-        </ul>
-    </div>
-</header>
 
+    <!-- Title -->
+    <h2 class="text-lg font-semibold md:text-xl flex-1 text-center lg:text-left lg:flex-none">@yield('title', 'haahaha')</h2>
+</header>
 <script>
     // Ambil elemen sidebar dan tombol toggle
     const sidebar = document.getElementById('sidebar');
@@ -22,8 +18,10 @@
     function toggleSidebar() {
         if (sidebar.classList.contains('-translate-x-full')) {
             sidebar.classList.remove('-translate-x-full');
+            sidebarToggle.classList.add('hidden');
         } else {
             sidebar.classList.add('-translate-x-full');
+            sidebarToggle.classList.remove('hidden');
         }
     }
 
@@ -40,6 +38,7 @@
 
         if (!clickedInsideSidebar && !clickedToggleButton && !sidebar.classList.contains('-translate-x-full')) {
             sidebar.classList.add('-translate-x-full');
+            sidebarToggle.classList.remove('hidden');
         }
     });
   </script>
