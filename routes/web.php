@@ -10,14 +10,16 @@ use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 
-Route::get('/', function () {
-    return view('pages.home.index');
-})->name('home');
 
+Route::middleware('guest')->group(function (){
+    Route::get('/', function () {
+        return view('pages.home.index');
+    })->name('home');
+});
 Auth::routes();
-// Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'handleStep'])->name('register.step');
 Route::get('/register/{step}', [RegisterController::class, 'showRegistrationForm'])->name('register.showStep');
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
         Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
