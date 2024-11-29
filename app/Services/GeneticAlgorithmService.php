@@ -83,8 +83,8 @@ class GeneticAlgorithmService {
     // Membuat meal plan harian
     public function generateDailyMealPlan($personalNeed, $day)
     {
-        $populationSize = 50;
-        $generations = 50;
+        $populationSize = 20;
+        $generations = 20;
 
         // Inisialisasi populasi dengan rencana makan acak
         $population = [];

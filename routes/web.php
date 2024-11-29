@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserArticleController;
 use App\Http\Controllers\Auth\RegisterController;
 
 
@@ -45,6 +45,11 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/edit/{id}',[ProfileController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [ProfileController::class, 'update'])->name('update');
         Route::delete('/delete/{Profile_id}', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('/article')->name('article.')->group( function () {
+        Route::get('/',[UserArticleController::class, 'index'])->name('index');
+        Route::get('/detail/{Article_id}',[UserArticleController::class, 'detail'])->name('detail');
     });
 
     Route::prefix('/log')->name('log.')->group( function () {
