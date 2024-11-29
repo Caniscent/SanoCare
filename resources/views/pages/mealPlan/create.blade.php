@@ -89,7 +89,7 @@
 
     <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden">
         <span class="loading loading-spinner loading-lg text-white mb-4"></span>
-        <p class="text-white text-lg">Tunggu 2-3 menit, sistem sedang memproses...</p>
+        <p class="text-white text-lg">Tunggu 30 detik, sistem sedang memproses...</p>
     </div>
 
 </section>

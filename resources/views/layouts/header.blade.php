@@ -32,7 +32,7 @@
         <div class="hidden lg:flex space-x-4">
             <a class="btn btn-ghost" href="{{route('home')}}">Home</a>
             <a class="btn btn-ghost" href="{{route('meal-plan.index')}}">Meal Plan</a>
-            <a class="btn btn-ghost" href="#">Article</a>
+            <a class="btn btn-ghost" href="{{route('article.index')}}">Article</a>
             @auth
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost">Pengaturan Akun</div>
