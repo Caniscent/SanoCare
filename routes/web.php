@@ -11,11 +11,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 
 
-Route::middleware('guest')->group(function (){
+// Route::middleware('guest')->group(function (){
     Route::get('/', function () {
         return view('pages.home.index');
     })->name('home');
-});
+// });
 Auth::routes();
 Route::post('/register', [RegisterController::class, 'handleStep'])->name('register.step');
 Route::get('/register/{step}', [RegisterController::class, 'showRegistrationForm'])->name('register.showStep');
