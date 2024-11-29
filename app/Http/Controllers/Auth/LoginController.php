@@ -82,4 +82,15 @@ class LoginController extends Controller
             ->with('error', 'Invalid username or password.');
 
     }
+
+    public function logout(Request $request ){
+        // dd($request);
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
 }

@@ -39,7 +39,11 @@
                         type="number"
                         name="age"
                         id="age"
+<<<<<<< HEAD
                         class="input input-bordered w-full @error('age') input-error @enderror bg-blue-200 text-black"
+=======
+                        class="input input-bordered w-full @error('age')f input-error @enderror bg-blue-200 text-black no-spinners"
+>>>>>>> 5403de53505270dcf8999d196202a55c8c2f1a5e
 
                         value="{{ old('age') }}"
                         placeholder="Masukkan usia Anda"
