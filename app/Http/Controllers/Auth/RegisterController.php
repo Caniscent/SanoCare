@@ -50,25 +50,25 @@ class RegisterController extends Controller
 
      public function showRegistrationForm($step = 1)
      {
-        
+
         if (!in_array($step, [1, 2])) {
             abort(404, 'Step not found.');
         }
-    
+
         $data = [];
         if ($step == 1) {
             $data = session('register_data_step_1', []);
         } elseif ($step == 2) {
             $data = session('register_data_step_2', []);
         }
-    
+
         return view('auth.register', [
             'step' => $step,
             'data' => $data,
         ]);
     }
-     
-    
+
+
       /**
      * Handle registration steps.
      *
@@ -78,42 +78,44 @@ class RegisterController extends Controller
     public function handleStep(Request $request)
     {
         $step = $request->input('step', 1);
-    
+
         if ($step == 1) {
             $validated = $request->validate([
                 'name' => ['required', 'string', 'min:3', 'max:200'],
                 'age' => ['required', 'integer', 'min:1', 'max:100'],
+                'gender' => ['required','string','in:laki-laki,perempuan']
             ]);
             $request->session()->put('register_data_step_1', $validated);
         }
-    
+
         if ($step == 2) {
             $validated = $request->validate([
                 'email' => ['required', 'email', 'max:200', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
             $request->session()->put('register_data_step_2', $validated);
-    
+
             // Setelah validasi terakhir, buat user
             $data = array_merge(
                 $request->session()->get('register_data_step_1', []),
                 $request->session()->get('register_data_step_2', [])
             );
-    
+
             User::create([
                 'name' => $data['name'],
                 'age' => $data['age'],
+                'gender' => $data['gender'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
-                'role' => 'user',
+                'role_id' => 2,
             ]);
-    
+
             $request->session()->forget(['register_data_step_1', 'register_data_step_2']);
             return redirect()->route('login')->with('success', 'Registration successful');
         }
-    
+
         return redirect()->route('register.showStep', ['step' => $step + 1]);
     }
-    
-   
+
+
 }

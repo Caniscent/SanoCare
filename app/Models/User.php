@@ -23,6 +23,7 @@ class User extends Authenticatable
         'gender',
         'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -50,13 +51,13 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class,'role_id');
     }
-    
-    public function hasRole($roleName)
-    {
-        return $this->role && $this->role->name === $roleName;
-    }
+
+    // public function hasRole($roleName)
+    // {
+    //     return $this->role && $this->role->name === $roleName;
+    // }
 
     public function measurements() {
         return $this->hasMany(measurementModel::class,'user_id');

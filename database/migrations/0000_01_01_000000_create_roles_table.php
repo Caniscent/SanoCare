@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->timestamps();
         });
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id') 
-                ->nullable()
-                ->constrained('roles')
-                ->onDelete('set null'); 
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->foreignId('role_id')
+        //         ->nullable()
+        //         ->constrained('roles')
+        //         ->onDelete('set null');
+        // });
     }
 
     /**
@@ -29,11 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['role_id']); 
-            $table->dropColumn('role_id'); 
-        });
-
-        Schema::dropIfExists('roles'); 
+        Schema::dropIfExists('roles');
     }
 };
