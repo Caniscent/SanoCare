@@ -9,6 +9,7 @@ use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserArticleController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ConfirmPasswordController;
 
 
 // Route::middleware('guest')->group(function (){
@@ -19,6 +20,8 @@ use App\Http\Controllers\Auth\RegisterController;
 Auth::routes();
 Route::post('/register', [RegisterController::class, 'handleStep'])->name('register.step');
 Route::get('/register/{step}', [RegisterController::class, 'showRegistrationForm'])->name('register.showStep');
+Route::get('/password/verify', [ConfirmPasswordController::class, 'passwordVerify'])->name('password.verify');
+Route::post('/password/verify', [ConfirmPasswordController::class, 'passwordVerifyProcess'])->name('password.verify-process');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
