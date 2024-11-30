@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
 
 class ConfirmPasswordController extends Controller
@@ -36,4 +40,30 @@ class ConfirmPasswordController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public function passwordVerify()
+    {
+        return view('auth.passwords.confirm');
+    }
+
+    public function passwordVerifyProcess(Request $request)
+    {
+        $request->session()->put('password_validated', true);
+        $request->validate([
+            'password' => 'required|string|min:8',
+        ],[
+            'password' => 'Password lama tidak sesuai',
+        ]
+        );
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->input('password'), $user->password)) {
+            return back();
+        }
+
+        // dd($request->session()->all());
+        return redirect()->route('profile.edit', $user->id);
+    }
+
 }

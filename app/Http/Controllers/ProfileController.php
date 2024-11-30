@@ -48,10 +48,27 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
+        $user = Auth::user();
+
+        if (!$request->session()->has('password_validated')) {
+            return redirect()->route('password.verify');
+        }
+
+        $request->session()->put('password_validated_at', now());
+
+        if (now()->diffInMinutes($request->session()->get('password_validated_at')) > 5) {
+            $request->session()->forget('password_validated');
+            return redirect()->route('password.verify');
+        }
+
+
         $user = User::findOrFail($id);
-        return view('pages.profile.update', compact('user'));
+
+        $action = $request->query('action', 'change-password');
+
+        return view('pages.profile.update', compact('user', 'action'));
     }
 
     /**
@@ -59,24 +76,38 @@ class ProfileController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:200',
-            'age' => 'required|integer|min:1|max:100',
-            'gender' => 'required|string',
-            'email' => 'required|string|max:200',
-
-        ]);
-
         $user = User::findOrFail($id);
 
-        $user->name = $request->input('name');
-        $user->gender = $request->input('gender');
-        $user->age = $request->input('age');
+        if ($request->has('password')) {
+            $request->validate([
+                'password' => 'required|string|min:8|confirmed',
+            ],[
+                'password'=> 'Password harus memiliki panjang minimal 8'
+            ]);
 
-        $user->save();
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
 
-        return redirect()->route('profile.index');
+            return redirect()->route('profile.index')->with('success', 'Password berhasil diubah.');
+        } else {
+            // Logika Edit Profil
+            $request->validate([
+                'name' => 'required|string|min:3|max:200',
+                'age' => 'required|integer|min:3|max:100',
+                'gender' => 'required|string',
+                'email' => 'required|string|max:200|email',
+            ]);
+
+            $user->name = $request->input('name');
+            $user->gender = $request->input('gender');
+            $user->age = $request->input('age');
+            $user->email = $request->input('email');
+            $user->save();
+
+            return redirect()->route('profile.index')->with('success', 'Profil berhasil diperbarui.');
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
