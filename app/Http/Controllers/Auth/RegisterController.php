@@ -94,8 +94,6 @@ class RegisterController extends Controller
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
             $request->session()->put('register_data_step_2', $validated);
-
-            // Setelah validasi terakhir, buat user
             $data = array_merge(
                 $request->session()->get('register_data_step_1', []),
                 $request->session()->get('register_data_step_2', [])

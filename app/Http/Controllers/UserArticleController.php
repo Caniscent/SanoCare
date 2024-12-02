@@ -35,9 +35,10 @@ class UserArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($slug)
     {
-        //
+        $article = Article::where('slug', $slug)->firstOrFail();
+        return view('pages.article.detail', compact('article'));
     }
 
     /**
