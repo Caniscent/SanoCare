@@ -24,7 +24,7 @@
                         name="name"
                         id="name"
                         class="input input-bordered w-full @error('name') input-error @enderror bg-blue-200 text-black"
-                        value="{{ old('name') }}"
+                        value="{{ old('name', session('register_step1.name', '')) }}"
                         placeholder="Masukkan nama Anda"
                         required
                         autofocus>
@@ -39,13 +39,8 @@
                         type="number"
                         name="age"
                         id="age"
-<<<<<<< HEAD
-                        class="input input-bordered w-full @error('age') input-error @enderror bg-blue-200 text-black"
-=======
                         class="input input-bordered w-full @error('age')f input-error @enderror bg-blue-200 text-black no-spinners"
->>>>>>> 5403de53505270dcf8999d196202a55c8c2f1a5e
-
-                        value="{{ old('age') }}"
+                        value="{{ old('age', session('register_step1.age', '')) }}"
                         placeholder="Masukkan usia Anda"
                         required>
                     @error('age') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -60,8 +55,8 @@
                         id="gender"
                         class="w-full select select-bordered  bg-blue-200 text-black">
                         <option value="" disabled selected>{{ __('Pilih jenis kelamin') }}</option>
-                        <option value="laki-laki" {{ old('gender') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                        <option value="perempuan" {{ old('gender') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        <option value="laki-laki" {{ old('gender', session('register_data_step_1.gender')) == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                        <option value="perempuan" {{ old('gender', session('register_data_step_1.gender')) == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
                     </select>
                     @error('gender') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
@@ -72,6 +67,10 @@
                 </div>
                     {{-- Login --}}
                 @if (Route::has('login'))
+                @php
+                session()->forget('register_step1');
+                session()->forget('register_step2');
+                @endphp
                 <div class="text-center text-black">
                     {{__("Sudah punya akun?")}}
                     <a class="text-blue-400 hover:underline" href="{{ route('login') }}">
