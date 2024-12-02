@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\LogoutHistory;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Middleware\RouteMiddleware;
@@ -15,7 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => RoleMiddleware::class,
-            'guest' => RouteMiddleware::class
+            'guest' => RouteMiddleware::class,
+            'backbrowser' => LogoutHistory::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

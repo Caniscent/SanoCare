@@ -57,9 +57,9 @@ class RegisterController extends Controller
 
         $data = [];
         if ($step == 1) {
-            $data = session('register_data_step_1', []);
+            $data = session('register_step1', []);
         } elseif ($step == 2) {
-            $data = session('register_data_step_2', []);
+            $data = session('register_step2', []);
         }
 
         return view('auth.register', [
@@ -85,7 +85,7 @@ class RegisterController extends Controller
                 'age' => ['required', 'integer', 'min:1', 'max:100'],
                 'gender' => ['required','string','in:laki-laki,perempuan']
             ]);
-            $request->session()->put('register_data_step_1', $validated);
+            $request->session()->put('register_step1', $validated);
         }
 
         if ($step == 2) {
@@ -93,10 +93,10 @@ class RegisterController extends Controller
                 'email' => ['required', 'email', 'max:200', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
-            $request->session()->put('register_data_step_2', $validated);
+            $request->session()->put('register_step2', $validated);
             $data = array_merge(
-                $request->session()->get('register_data_step_1', []),
-                $request->session()->get('register_data_step_2', [])
+                $request->session()->get('register_step1', []),
+                $request->session()->get('register_step2', [])
             );
 
             User::create([
@@ -108,7 +108,7 @@ class RegisterController extends Controller
                 'role_id' => 2,
             ]);
 
-            $request->session()->forget(['register_data_step_1', 'register_data_step_2']);
+            $request->session()->forget(['register_step1', 'register_step2']);
             return redirect()->route('login')->with('success', 'Registration successful');
         }
 

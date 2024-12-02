@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -58,8 +59,10 @@ class LoginController extends Controller
      *
      * @return RedirectResponse
      */
+   
     public function login(Request $request): RedirectResponse
     {
+       
         $request->validate([
             'name' => 'required',
             'password' => 'required',

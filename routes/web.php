@@ -12,12 +12,13 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ConfirmPasswordController;
 
 
-// Route::middleware('guest')->group(function (){
-    Route::get('/', function () {
-        return view('pages.home.index');
-    })->name('home');
-// });
-Auth::routes();
+Route::middleware('backbrowser')->group(function (){
+    Auth::routes();
+   
+});
+Route::get('/', function () {
+    return view('pages.home.index');
+})->name('home');
 Route::post('/register', [RegisterController::class, 'handleStep'])->name('register.step');
 Route::get('/register/{step}', [RegisterController::class, 'showRegistrationForm'])->name('register.showStep');
 Route::get('/password/verify', [ConfirmPasswordController::class, 'passwordVerify'])->name('password.verify');
@@ -27,7 +28,7 @@ Route::prefix('/article')->name('article.')->group( function () {
     Route::get('/show/{slug}',[UserArticleController::class, 'show'])->name('detail');
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
         Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
         Route::resource('article', ArticleController::class);
@@ -35,7 +36,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-Route::middleware(['auth', 'role:user'])->group(function () {
+Route::middleware(['auth', 'role:user', 'backbrowser'])->group(function () {
     Route::prefix('/meal-plan')->name('meal-plan.')->group( function () {
         Route::get('/',[MealPlanController::class, 'index'])->name('index');
         Route::get('/create',[MealPlanController::class, 'create'])->name('create');
