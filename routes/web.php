@@ -23,6 +23,10 @@ Route::post('/register', [RegisterController::class, 'handleStep'])->name('regis
 Route::get('/register/{step}', [RegisterController::class, 'showRegistrationForm'])->name('register.showStep');
 Route::get('/password/verify', [ConfirmPasswordController::class, 'passwordVerify'])->name('password.verify');
 Route::post('/password/verify', [ConfirmPasswordController::class, 'passwordVerifyProcess'])->name('password.verify-process');
+Route::prefix('/article')->name('article.')->group( function () {
+    Route::get('/',[UserArticleController::class, 'index'])->name('index');
+    Route::get('/show/{slug}',[UserArticleController::class, 'show'])->name('detail');
+});
 
 Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
@@ -51,11 +55,7 @@ Route::middleware(['auth', 'role:user', 'backbrowser'])->group(function () {
         Route::delete('/delete/{Profile_id}', [ProfileController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix('/article')->name('article.')->group( function () {
-        Route::get('/',[UserArticleController::class, 'index'])->name('index');
-        Route::get('/detail/{Article_id}',[UserArticleController::class, 'detail'])->name('detail');
-    });
-
+  
     Route::prefix('/log')->name('log.')->group( function () {
         Route::get('/',[LogController::class, 'index'])->name('index');
         Route::get('/create',[LogController::class, 'create'])->name('create');
@@ -65,4 +65,5 @@ Route::middleware(['auth', 'role:user', 'backbrowser'])->group(function () {
         Route::delete('/delete/{Log_id}', [LogController::class, 'destroy'])->name('destroy');
     });
 });
+
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
