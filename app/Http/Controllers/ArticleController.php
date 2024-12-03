@@ -29,7 +29,7 @@ class ArticleController extends Controller
             'article' => new Article(),
             'page_meta' => [
                 'url' => route('admin.article.store'),
-                // 'title' => 'Tambah Data',
+                'title' => 'Tambah Artikel',
                 // 'desctiption' => 'lorem Ipsum',
                 'submit_text' => 'Kirim',
                 'method' => 'post',
@@ -84,7 +84,7 @@ class ArticleController extends Controller
             'article' => $article,
             'page_meta' => [
                 'url' => route('admin.article.update', $article->id),
-                'title' => 'Edit Data',
+                'title' => 'Edit Artikel',
                 'sub_title' => 'Edit Data',
                 'description' => ' article details.',
                 'submit_text' => 'Simpan',
