@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProfileController extends Controller
+class AdminProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('pages.profile.index', compact('user'));
+        return view('admin.pages.profile.index', compact('user'));
     }
 
     /**
@@ -22,7 +22,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        return view('pages.profile.create');
+        //
     }
 
     /**
@@ -30,19 +30,15 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'gender' => 'required|string',
-            'age' => 'required|integer|min:1',
-        ]);
+        //
+    }
 
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->gender = $request->input('gender');
-        $user->age = $request->input('age');
-        $user->save();
-
-        return redirect()->route('profile.index')->with('success', 'Profil berhasil dibuat.');
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
     }
 
     /**
@@ -62,9 +58,8 @@ class ProfileController extends Controller
 
         $user = User::findOrFail($id);
 
-        return view('pages.profile.update', compact('user', 'action'));
+        return view('admin.pages.profile.update', compact('user', 'action'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -83,7 +78,7 @@ class ProfileController extends Controller
             $user->password = bcrypt($request->input('password'));
             $user->save();
 
-            return redirect()->route('profile.index')->with('success', 'Password berhasil diubah.');
+            return redirect()->route('admin.profile.index')->with('success', 'Password berhasil diubah.');
         } else {
             $request->validate([
                 'name' => 'required|string|min:3|max:200',
@@ -98,20 +93,15 @@ class ProfileController extends Controller
             $user->email = $request->input('email');
             $user->save();
 
-            return redirect()->route('profile.index')->with('success', 'Profil berhasil diperbarui.');
+            return redirect()->route('admin.profile.index')->with('success', 'Profil berhasil diperbarui.');
         }
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-
-        Auth::logout();
-        return redirect()->route('login');
+        //
     }
 }

@@ -8,13 +8,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserArticleController;
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ConfirmPasswordController;
 
 
 Route::middleware('backbrowser')->group(function (){
     Auth::routes();
-   
+
 });
 Route::get('/', function () {
     return view('pages.home.index');
@@ -32,6 +33,7 @@ Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
         Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
         Route::resource('article', ArticleController::class);
+        Route::resource('profile', AdminProfileController::class);
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 });
@@ -55,7 +57,7 @@ Route::middleware(['auth', 'role:user', 'backbrowser'])->group(function () {
         Route::delete('/delete/{Profile_id}', [ProfileController::class, 'destroy'])->name('destroy');
     });
 
-  
+
     Route::prefix('/log')->name('log.')->group( function () {
         Route::get('/',[LogController::class, 'index'])->name('index');
         Route::get('/create',[LogController::class, 'create'])->name('create');

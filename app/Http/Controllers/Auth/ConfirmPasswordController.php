@@ -53,17 +53,21 @@ class ConfirmPasswordController extends Controller
             'password' => 'required|string|min:8',
         ],[
             'password' => 'Password lama tidak sesuai',
-        ]
-        );
+        ]);
 
         $user = Auth::user();
 
         if (!Hash::check($request->input('password'), $user->password)) {
             return back();
         }
-
+        // dd($user->role_id);
         // dd($request->session()->all());
-        return redirect()->route('profile.edit', $user->id);
+        if ($user->role_id == 1) {
+            return redirect()->route('admin.profile.edit', $user->id);
+        }else{
+            return redirect()->route('profile.edit', $user->id);
+        }
+
     }
 
 }
