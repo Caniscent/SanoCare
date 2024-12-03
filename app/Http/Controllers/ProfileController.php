@@ -52,12 +52,11 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        if (!$request->session()->has('password_validated')) {
-            return redirect()->route('password.verify');
-        }
-
-        $action = $request->query('action', 'edit-profile');
-        if ($action === 'change-password' && session()->has('password_validated')) {
+        $action = $request->query('action', 'change-password');
+        if ($action === 'change-password') {
+            if (!$request->session()->has('password_validated')) {
+                return redirect()->route('password.verify');
+            }
             $request->session()->forget('password_validated');
         }
 
@@ -86,7 +85,6 @@ class ProfileController extends Controller
 
             return redirect()->route('profile.index')->with('success', 'Password berhasil diubah.');
         } else {
-            // Logika Edit Profil
             $request->validate([
                 'name' => 'required|string|min:3|max:200',
                 'age' => 'required|integer|min:3|max:100',

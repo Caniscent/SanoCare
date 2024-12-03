@@ -48,20 +48,15 @@ class AdminProfileController extends Controller
     {
         $user = Auth::user();
 
-        if (!$request->session()->has('password_validated')) {
-            return redirect()->route('password.verify');
-        }
-
-        $request->session()->put('password_validated_at', now());
-
-        if (now()->diffInMinutes($request->session()->get('password_validated_at')) > 5) {
+        $action = $request->query('action', 'change-password');
+        if ($action === 'change-password') {
+            if (!$request->session()->has('password_validated')) {
+                return redirect()->route('password.verify');
+            }
             $request->session()->forget('password_validated');
-            return redirect()->route('password.verify');
         }
 
         $user = User::findOrFail($id);
-
-        $action = $request->query('action', 'change-password');
 
         return view('admin.pages.profile.update', compact('user', 'action'));
     }
@@ -83,9 +78,8 @@ class AdminProfileController extends Controller
             $user->password = bcrypt($request->input('password'));
             $user->save();
 
-            return redirect()->route('profile.index')->with('success', 'Password berhasil diubah.');
+            return redirect()->route('admin.profile.index')->with('success', 'Password berhasil diubah.');
         } else {
-            // Logika Edit Profil
             $request->validate([
                 'name' => 'required|string|min:3|max:200',
                 'age' => 'required|integer|min:3|max:100',

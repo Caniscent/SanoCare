@@ -1,19 +1,19 @@
 @extends('admin.layouts.app')
 
-@section('Profil Admin', 'title')
+@section('title', 'Profil Admin')
 
 @section('content')
 <div class="overflow-x-auto">
     <h1 class="text-3xl font-bold text-black mb-6">
         @if ($action === 'edit-profile')
-            Edit <a href="{{ route('profile.index') }}" class="text-blue-500 hover:underline">Profile</a>
+            Edit <a href="{{ route('admin.profile.index') }}" class="text-blue-500 hover:underline">Profile</a>
         @elseif ($action === 'change-password')
-            Ubah <a href="{{ route('profile.index') }}" class="text-blue-500 hover:underline">Password</a>
+            Ubah <a href="{{ route('admin.profile.index') }}" class="text-blue-500 hover:underline">Password</a>
         @endif
     </h1>
 
     @if ($action === 'edit-profile')
-        <form action="{{ route('profile.update', $user->id) }}" method="POST">
+        <form action="{{ route('admin.profile.update', $user->id) }}" method="POST">
             @csrf
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-900">Nama</label>
@@ -55,7 +55,7 @@
             </div>
         </form>
     @elseif ($action === 'change-password')
-        <form action="{{ route('profile.update', $user->id) }}" method="POST">
+        <form action="{{ route('admin.profile.update', $user->id) }}" method="POST">
             @csrf
             <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-900">Password Baru</label>
