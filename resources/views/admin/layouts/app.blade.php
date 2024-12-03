@@ -8,6 +8,9 @@
   <link rel="shortcut icon" href="{{asset('img/logonano.png')}}">
   {{-- <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script> --}}
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
   @vite('resources/css/app.css')
   <script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/classic/ckeditor.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
