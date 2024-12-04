@@ -3,14 +3,14 @@
 @section('title', 'Artikel')
 
 @section('content')
-    <div class="overflow-x-auto mt-12 w-full max-w-xs mx-auto lg:max-w-6xl">
-        <h3 class="text-xl font-bold mb-4">{{ $page_meta['title']}}</h3>
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="w-full max-w-xs mx-auto mt-12 overflow-x-auto lg:max-w-6xl">
+        <h3 class="mb-4 text-xl font-bold">{{ $page_meta['title']}}</h3>
+        <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
                 <form action="{{ $page_meta['url'] }}" method="post" enctype="multipart/form-data" novalidate>
                     @method($page_meta['method'])
                     @csrf
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
                         <div>
                             <x-input-label for="name" :value="__('Judul Artikel')" />
                             <x-text-input id="title" type="text" value="{{ old('title', $article->title) }}" name="title" class="block w-full" />
@@ -29,7 +29,7 @@
                               <option value="published" {{ old('status', $article->status) == 'published' ? 'selected' : '' }}>Published</option>
                               <option value="archived" {{ old('status', $article->status) == 'archived' ? 'selected' : '' }}>Archived</option>
                               @endif
-                               
+
                             </select>
                             @error('status')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -50,7 +50,7 @@
                             <textarea class="form-control block w-full p-2.5 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out" id="content" name="content" rows="6">{{ old('content', $article->content) }}</textarea>
                             <x-input-error :messages="$errors->get('content')" class="mt-2" />
                         </div>
-    
+
                     <div class="flex justify-end gap-4">
                         <x-secondary-button>
                             <a href="{{ route('admin.article.index') }}">Kembali</a>
@@ -63,7 +63,7 @@
             </div>
         </div>
     </div>
-    
+
 <script>
     ClassicEditor
         .create( document.querySelector( '#content' ) )
