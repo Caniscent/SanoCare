@@ -5,10 +5,10 @@
 @section('content')
 
 <div class="overflow-x-auto mt-12">
-    <h3 class="text-xl font-bold mb-4">Data Kelompok</h3>
+    <h3 class="text-xl font-bold mb-4">Data Tipe</h3>
     <div class="flex justify-between items-center mb-4">
         <x-primary-button>
-            <a href="{{route('admin.food-group.create')}}">
+            <a href="{{route('admin.food-type.create')}}">
                 Tambah
             </a>
         </x-primary-button>
@@ -27,7 +27,7 @@
             @foreach ($food as $data)
             <x-table.tr>
                 <x-table.td>{{ $loop->iteration }}</x-table.td>
-                <x-table.td>{{ $data->group }}</x-table.td>
+                <x-table.td>{{ $data->type }}</x-table.td>
                 <x-table.td>
                     @if ($data->status == true)
                         <x-status-label class="border-green-500 text-green-500">
@@ -43,7 +43,7 @@
                 <td class="py-3 px-6 text-center">
                     <div class="flex justify-center gap-2">
                 <x-edit-button class="w-15 h-8">
-                    <a href="{{ route('admin.food-group.edit', $data->id) }}">
+                    <a href="{{ route('admin.food-type.edit', $data->id) }}">
                         Edit
                     </a>
                 </x-edit-button>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('group');
             $table->text('description');
             $table->boolean('status')->default(True);
+            $table->timestamps();
         });
     }
 
