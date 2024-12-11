@@ -14,17 +14,22 @@ class FoodTypeSeeder extends Seeder
     public function run(): void
     {
         $type = [];
-
+    
         $typeFood = [
-            // type
-            'single',
-            'processed'
+            // type => [description, status]
+            'single' => ['Makanan yang tidak diproses atau hanya melalui proses minimal.', true],
+            'processed' => ['Makanan yang telah diproses atau diolah dengan bahan tambahan.', true]
         ];
-
-        foreach ($typeFood as $item) {
-            $type[] = ['type' => $item];
+    
+        foreach ($typeFood as $typeName => [$description, $status]) {
+            $type[] = [
+                'type' => $typeName,
+                'description' => $description,
+                'status' => $status
+            ];
         }
-
+    
         FoodTypeModel::insert($type);
     }
+    
 }

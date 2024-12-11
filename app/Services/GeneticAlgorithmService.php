@@ -27,6 +27,41 @@ class GeneticAlgorithmService {
         }
     }
 
+    // Menentukan skala dari aktivitas
+    public function getActivityFactor($activityCategory)
+    {
+        switch ($activityCategory) {
+            case 'Sangat Ringan':
+                return 1.2;
+            case 'Ringan':
+                return 1.375;
+            case 'Sedang':
+                return 1.55;
+            case 'Berat':
+                return 1.725;
+            case 'Sangat Berat':
+                return 1.9;
+            default:
+                return 1.2;
+        }
+    }
+
+    // Menghitung kalori yang dibutuhkan user
+    public function calculateCalories($food, $portion)
+    {
+        return round(($food->calorie / 100) * $portion, 2);
+    }
+
+    // Menghitung serat yang dibutuhkan user
+    public function calculateFiberNeed($age, $gender)
+    {
+        if ($gender === 'laki-laki') {
+            return $age <= 50 ? 38 : 30;
+        } else {
+            return $age <= 50 ? 25 : 21;
+        }
+    }
+
     // menghitung kebutuhan personal dari user
     public function calculatePersonalNeed($measurement)
     {
@@ -47,7 +82,7 @@ class GeneticAlgorithmService {
             $bmr = 10 * $weight + 6.25 * $height - 5 * $age - 161;
         }
 
-        // Menghitung TDEE (Total Daily Energy Expenditure) berdasarkan aktivitas fisik
+        // Menghitung TDEE (Total Daily Energy Expenditure)
         $tdee = $bmr * $activityFactor;
 
         // Distribusi Makronutrien
@@ -80,6 +115,41 @@ class GeneticAlgorithmService {
         return $weeklyMealPlan;
     }
 
+    // memilih makanan berdasarkan grup maknan dan menentukan nutrisinya
+    public function selectUniqueFoods($count, $foodGroups)
+    {
+        $selectedFoods = [];
+        foreach ($foodGroups as $group) {
+            $foods = CleanFoodModel::where('food_group_id', $group)->inRandomOrder()->take($count)->get();
+            foreach ($foods as $food) {
+                $portion = rand(100, 200);
+                $selectedFoods[] = [
+                    'food_name' => $food->food_name,
+                    'food_group' => $food->food_group_id,
+                    'portion' => $portion . ' g',
+                    'calories' => $this->calculateCalories($food, $portion),
+                    'calorie' => $food->calorie,
+                    'protein' => $food->protein,
+                    'fats' => $food->fats,
+                    'carbs' => $food->carbs,
+                    'fiber' => $food->fiber
+                ];
+            }
+        }
+
+        return $selectedFoods;
+    }
+
+    // inisialisasi populasi
+    public function randomMealPlan()
+    {
+        return [
+            'breakfast' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
+            'lunch' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
+            'dinner' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
+        ];
+    }
+
     // Membuat meal plan harian
     public function generateDailyMealPlan($personalNeed, $day)
     {
@@ -110,47 +180,6 @@ class GeneticAlgorithmService {
         return $this->getBestMealPlan($population);
     }
 
-    // Menyimpan meal plan yang sudah dibuat
-    public function saveMealPlan($measurementId,$userId,$day,$mealPlanForDay){
-        MealPlanModel::updateOrCreate(
-            ['measurement_id' => $measurementId, 'user_id' => $userId, 'day' => $day],
-            ['meal_plan' => json_encode($mealPlanForDay)]
-        );
-    }
-
-
-    // Menentukan skala dari aktivitas
-    public function getActivityFactor($activityCategory)
-    {
-        switch ($activityCategory) {
-            case 'Sangat Ringan':
-                return 1.2;
-            case 'Ringan':
-                return 1.375;
-            case 'Sedang':
-                return 1.55;
-            case 'Berat':
-                return 1.725;
-            default:
-                return 1.2;
-        }
-    }
-
-    // Menghitung kalori yang dibutuhkan user
-    public function calculateCalories($food, $portion)
-    {
-        return round(($food->calorie / 100) * $portion, 2);
-    }
-
-    // Menghitung serat yang dibutuhkan user
-    public function calculateFiberNeed($age, $gender)
-    {
-        if ($gender === 'laki-laki') {
-            return $age <= 50 ? 38 : 30;
-        } else {
-            return $age <= 50 ? 25 : 21;
-        }
-    }
 
     // Menghitung fitness
     public function calculateFitness($mealPlan, $personalNeed)
@@ -194,39 +223,6 @@ class GeneticAlgorithmService {
         return 1 / ($fitness + 1);
     }
 
-    public function selectUniqueFoods($count, $foodGroups)
-    {
-        $selectedFoods = [];
-        foreach ($foodGroups as $group) {
-            $foods = CleanFoodModel::where('food_group_id', $group)->inRandomOrder()->take($count)->get();
-            foreach ($foods as $food) {
-                $portion = rand(100, 200);
-                $selectedFoods[] = [
-                    'food_name' => $food->food_name,
-                    'food_group' => $food->food_group_id,
-                    'portion' => $portion . ' g',
-                    'calories' => $this->calculateCalories($food, $portion),
-                    'calorie' => $food->calorie,
-                    'protein' => $food->protein,
-                    'fats' => $food->fats,
-                    'carbs' => $food->carbs,
-                    'fiber' => $food->fiber
-                ];
-            }
-        }
-
-        return $selectedFoods;
-    }
-
-    public function randomMealPlan()
-    {
-        return [
-            'breakfast' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
-            'lunch' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
-            'dinner' => $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]),
-        ];
-    }
-
     // Memilih populasi yang terbaik (tertinggi)
     public function selectBest($population, $fitness)
     {
@@ -235,6 +231,7 @@ class GeneticAlgorithmService {
         return array_slice($population, 0, count($population) / 2);
     }
 
+    // melakukan persilangan dan mutasi
     public function crossoverAndMutate($population)
     {
         $newPopulation = [];
@@ -249,6 +246,7 @@ class GeneticAlgorithmService {
                 'dinner' => rand(0, 1) ? $parent1['dinner'] : $parent2['dinner'],
             ];
 
+            // chance 10% untuk mengganti menu makan dari 1 jenis sesi makan
             if (rand(0, 100) < 10) {
                 $mealType = ['breakfast', 'lunch', 'dinner'][array_rand(['breakfast', 'lunch', 'dinner'])];
                 $child[$mealType] = $this->selectUniqueFoods(1, [10, 4, 9, 1, 2]);
@@ -260,8 +258,17 @@ class GeneticAlgorithmService {
         return $newPopulation;
     }
 
+    // memilih mealplan terbaik
     public function getBestMealPlan($population)
     {
         return $population[0];
+    }
+
+    // Menyimpan meal plan yang sudah dibuat
+    public function saveMealPlan($measurementId,$userId,$day,$mealPlanForDay){
+        MealPlanModel::updateOrCreate(
+            ['measurement_id' => $measurementId, 'user_id' => $userId, 'day' => $day],
+            ['meal_plan' => json_encode($mealPlanForDay)]
+        );
     }
 }
