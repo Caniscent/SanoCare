@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Beranda')
 
 @section('content')
 <div class="overflow-x-auto">

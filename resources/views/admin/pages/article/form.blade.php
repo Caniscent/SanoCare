@@ -18,7 +18,7 @@
                         </div>
                         <div>
                             <x-input-label for="status" :value="__('Status')" />
-                            <select id="status" name="status" class="form-control block w-full p-2.5 bg-white border border-gray-300
+                            <select id="status" name="status" class="form-control block w-full p-2 bg-white border border-gray-300
                              text-gray-900 text-sm rounded-lg focus:ring-indigo-500
                               focus:border-indigo-500 transition duration-150 ease-in-out">
                               @if ($article->status == 'draft')
@@ -66,9 +66,31 @@
 
 <script>
     ClassicEditor
-        .create( document.querySelector( '#content' ) )
-        .catch( error => {
-            console.error( error );
-        } );
+        .create(document.querySelector('#content'), {
+            toolbar: {
+                items: [
+                    'undo',
+                    'redo',
+                    'bold',
+                    'italic',
+                    'underline',     
+                    'bulletedList',  
+                    'numberedList',  
+                ]
+            },  ui: {
+                viewportOffset: {
+                    top: 70 // Tinggi header
+                }
+            },
+            autoGrow: {
+                maxHeight: 400, // Tinggi maksimal editor sebelum scroll
+                minHeight: 200  // Tinggi minimal editor
+            }
+            
+        })
+        .catch(error => {
+            console.error(error);
+        });
 </script>
+
 @endsection

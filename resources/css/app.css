@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+html,body{
     font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
 }
 [x-cloak] { display: none !important; }
 
@@ -18,5 +22,18 @@ aside {
 
 #sidebar-toggle {
     z-index: 40; /* Tombol Toggle */
+}
+header{
+    z-index: 20;
+}
+.ck-editor__editable {
+    position: relative;
+    z-index: 1;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+div.mb-6 {
+    overflow: hidden;
 }
 

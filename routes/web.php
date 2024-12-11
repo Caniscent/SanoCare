@@ -1,17 +1,17 @@
 <?php
 
+// use App\Http\Controllers\AdminCleanFoodController;
+use App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogController;
-use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserArticleController;
-use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\Auth\ConfirmPasswordController;
-
 
 Route::middleware('backbrowser')->group(function (){
     Auth::routes();
@@ -32,9 +32,11 @@ Route::prefix('/article')->name('article.')->group( function () {
 Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
         Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
-        Route::resource('article', ArticleController::class);
-        Route::resource('profile', AdminProfileController::class);
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('article', Admin\ArticleController::class);
+        Route::resource('profile', Admin\AdminProfileController::class);
+        Route::resource('clean-food', Admin\AdminCleanFoodController::class)->except('destroy');
+        Route::resource('food-group', Admin\AdminFoodGroupController::class );
+        Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
     });
 });
 

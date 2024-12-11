@@ -37,3 +37,16 @@ app.component('example-component', ExampleComponent);
  */
 
 app.mount('#app');
+import { confirmDeletion, showSuccessMessage, initializeDataTable } from './custom';
+
+// Gunakan fungsi
+document.addEventListener('DOMContentLoaded', () => {
+    confirmDeletion('.delete-button'); // Selector tombol hapus
+    initializeDataTable('#Table');    // Selector tabel
+
+    // Tampilkan notifikasi sukses jika ada flash message
+    const successMessage = document.querySelector('meta[name="success-message"]');
+    if (successMessage) {
+        showSuccessMessage(successMessage.content);
+    }
+});
