@@ -21,8 +21,14 @@ class AdminCleanFoodController extends Controller
     }
     public function create()
     {
-        $foodGroups = FoodGroupModel::all();
-        $foodTypes = FoodTypeModel::all();
+        $foodGroups = FoodGroupModel::
+        select(['id', 'group'])
+        ->where('status', '=', true)
+        ->get();
+        $foodTypes = FoodTypeModel::
+        select(['id', 'type'])
+        ->where('status', '=', true)
+        ->get();
         return view('admin.pages.cleanFood.form',[
             'cleanFood' => new CleanFoodModel(),
             'foodGroups' => $foodGroups,
@@ -48,8 +54,14 @@ class AdminCleanFoodController extends Controller
     }
     public function edit(CleanFoodModel $clean_food)
     {
-        $foodGroups = FoodGroupModel::all();
-        $foodTypes = FoodTypeModel::all();
+        $foodGroups = FoodGroupModel::
+        select(['id', 'group'])
+        ->where('status', '=', true)
+        ->get();
+        $foodTypes = FoodTypeModel::
+        select(['id', 'type'])
+        ->where('status', '=', true)
+        ->get();
         return view('admin.pages.cleanFood.form', [
             'clean_food' => $clean_food,
             'foodGroups' => $foodGroups,

@@ -36,6 +36,7 @@ Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
         Route::resource('profile', Admin\AdminProfileController::class);
         Route::resource('clean-food', Admin\AdminCleanFoodController::class)->except('destroy');
         Route::resource('food-group', Admin\AdminFoodGroupController::class );
+        Route::resource('food-type', Admin\AdminFoodTypeController::class);
         Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
     });
 });
