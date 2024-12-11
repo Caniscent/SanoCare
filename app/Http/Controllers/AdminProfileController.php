@@ -18,30 +18,6 @@ class AdminProfileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Request $request, string $id)
@@ -53,7 +29,7 @@ class AdminProfileController extends Controller
             if (!$request->session()->has('password_validated')) {
                 return redirect()->route('password.verify');
             }
-            $request->session()->forget('password_validated');
+            // $request->session()->forget('password_validated');
         }
 
         $user = User::findOrFail($id);
@@ -72,12 +48,14 @@ class AdminProfileController extends Controller
             $request->validate([
                 'password' => 'required|string|min:8|confirmed',
             ],[
-                'password'=> 'Password harus memiliki panjang minimal 8'
+                'password.min'=> 'Password harus memiliki panjang minimal 8',
+                'password.confirmed' => 'Konfirmasi password tidak sesuai'
             ]);
 
             $user->password = bcrypt($request->input('password'));
             $user->save();
 
+            $request->session()->forget('password_validated');
             return redirect()->route('admin.profile.index')->with('success', 'Password berhasil diubah.');
         } else {
             $request->validate([
@@ -95,13 +73,5 @@ class AdminProfileController extends Controller
 
             return redirect()->route('admin.profile.index')->with('success', 'Profil berhasil diperbarui.');
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

@@ -33,7 +33,11 @@ Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
         Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
         Route::resource('article', ArticleController::class);
-        Route::resource('profile', AdminProfileController::class);
+        Route::prefix('/profile')->name('profile.')->group( function () {
+            Route::get('/',[AdminProfileController::class, 'index'])->name('index');
+            Route::get('/edit/{id}',[AdminProfileController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [AdminProfileController::class, 'update'])->name('update');
+        });
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 });

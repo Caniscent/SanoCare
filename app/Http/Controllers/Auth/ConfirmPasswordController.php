@@ -48,12 +48,12 @@ class ConfirmPasswordController extends Controller
 
     public function passwordVerifyProcess(Request $request)
     {
-        $request->session()->put('password_validated', true);
         $request->validate([
             'password' => 'required|string|min:8',
         ],[
             'password' => 'Password lama tidak sesuai',
         ]);
+        $request->session()->put('password_validated', true);
 
         $user = Auth::user();
 
