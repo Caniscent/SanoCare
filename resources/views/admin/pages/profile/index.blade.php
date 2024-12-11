@@ -23,9 +23,14 @@
     </div>
 
     <div class="mt-4 flex justify-between">
-            <a href="{{ route('admin.profile.edit', [$user->id, 'action' => 'edit-profile']) }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white">Edit Profil</a>
-            <a href="{{ route('admin.profile.edit', [$user->id, 'action' => 'change-password']) }}" class="btn bg-gray-500 hover:bg-gray-600 text-white border-none">Ubah Password</a>
-
+            <x-primary-button >
+                <a href="{{ route('admin.profile.edit', [$user->id, 'action' => 'edit-profile']) }}">
+                    Edit Profil
+                </a>
+            </x-primary-button>
+            <x-secondary-button class=" hover:bg-gray-600 text-white">
+                <a href="{{ route('admin.profile.edit', [$user->id, 'action' => 'change-password']) }}" >Ubah Password</a>
+            </x-secondary-button>
         {{-- <form action="{{ route('profile.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
             @csrf
             @method('DELETE')

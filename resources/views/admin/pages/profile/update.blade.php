@@ -14,6 +14,7 @@
 
     @if ($action === 'edit-profile')
         <form action="{{ route('admin.profile.update', $user->id) }}" method="POST">
+            @method('put')
             @csrf
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-900">Nama</label>
@@ -51,11 +52,15 @@
             </div>
 
             <div class="mb-4">
-                <button type="submit" class="btn btn-primary bg-blue-500 hover:bg-blue-600">Perbarui Profil</button>
+                <x-primary-button>
+                    Simpan
+                </x-primary-button>
+                {{-- <button type="submit" class="btn btn-primary bg-blue-500 hover:bg-blue-600">Perbarui Profil</button> --}}
             </div>
         </form>
     @elseif ($action === 'change-password')
         <form action="{{ route('admin.profile.update', $user->id) }}" method="POST">
+           
             @csrf
             <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-900">Password Baru</label>

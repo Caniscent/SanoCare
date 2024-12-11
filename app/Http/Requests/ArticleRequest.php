@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ArticleRequest extends FormRequest
@@ -21,8 +22,16 @@ class ArticleRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('article');
         return [
-            'title' => 'required|string|max:100',
+            'title' => [
+                'required',
+                'string',
+                'max:100',
+                'min:10',
+                'regex:/^[a-zA-Z\s]+$/u',
+                Rule::unique('articles', 'title')->ignore($id),
+            ],
             'content' => 'required|min:50',
             'status' => 'required|in:draft,published,archived',
             'image' => [$this->method() === 'POST' ? 'required' : '', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],

@@ -15,13 +15,13 @@
     </div>
     <table id="Table" class="table-auto w-full border-collapse border border-gray-200 text-sm sm:text-base">
         <thead>
-            <tr class="bg-gray-200">
+            <tr class="bg-gray-150">
                 <x-table.th>No</x-table.th>
                 <x-table.th>Judul</x-table.th>
                 <x-table.th class="hidden sm:table-cell">Konten</x-table.th>
                 <x-table.th>Status</x-table.th>
                 <x-table.th class="hidden sm:table-cell">Publish</x-table.th>
-                <th class="text-gray-900 text-center">Aksi</th>
+                <x-table.th>Aksi</x-table.th>
             </tr>
         </thead>
         <x-table.tbody>
@@ -68,44 +68,4 @@
         </x-table.tbody>
     </table>
 </div>
-<script>
-    document.querySelectorAll('.delete-button').forEach((button) => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault(); // Mencegah form submit langsung
-            const formId = 'delete-form-' + button.getAttribute('data-id');
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: 'Data ini akan dihapus dan tidak bisa dikembalikan.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Jika dikonfirmasi, kirimkan form
-                    document.getElementById(formId).submit();
-                }
-            });
-        });
-    });
-</script>
-@if(session('success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Sukses!',
-        text: '{{ session('success') }}',
-        timer: 2000, // durasi alert ditampilkan
-        showConfirmButton: false
-    });
-</script>
- @endif
 @endsection
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
-$(document).ready( function () {
-    $('#Table').DataTable();
-} );
-</script>
