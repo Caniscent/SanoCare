@@ -37,7 +37,7 @@
                                 Edit
                             </a>
                         </x-edit-button>
-                        <x-edit-button class="w-15 h-8 bg-yellow-300">
+                        <x-edit-button class="w-15 h-8 bg-yellow-500 hover:bg-yellow-600">
                             <a href="{{ route('admin.clean-food.show', $data->id) }}">
                                 Detail
                             </a>

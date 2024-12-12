@@ -25,7 +25,9 @@ class FoodTypeSeeder extends Seeder
             $type[] = [
                 'type' => $typeName,
                 'description' => $description,
-                'status' => $status
+                'status' => $status,
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
     

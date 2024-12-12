@@ -51,7 +51,7 @@
                             <x-input-error :messages="$errors->get('content')" class="mt-2" />
                         </div>
 
-                    <div class="flex justify-end gap-4">
+                    <div class="flex  gap-4">
                         <x-secondary-button>
                             <a href="{{ route('admin.article.index') }}">Kembali</a>
                         </x-secondary-button>
