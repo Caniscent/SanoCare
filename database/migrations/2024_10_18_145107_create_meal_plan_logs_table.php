@@ -9,14 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('meal_plan_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('meal_plan_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('meal_plan_id');
+            $table->string('day');
+            $table->json('meal_plan');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('meal_plan_id')->references('id')->on('meal_plans')->onDelete('cascade');
         });
     }
+
 
     /**
      * Reverse the migrations.
