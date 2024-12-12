@@ -3,7 +3,7 @@
 @section('title', 'Article')
 
 @section('content')
-<div class="pt-20 pb-12">
+<div class="pt-[4rem] pb-[24.1rem]">
  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
      <div class="bg-white overflow-hidden">
          <div class="p-6 text-gray-900">
@@ -20,11 +20,11 @@
                          </div>
                      </header>
                  </div>
-               
+
            </div>
              <div class="mt-8">
                  <a href="{{ route('article.index') }}" class="inline-block bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700">
-                    Kembali 
+                    Kembali
                  </a>
              </div>
          </div>
