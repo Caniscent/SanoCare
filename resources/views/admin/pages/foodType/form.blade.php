@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Kelompok Makanan')
+@section('title', 'Tipe Makanan')
 
 @section('content')
     <div class="w-full max-w-xs mx-auto mt-12 overflow-x-auto lg:max-w-6xl">
@@ -14,17 +14,17 @@
               <!-- Input Baris 1 -->
               <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-3">
                   <div>
-                      <x-input-label :value="__('Nama Kelompok')" />
+                      <x-input-label :value="__('Nama Tipe')" />
                       <x-text-input type="text" 
-                                    value="{{ old('group', $food_group->group ?? '') }}" 
-                                    name="group" 
+                                    value="{{ old('type', $food_type->type ?? '') }}" 
+                                    name="type" 
                                     class="block w-full" />
-                      <x-input-error :messages="$errors->get('group')" class="mt-2" />
+                      <x-input-error :messages="$errors->get('type')" class="mt-2" />
                   </div>
                   <div>
                       <x-input-label :value="__('Deskripsi Kelompok')" />
                       <x-text-input type="text" 
-                                    value="{{ old('description', $food_group->description ?? '') }}" 
+                                    value="{{ old('description', $food_type->description ?? '') }}" 
                                     name="description" 
                                     class="block w-full" />
                       <x-input-error :messages="$errors->get('description')" class="mt-2" />
@@ -36,7 +36,7 @@
                            name="status" 
                            class="sr-only peer" 
                            value="1" 
-                           {{ old('status', $food_group->status ?? false) ? 'checked' : '' }} />
+                           {{ old('status', $food_type->status ?? false) ? 'checked' : '' }} />
                     <div class="w-14 h-7 bg-red-500 rounded-full peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-offset-black peer-focus:ring-blue-500 transition-colors peer-checked:bg-green-500"></div>
                     <div class="absolute w-6 h-6 bg-gray-200 rounded-full top-0.5 left-0.5 transition-transform peer-checked:translate-x-7"></div>
                     <span class="absolute left-7 text-xs font-medium text-white uppercase peer-checked:hidden">OFF</span>
@@ -49,7 +49,7 @@
               <!-- Tombol Aksi -->
               <div class="flex gap-4">
                   <x-secondary-button>
-                      <a href="{{ route('admin.food-group.index') }}">Kembali</a>
+                      <a href="{{ route('admin.food-type.index') }}">Kembali</a>
                   </x-secondary-button>
                   <x-primary-button>
                       {{ $page_meta['submit_text'] }}

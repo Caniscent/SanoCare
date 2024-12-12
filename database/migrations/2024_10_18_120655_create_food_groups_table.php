@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('food_groups', function (Blueprint $table) {
             $table->id();
             $table->string('group');
+            $table->text('description');
+            $table->boolean('status')->default(True);
+            $table->timestamps();
         });
     }
 

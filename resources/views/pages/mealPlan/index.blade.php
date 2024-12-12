@@ -40,9 +40,9 @@
                                     @elseif ($detail['food_group'] == 4)
                                         <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 9)
-                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 1)
                                         <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 1)
+                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 2)
                                         <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
@@ -70,9 +70,9 @@
                                     @elseif ($detail['food_group'] == 4)
                                         <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 9)
-                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 1)
                                         <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 1)
+                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 2)
                                         <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
@@ -100,9 +100,9 @@
                                     @elseif ($detail['food_group'] == 4)
                                         <img src="{{ asset('img/icons/drumstick-bite-solid.svg') }}" alt="Protein Hewan" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 9)
-                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
-                                    @elseif ($detail['food_group'] == 1)
                                         <img src="{{ asset('img/icons/carrot-solid.svg') }}" alt="Sayuran" class="w-6 h-6 mr-2">
+                                    @elseif ($detail['food_group'] == 1)
+                                        <img src="{{ asset('img/icons/seedling-solid.svg') }}" alt="Protein Nabati" class="w-6 h-6 mr-2">
                                     @elseif ($detail['food_group'] == 2)
                                         <img src="{{ asset('img/icons/apple-whole-solid.svg') }}" alt="Buah" class="w-6 h-6 mr-2">
                                     @endif
