@@ -34,7 +34,7 @@
               <path fill-rule="evenodd" d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" />
           </svg>
       </x-nav-link>
-      <div class="hidden text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold" id="submenu">
+      <div class="hidden text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold " id="submenu">
         <x-nav-link :href="route('admin.clean-food.index')" :active="request()->routeIs('admin.clean-food.index')" class="text-white mb-2">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-3">
               <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />
@@ -47,7 +47,7 @@
             <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />
             <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
           </svg>              
-        Kelompok
+        Jenis
        </x-nav-link>
        <x-nav-link :href="route('admin.food-type.index')" :active="request()->routeIs('admin.food-type.index')" class="text-white mb-2">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-3">
@@ -94,39 +94,6 @@
     </nav>
 </aside>
 
-{{-- 
-<script type="text/javascript">
-  function dropdown() {
-      const submenu = document.querySelector("#submenu");
-      const arrow = document.querySelector("#arrow");
-      submenu.classList.toggle("hidden");
-      arrow.classList.toggle("rotate-180");
-  }
-
-  document.addEventListener('click', function (event) {
-      const dropdown = document.querySelector("#submenu");
-      const arrow = document.querySelector("#arrow");
-      const navLink = document.querySelector("x-nav-link");
-      
-      if (!navLink.contains(event.target)) {
-          dropdown.classList.add("hidden");
-          arrow.classList.remove("rotate-180");
-      }
-  });
-
-  const submenuItems = document.querySelectorAll("#submenu a");
-  submenuItems.forEach(item => {
-      item.addEventListener("click", function(event) {
-          event.stopPropagation();
-      });
-  });
-</script>
-
-<style>
-  .rotate-90 {
-      transform: rotate(90deg);
-  }
-</style> --}}
 <script type="text/javascript">
   function toggleDropdown(element) {
       const submenu = element.nextElementSibling;
