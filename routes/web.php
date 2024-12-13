@@ -16,10 +16,10 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Admin\AdminFoodTypeController;
 
-Route::middleware('backbrowser')->group(function (){
+// Route::middleware('backbrowser')->group(function (){
     Auth::routes();
 
-});
+// });
 Route::get('/', function () {
     return view('pages.home.index');
 })->name('home');
@@ -42,13 +42,13 @@ Route::prefix('/article')->name('article.')->group( function () {
 // admin
 Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
-        Route::get('/', function(){return view('admin.pages.home.index');})->name('index');
+        Route::get('/', [Admin\DashboardController::class, 'index'])->name('index');
         Route::resource('article', Admin\ArticleController::class);
         Route::resource('profile', Admin\AdminProfileController::class);
         Route::resource('clean-food', Admin\AdminCleanFoodController::class)->except('destroy');
         Route::resource('food-group', Admin\AdminFoodGroupController::class );
         Route::resource('food-type', Admin\AdminFoodTypeController::class);
-        Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
+        // Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
     });
 });
 

@@ -40,7 +40,12 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-$(document).ready( function () {
- $('#Table').DataTable();
-} );
+$(document).ready(function() {
+    $('#Table').DataTable({
+        responsive: true, // Aktifkan fitur responsif
+        autoWidth: false, // Agar kolom tidak terlalu lebar
+        scrollX: true, // Aktifkan scrolling horizontal
+    });
+});
+
 </script>
