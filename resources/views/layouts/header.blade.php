@@ -38,6 +38,7 @@
                 <div tabindex="0" role="button" class="btn btn-ghost">Pengaturan Akun</div>
                 <ul tabindex="0" class="dropdown-content menu bg-base-100 dark:bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                     <li class="!text-gray-500"><a href="{{route('profile.index')}}">Profile</a></li>
+                    <li class="!text-gray-500"><a href="{{route('log.index')}}">History Meal Plan</a></li>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <li class="!text-gray-500"><button>{{ __('Logout') }}</button></li>
