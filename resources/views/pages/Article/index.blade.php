@@ -3,7 +3,7 @@
 @section('title', 'Article')
 
 @section('content')
-<div class="pt-[4rem] pb-[24.1rem]">
+<div class="pt-[4rem] pb-[5rem]">
     <h3 class="text-4xl font-bold mb-4 text-center text-gray-900 pb-12">Artikel</h3>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden ">

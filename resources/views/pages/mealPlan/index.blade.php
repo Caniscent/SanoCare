@@ -5,7 +5,7 @@
 @section('content')
 <section class="bg-white dark:bg-gray-0">
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">Meal Plan</h1>
+        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">Rencana Makan</h1>
 
         @if ($measurements->isEmpty())
             <p class="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 lg:px-48 dark:text-black">Belum ada meal plan yang dibuat. Ayo buat sekarang!</p>
@@ -23,9 +23,9 @@
 
 
             <div class="flex justify-between mb-10">
-                <a href="?day={{ $prevDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">&lt; {{ \Carbon\Carbon::parse($prevDay)->locale('id')->isoFormat('dddd') }}</a>
+                <a href="?day={{ $prevDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white">&lt; {{ \Carbon\Carbon::parse($prevDay)->locale('id')->isoFormat('dddd') }}</a>
                 <span class="text-xl font-bold text-gray-900">{{ \Carbon\Carbon::parse($selectedDay)->locale('id')->isoFormat('dddd') }}</span>
-                <a href="?day={{ $nextDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600">{{ \Carbon\Carbon::parse($nextDay)->locale('id')->isoFormat('dddd') }} &gt;</a>
+                <a href="?day={{ $nextDay }}" class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white">{{ \Carbon\Carbon::parse($nextDay)->locale('id')->isoFormat('dddd') }} &gt;</a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -148,11 +148,6 @@
                     @method('delete')
                     @csrf
                 </form>
-                {{-- <form action="{{ route('history.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="check_id" value="{{ $data->id }}">
-                    <button type="submit" class="text-yellow-900 hover:underline">Tambah ke Histori</button>
-                </form> --}}
             </div>
             @endforeach
         @endif

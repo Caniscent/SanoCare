@@ -41,7 +41,7 @@
                     <div class="mb-5">
                         <label for="level" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Tingkat Aktivitas</label>
                         <select id="level" class="input input-bordered w-full @error('level') input-error @enderror bg-blue-200 text-black" name="level" required>
-                            <option value="" disabled selected>{{ __('Pilih Tingkat Aktivitas') }}</option>
+                            <option value="" disabled selected>Pilih Tingkat Aktivitas</option>
                             @foreach ($activities as $activity)
                                 <option value="{{ $activity->id }}" title="{{ $activity->description }}" {{ (old('activity_level_id') == $activity->id) ? 'selected' : '' }}>
                                     {{ $activity->level }}
@@ -55,11 +55,23 @@
 
                     {{-- sugar level input --}}
                     <div class="mb-5">
-                        <label for="sugar_blood" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Kadar Gula</label>
+                        <div class="flex items-center justify-between">
+                            <label for="sugar_blood" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">
+                                Kadar Gula
+                            </label>
+                            <div class="dropdown dropdown-end">
+                                <div tabindex="0" role="button"><img src="{{ asset('img/icons/circle-info-solid.svg') }}" alt="Info" class="w-6 h-6 mr-2"></div>
+                                <ul tabindex="0" class="dropdown-content menu bg-blue-500 dark:bg-blue-500 rounded-box z-[1] w-64 p-2 shadow text-white">
+                                    <p>Untuk mengecek kadar gula darah, gunakan alat glucometer. Bersihkan ujung jari, tusuk dengan lancet, dan teteskan darah pada strip tes sesuai petunjuk alat.<br>Bisa juga kunjungi rumah sakit/puskesmas terdekat untuk melakukan pengecekan gula darah.</p>
+                                </ul>
+                            </div>
+                        </div>
+
                         <div class="relative">
                             <input type="number" name="sugar_blood" id="sugar_blood" class="bg-gray-50 no-spinners border @error('sugar_blood') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-20 !bg-blue-200 dark:bg-blue-200 dark:border-blue-100 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             <span class="absolute right-3 top-2 text-sm text-dark dark:text-gray-900">mg/dL</span>
                         </div>
+
                         @error('sugar_blood')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                         @enderror
@@ -69,7 +81,7 @@
                     <div class="mb-5">
                         <label for="test_method" class="block mb-2 text-sm font-medium text-gray-900 dark:text-dark">Metode Uji</label>
                         <select id="test_method" class="input input-bordered w-full @error('test_method') input-error @enderror bg-blue-200 text-black" name="test_method" required>
-                            <option value="" disabled selected>{{ __('Pilih Metode Uji') }}</option>
+                            <option value="" disabled selected>Pilih Metode Uji</option>
                             @foreach ($test_methods as $method)
                                 <option value="{{$method->id}}" title="{{ $method->description }}" {{ (old('test_method_id') ==  $method->id) ? 'selected' : '' }}>{{$method->method}}</option>
                             @endforeach
