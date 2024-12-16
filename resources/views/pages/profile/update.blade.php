@@ -3,10 +3,10 @@
 @section('title', 'Edit Profile')
 
 @section('content')
-<div class="container mx-auto px-4 pt-[4rem] pb-[24.1rem]">
+<div class="container mx-auto px-4 pt-[4rem] pb-[5rem]">
     <h1 class="text-3xl font-bold text-black mb-6">
         @if ($action === 'edit-profile')
-            Edit <a href="{{ route('profile.index') }}" class="text-blue-500 hover:underline">Profile</a>
+            Edit <a href="{{ route('profile.index') }}" class="text-blue-500 hover:underline">Profil</a>
         @elseif ($action === 'change-password')
             Ubah <a href="{{ route('profile.index') }}" class="text-blue-500 hover:underline">Password</a>
         @endif
@@ -51,7 +51,7 @@
             </div>
 
             <div class="mb-4">
-                <button type="submit" class="btn btn-primary bg-blue-500 hover:bg-blue-600">Perbarui Profil</button>
+                <button type="submit" class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white">Perbarui Profil</button>
             </div>
         </form>
     @elseif ($action === 'change-password')

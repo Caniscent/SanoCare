@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class MealPlanLogController extends Controller{
     public function index(Request $request)
     {
-        $mealPlanLogs = MealPlanLogModel::all();
+        $mealPlanLogs = MealPlanLogModel::orderBy('created_at')->get();
 
         $daysID = [
             'Sunday' => 'Minggu',
@@ -21,26 +21,54 @@ class MealPlanLogController extends Controller{
             'Saturday' => 'Sabtu'
         ];
 
-        $mealTypesID = [
-            'breakfast' => 'Sarapan',
-            'lunch' => 'Makan Siang',
-            'dinner' => 'Makan Malam'
-        ];
+        $groupedMealPlans = [];
+        $currentGroup = [];
+        $currentWeekStart = null;
 
         foreach ($mealPlanLogs as $log) {
             $log->day = $daysID[$log->day] ?? $log->day;
-            $mealPlan = json_decode($log->meal_plan, true);
 
-            foreach ($mealPlan as $mealType => $mealItems) {
-                if (array_key_exists($mealType, $mealTypesID)) {
-                    $mealPlan[$mealTypesID[$mealType]] = $mealItems;
-                    unset($mealPlan[$mealType]);
+            if ($log->day == 'Minggu') {
+                if ($currentGroup && count($currentGroup) == 7) {
+                    $groupedMealPlans[] = $currentGroup;
                 }
+                $currentGroup = [$log];
+                $currentWeekStart = $log->created_at->format('d-m-Y');
+            } else {
+                $currentGroup[] = $log;
             }
-
-            $log->meal_plan = json_encode($mealPlan);
         }
 
-        return view('pages.log.index', compact('mealPlanLogs'));
+        if (count($currentGroup) == 7) {
+            $groupedMealPlans[] = $currentGroup;
+        }
+
+        return view('pages.log.index', compact('groupedMealPlans'));
+    }
+
+    public function destroy($groupIndex)
+    {
+        $mealPlanLogs = MealPlanLogModel::orderBy('created_at')->get();
+        $groupedLogs = collect();
+
+        $currentGroup = [];
+        foreach ($mealPlanLogs as $log) {
+            if ($log->day == 'Minggu' && count($currentGroup) == 7) {
+                $groupedLogs->push($currentGroup);
+                $currentGroup = [];
+            }
+            $currentGroup[] = $log;
+        }
+        if (count($currentGroup) == 7) {
+            $groupedLogs->push($currentGroup);
+        }
+
+        if ($groupedLogs->has($groupIndex)) {
+            foreach ($groupedLogs[$groupIndex] as $log) {
+                $log->delete();
+            }
+        }
+
+        return redirect()->route('log.index');
     }
 }

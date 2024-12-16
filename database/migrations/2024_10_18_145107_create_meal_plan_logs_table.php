@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('meal_plan_logs', function (Blueprint $table) {
+        Schema::create('meal_plan_logs', function (Blueprint $table)
+        {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('meal_plan_id');
+            $table->foreignId('user_id')->constrained()->OnDelete('cascade');
+            $table->foreignId('meal_plan_id')->nullable()->constrained('meal_plans')->nullOnDelete();
             $table->string('day');
             $table->json('meal_plan');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('meal_plan_id')->references('id')->on('meal_plans')->onDelete('cascade');
         });
     }
 

@@ -79,7 +79,7 @@ Route::middleware(['auth', 'role:user', 'backbrowser'])->group(function () {
         Route::post('/store', [MealPlanLogController::class, 'store'])->name('store');
         Route::get('/edit/{id}',[MealPlanLogController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [MealPlanLogController::class, 'update'])->name('update');
-        Route::delete('/delete/{Log_id}', [MealPlanLogController::class, 'destroy'])->name('destroy');
+        Route::delete('/delete/{groupIndex}', [MealPlanLogController::class, 'destroy'])->name('destroy');
     });
 });
 

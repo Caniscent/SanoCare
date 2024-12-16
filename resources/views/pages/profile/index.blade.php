@@ -3,7 +3,7 @@
 @section('title', 'Profile')
 
 @section('content')
-<div class="container mx-auto px-4 pt-[4rem] pb-[24.1rem]">
+<div class="container mx-auto px-4 pt-[4rem] pb-[5rem]">
     <h1 class="text-3xl font-bold text-black mb-6">Profil Pengguna</h1>
 
     <div class="flex items-center mb-6">
