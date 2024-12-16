@@ -1,4 +1,4 @@
-{{-- <footer class="flex flex-wrap items-center justify-between  bg-white px-4 py-4 shadow w-full">
+{{-- <footer class="flex flex-wrap items-center justify-between w-full px-4 py-4 bg-white shadow">
  <div class="container mx-auto text-center">
      <p>&copy; {{ date('Y') }} Your Company Name. All rights reserved.</p>
      <p>Designed with ❤️ by Your Team.</p>
@@ -47,5 +47,31 @@ $(document).ready(function() {
         scrollX: true, // Aktifkan scrolling horizontal
     });
 });
-
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    fetch('/admin/articles-by-month')
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.map(item => item.month);
+            const counts = data.map(item => item.count);
+            const barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Artikel Dipublikasikan',
+                        data: counts,
+                        backgroundColor: 'rgb(75, 192, 192)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+    </script>

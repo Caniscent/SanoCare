@@ -47,7 +47,7 @@ class AdminCleanFoodController extends Controller
         $data = $request->validated();
 
         CleanFoodModel::create($data);
-    
+
         return redirect()
         ->route('admin.clean-food.index')
         ->with('success', 'Data makanan berhasil ditambahkan!');
@@ -72,7 +72,7 @@ class AdminCleanFoodController extends Controller
                 'sub_title' => 'Edit Data',
                 'description' => ' cleanFood details.',
                 'submit_text' => 'Simpan',
-                'method' => 'put', 
+                'method' => 'put',
             ]
         ]);
     }
@@ -100,5 +100,10 @@ class AdminCleanFoodController extends Controller
                 'description' => ' cleanFood details.',
             ]
         ]);
+    }
+    public function destroy(CleanFoodModel $clean_food)
+    {
+        $clean_food->delete();
+        return redirect()->route('admin.clean-food.index')->with('success', 'Data berhasil dihapus.');
     }
 }

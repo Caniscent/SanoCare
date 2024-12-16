@@ -43,9 +43,10 @@ Route::prefix('/article')->name('article.')->group( function () {
 Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
         Route::get('/', [Admin\DashboardController::class, 'index'])->name('index');
+        Route::get('/articles-by-month', [Admin\DashboardController::class, 'getArticlesByMonth']);
         Route::resource('article', Admin\ArticleController::class);
         Route::resource('profile', Admin\AdminProfileController::class);
-        Route::resource('clean-food', Admin\AdminCleanFoodController::class)->except('destroy');
+        Route::resource('clean-food', Admin\AdminCleanFoodController::class);
         Route::resource('food-group', Admin\AdminFoodGroupController::class );
         Route::resource('food-type', Admin\AdminFoodTypeController::class);
         // Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
