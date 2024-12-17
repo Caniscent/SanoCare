@@ -59,14 +59,21 @@ class LoginController extends Controller
      *
      * @return RedirectResponse
      */
-   
+
     public function login(Request $request): RedirectResponse
     {
-       
+
         $request->validate([
-            'name' => 'required',
-            'password' => 'required',
-        ]);
+            'name' => 'required|min:3|max:200',
+            'password' => 'required|min:8',
+        ],[
+            'name.required' => 'Nama wajib diisi!',
+            'name.min' => 'Nama tidak boleh kurang dari 3 karakter!',
+            'name.max' => 'Nama tidak boleh melebihi 200 karakter!',
+            'password.required' => 'Password wajib diisi!',
+            'password.min' => 'Password minimal 8 karakter!',
+        ]
+        );
 
         if (Auth::attempt($request->only('name', 'password'))) {
             $user = Auth::user();
@@ -77,12 +84,12 @@ class LoginController extends Controller
                 return redirect()->route('meal-plan.index');
             } else {
                 return redirect()->route('login')
-                    ->with('error', 'Your role does not have access.');
+                    ->with('error', 'Tidak memiliki akses.');
             }
         }
 
         return redirect()->route('login')
-            ->with('error', 'Invalid username or password.');
+            ->with('error', 'Username atau password salah.');
 
     }
 

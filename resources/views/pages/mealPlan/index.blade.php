@@ -17,9 +17,22 @@
             <p class="text-gray-900 my-20 mx-auto text-center max-w-2xl">
                 Hai {{$data->user->name}}, kamu memiliki tinggi badan <b>{{$data->height}} cm</b> dan berat badan <b>{{$data->weight}} kg</b>.
                 Kegiatan fisik yang kamu lakukan adalah <b>{{$data->activityLevel->level}}</b> dan kandungan gula dalam darah sebesar <b>{{$data->sugar_blood}} mg/dL</b> ({{$data->testMethod->method}}).
-                Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> yang kami buat khusus untukmu.
+                Dan dengan mempertimbangkan dirimu yang seorang <b>{{$data->user->gender}}</b> dan berumur <b>{{$data->user->age}} tahun</b>, maka berikut ini adalah <b>meal plan</b> berdasarkan kebutuhan kalorimu yang mencapai <b>{{$caloriesNeeded}} kalori</b> yang kami buat khusus untukmu.
             </p>
         @endforeach
+            @if($diabetesMessage)
+                <!-- Modal Structure -->
+                <input type="checkbox" id="diabetesModal" class="modal-toggle" checked />
+                <div class="modal">
+                    <div class="modal-box">
+                        <h2 class="text-lg font-bold text-red-600">Peringatan!</h2>
+                        <p class="pt-[10px]">{{ $diabetesMessage }}</p>
+                        <div class="modal-action">
+                            <label for="diabetesModal" class="btn">Tutup</label>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
 
             <div class="flex justify-between mb-10">
@@ -154,13 +167,6 @@
     </div>
 </section>
 
-{{-- <div class="flex justify-center bg-gray-900 dark:bg-gray-900 py-8">
-    <div class="mx-auto max-w-screen-lg px-4">
-        <h2 class="text-3xl font-extrabold mb-6 text-center text-gray-900 dark:text-white">Tips untuk Anda</h2>
-
-    </div>
-</div> --}}
-
 <script>
     // Ketika tombol Hapus diklik, buka modal konfirmasi
     document.getElementById('openDeleteModal').addEventListener('click', function() {
@@ -170,6 +176,12 @@
     // Submit form penghapusan
     document.getElementById('confirmDeleteButton').addEventListener('click', function() {
         document.getElementById('deleteForm').submit();
+    });
+
+    // modal untuk diabetes
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById("diabetesModal");
+        modal.checked = true;
     });
 </script>
 @endsection

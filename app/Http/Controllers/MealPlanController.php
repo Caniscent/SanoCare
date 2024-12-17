@@ -37,12 +37,13 @@ class MealPlanController extends Controller
             ->get();
 
         if ($measurements->isEmpty()) {
-            return view('pages.mealPlan.index', ['measurements' => $measurements, 'mealPlans' => null]);
+            return view('pages.mealPlan.index', ['measurements' => $measurements, 'mealPlans' => null, 'diabetesMessage' => null]);
         }
 
         $measurement = $measurements->first();
-        $this->geneticAlgorithm->checkPrediabetes($measurement);
+        $diabetesMessage = $this->geneticAlgorithm->checkPrediabetes($measurement);
         $personalNeed = $this->geneticAlgorithm->calculatePersonalNeed($measurement);
+        $caloriesNeeded = $personalNeed['calorie'];
 
         $selectedDay = $request->get('day', now()->locale('id')->format('l'));
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -56,10 +57,16 @@ class MealPlanController extends Controller
             $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
             foreach ($days as $day) {
                 $this->geneticAlgorithm->saveMealPlan($measurement->first()->id,$userId, $day, $weeklyMealPlan[$day]);
+                $mealPlanLog = new MealPlanLogModel();
+                $mealPlanLog->user_id = $userId;
+                $mealPlanLog->day = $day;
+                $mealPlanLog->meal_plan = json_encode($weeklyMealPlan[$day]);
+                $mealPlanLog->created_at = now();
+                $mealPlanLog->updated_at = now();
+                $mealPlanLog->save();
             }
         }
 
-        // $mealPlans = $measurement->mealPlans ?? collect();
         // untuk menampilkan mealplan yang ada
         $mealPlan = MealPlanModel::where('user_id', $userId)
             ->get()
@@ -68,7 +75,7 @@ class MealPlanController extends Controller
                 return json_decode($mealPlans->meal_plan, true);
             });
 
-        return view('pages.mealPlan.index', compact('measurements', 'mealPlan', 'selectedDay', 'prevDay', 'nextDay'));
+        return view('pages.mealPlan.index', compact('measurements', 'mealPlan', 'selectedDay', 'prevDay', 'nextDay', 'diabetesMessage', 'caloriesNeeded'));
     }
 
 
@@ -91,7 +98,7 @@ class MealPlanController extends Controller
         $request->validate([
             'height' => 'required|numeric|min:50|max:300',
             'weight' => 'required|numeric|min:10|max:500',
-            'sugar_blood' => 'required|numeric|min:50|max:300',
+            'sugar_blood' => 'required|numeric|min:50|max:1000',
         ], [
             'height.required' => 'Tinggi badan harus diisi.',
             'height.min' => 'Tinggi badan tidak boleh kurang dari 50 cm.',
@@ -101,7 +108,7 @@ class MealPlanController extends Controller
             'weight.max' => 'Berat badan tidak boleh melebihi 500 kg.',
             'sugar_blood.required' => 'Gula darah harus diisi.',
             'sugar_blood.min' => 'Gula darah tidak boleh kurang dari 50 mg/dL',
-            'sugar_blood.max' => 'Gula darah tidak boleh melebihi 300 mg/dL',
+            'sugar_blood.max' => 'Gula darah tidak boleh melebihi 1000 mg/dL',
         ]);
 
         $user = Auth::user();

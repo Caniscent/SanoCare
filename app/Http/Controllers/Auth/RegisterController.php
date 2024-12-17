@@ -82,9 +82,18 @@ class RegisterController extends Controller
         if ($step == 1) {
             $validated = $request->validate([
                 'name' => ['required', 'string', 'min:3', 'max:200'],
-                'age' => ['required', 'integer', 'min:1', 'max:100'],
+                'age' => ['required', 'integer', 'min:10', 'max:100'],
                 'gender' => ['required','string','in:laki-laki,perempuan']
-            ]);
+            ],[
+                'name.required' => 'Nama wajib diisi!',
+                'name.min' => 'Nama tidak boleh kurang dari 3 karakter!',
+                'name.max' => 'Nama tidak boleh melebihi 200 karakter!',
+                'age.required' => 'Umur wajib diisi!',
+                'age.min' => 'Umur minimal 10 tahun',
+                'age.max' => 'Umur maksimal 100 tahun',
+                'gender.required' => 'Jenis Kelamin wajib diisi!',
+            ]
+            );
             $request->session()->put('register_step1', $validated);
         }
 
@@ -92,7 +101,13 @@ class RegisterController extends Controller
             $validated = $request->validate([
                 'email' => ['required', 'email', 'max:200', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
-            ]);
+            ],[
+                'email.required' => 'Email wajib diisi!',
+                'email.max' => 'email max 200 karakter!',
+                'password.required' => 'Password wajib diisi!',
+                'password.min' => 'Password minimal 8 karakter!',
+            ]
+            );
             $request->session()->put('register_step2', $validated);
             $data = array_merge(
                 $request->session()->get('register_step1', []),
