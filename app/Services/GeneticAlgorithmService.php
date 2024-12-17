@@ -9,23 +9,27 @@ use App\Models\MealPlanLogModel;
 
 class GeneticAlgorithmService {
     // pengecekan prediabetes
-    public function checkPrediabetes($measurement){
+    public function checkPrediabetes($measurement)
+    {
         $bloodSugar = $measurement->first()->sugar_blood;
         $testMethod = $measurement->first()->testMethod->method;
 
-
         if ($testMethod == 'Puasa') {
             if ($bloodSugar >= 100 && $bloodSugar <= 125) {
+                return null;
             } else if ($bloodSugar > 125) {
-                abort(403, 'Diabetes');
+                return 'Anda mengalami diabetes! Segera konsultasi ke dokter.';
             }
         } else if ($testMethod == 'TTGO') {
             if ($bloodSugar >= 140 && $bloodSugar <= 199) {
+                return null;
             } else if ($bloodSugar > 199) {
-                abort(403, 'Diabetes');
+                return 'Anda mengalami diabetes! Segera konsultasi ke dokter.';
             }
         }
+        return null;
     }
+
 
     // Menentukan skala dari aktivitas
     public function getActivityFactor($activityCategory)
@@ -265,21 +269,8 @@ class GeneticAlgorithmService {
     }
 
     // Menyimpan meal plan yang sudah dibuat
-    public function saveMealPlan($measurementId,$userId,$day,$mealPlanForDay){
-        $existingMealPlan = MealPlanModel::where('measurement_id', $measurementId)
-        ->where('user_id', $userId)
-        ->where('day', $day)
-        ->first();
-
-        if ($existingMealPlan) {
-            MealPlanLogModel::create([
-                'user_id' => $userId,
-                'meal_plan_id' => $existingMealPlan->id,
-                'day' => $day,
-                'meal_plan' => $existingMealPlan->meal_plan,
-            ]);
-        }
-        
+    public function saveMealPlan($measurementId,$userId,$day,$mealPlanForDay)
+    {
         MealPlanModel::updateOrCreate(
             ['measurement_id' => $measurementId, 'user_id' => $userId, 'day' => $day],
             ['meal_plan' => json_encode($mealPlanForDay)]
