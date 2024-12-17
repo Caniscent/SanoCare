@@ -11,7 +11,7 @@ class FoodTypeModel extends Model
 
     protected $table = 'food_types';
     protected $guarded = ['id'];
-
+    public $timestamps = false;
     public function foodTypes() {
         return $this->hasMany(FoodTypeModel::class,'food_type_id');
     }

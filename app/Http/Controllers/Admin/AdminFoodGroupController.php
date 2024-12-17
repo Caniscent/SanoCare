@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
+use App\Exports\GroupExport;
+use App\Imports\GroupImport;
+use Illuminate\Http\Request;
+use App\Models\FoodGroupModel;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\FoodGroupRequest;
 use App\Http\Requests\GroupTypeRequest;
-use App\Models\FoodGroupModel;
-use Illuminate\Http\Request;
 
 class AdminFoodGroupController extends Controller
 {
@@ -24,7 +28,7 @@ class AdminFoodGroupController extends Controller
             'foodGroup' => new FoodGroupModel(),
             'page_meta' => [
             'url' => route('admin.food-group.store'),
-                'title' => 'Tambah Kelompok',
+                'title' => 'Tambah Jenis',
                 // 'desctiption' => 'lorem Ipsum',
                 'submit_text' => 'Kirim',
                 'method' => 'post',
@@ -40,7 +44,7 @@ class AdminFoodGroupController extends Controller
             'status' => $status,
         ];
         FoodGroupModel::create($data);
-    
+
         return redirect()
         ->route('admin.food-group.index')
         ->with('success', 'Data kelompok makanan berhasil ditambahkan!');
@@ -51,11 +55,11 @@ class AdminFoodGroupController extends Controller
             'food_group' => $food_group,
             'page_meta' => [
                 'url' => route('admin.food-group.update', $food_group->id),
-                'title' => 'Edit Kelompok',
+                'title' => 'Edit Jenis',
                 'sub_title' => 'Edit Data',
                 'description' => ' cleanFood details.',
                 'submit_text' => 'Simpan',
-                'method' => 'put', 
+                'method' => 'put',
             ]
         ]);
     }
@@ -73,5 +77,15 @@ class AdminFoodGroupController extends Controller
         ->route('admin.food-group.index')
         ->with('success', 'Data kelompok makanan berhasil diedit!');
     }
-
+    public function import(Request $request)
+    {
+        Excel::import(new GroupImport, $request->file('import'));
+        return redirect()
+        ->route('admin.food-group.index')
+        ->with('success', 'Data jenis makanan berhasil diimport!');
+    }
+    public function export()
+    {
+        return Excel::download(new GroupExport, 'FoodGroup'.Carbon::now()->timestamp.'.xlsx');
+    }
 }

@@ -42,9 +42,9 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 <script>
 $(document).ready(function() {
     $('#Table').DataTable({
-        responsive: true, // Aktifkan fitur responsif
-        autoWidth: false, // Agar kolom tidak terlalu lebar
-        scrollX: true, // Aktifkan scrolling horizontal
+        responsive: true,
+        autoWidth: false,
+        scrollX: true,
     });
 });
 </script>
@@ -73,5 +73,35 @@ $(document).ready(function() {
         })
         .catch(error => console.error('Error fetching data:', error));
 });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    fetch('/admin/log-by-month')
+        .then(response => response.json())
+        .then(data =>{
+            const labels = data.map(item => item.month);
+            const counts = data.map(item => item.count);
+            const lineChart = new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'User Meal Plan',
+                    data: counts,
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true
+            }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
 
-    </script>
+
+
+
+</script>

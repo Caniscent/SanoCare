@@ -6,12 +6,22 @@
 
 <div class="mt-12 overflow-x-auto">
     <h3 class="mb-4 text-xl font-bold">Data Makanan</h3>
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center gap-2 mb-4">
         <x-primary-button>
             <a href="{{route('admin.clean-food.create')}}">
                 Tambah
             </a>
         </x-primary-button>
+        <x-edit-button class="bg-yellow-500 w-15 hover:bg-yellow-600">
+            <a href="{{route('admin.food-export')}}">
+                Export
+            </a>
+        </x-edit-button>
+        <form action="{{route('admin.food-import')}}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="file" name="import" required>
+            <x-edit-button>Import</x-edit-button>
+        </form>
     </div>
     <table id="Table" class="w-full text-sm border border-collapse border-gray-200 table-auto sm:text-base">
         <thead>
