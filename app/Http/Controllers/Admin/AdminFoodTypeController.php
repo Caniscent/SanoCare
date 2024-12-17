@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\FoodTypeRequest;
-use App\Models\FoodTypeModel;
+use Carbon\Carbon;
+use App\Exports\TypeExport;
+use App\Imports\TypeImport;
 use Illuminate\Http\Request;
+use App\Models\FoodTypeModel;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\FoodTypeRequest;
 
 class AdminFoodTypeController extends Controller
 {
@@ -39,7 +43,7 @@ class AdminFoodTypeController extends Controller
             'status' => $status,
         ];
         FoodTypeModel::create($data);
-    
+
         return redirect()
         ->route('admin.food-type.index')
         ->with('success', 'Data tipe makanan berhasil ditambahkan!');
@@ -54,7 +58,7 @@ class AdminFoodTypeController extends Controller
                 'sub_title' => 'Edit Data',
                 'description' => ' cleanFood details.',
                 'submit_text' => 'Simpan',
-                'method' => 'put', 
+                'method' => 'put',
             ]
         ]);
     }
@@ -70,6 +74,18 @@ class AdminFoodTypeController extends Controller
         $type->update($data);
         return redirect()
         ->route('admin.food-type.index')
-        ->with('success', 'Data kelompok makanan berhasil diedit!');
+        ->with('success', 'Data Tipe makanan berhasil diedit!');
+    }
+    public function import(Request $request)
+    {
+        Excel::import(new TypeImport, $request->file('import'));
+        return redirect()
+        ->route('admin.food-type.index')
+        ->with('success', 'Data tipe makanan berhasil diimport!');
+    }
+    public function export()
+    {
+        return Excel::download(new TypeExport, 'FoodType'.Carbon::now()->timestamp.'.xlsx');
+        // return (new TypeExport)->download('FoodType'.Carbon::now()->timestamp.'.xlsx');
     }
 }

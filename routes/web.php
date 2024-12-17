@@ -44,11 +44,21 @@ Route::middleware(['auth', 'role:admin', 'backbrowser'])->group(function () {
     Route::prefix('/admin')->name('admin.')->group( function(){
         Route::get('/', [Admin\DashboardController::class, 'index'])->name('index');
         Route::get('/articles-by-month', [Admin\DashboardController::class, 'getArticlesByMonth']);
+        Route::get('/log-by-month', [Admin\DashboardController::class, 'getLogMealBymonth']);
         Route::resource('article', Admin\ArticleController::class);
         Route::resource('profile', Admin\AdminProfileController::class);
+
         Route::resource('clean-food', Admin\AdminCleanFoodController::class);
+        Route::post('food/import', [Admin\AdminCleanFoodController::class, 'import'])->name('food-import');
+        Route::get('food/export', [Admin\AdminCleanFoodController::class, 'export'])->name('food-export');
+
         Route::resource('food-group', Admin\AdminFoodGroupController::class );
+        Route::post('group/import', [Admin\AdminFoodGroupController::class, 'import'])->name('group-import');
+        Route::get('group/export', [Admin\AdminFoodGroupController::class, 'export'])->name('group-export');
+
         Route::resource('food-type', Admin\AdminFoodTypeController::class);
+        Route::post('import', [Admin\AdminFoodTypeController::class, 'import'])->name('type-import');
+        Route::get('export', [Admin\AdminFoodTypeController::class, 'export'])->name('type-export');
         // Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
     });
 });

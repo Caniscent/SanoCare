@@ -10,7 +10,7 @@
              <form action="{{ $page_meta['url'] }}" method="post" enctype="multipart/form-data" novalidate>
               @method($page_meta['method'])
               @csrf
-          
+
               <!-- Input Baris 1 -->
               <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
                   <div>
@@ -19,7 +19,7 @@
                       <x-input-error :messages="$errors->get('food_name')" class="mt-2" />
                   </div>
                   <div>
-                      <x-input-label for="food_group_id" :value="__('Kelompok Makanan')" />
+                      <x-input-label for="food_group_id" :value="__('Jenis Makanan')" />
                       <select id="food_group_id" name="food_group_id" class="block w-full p-2 bg-white border border-gray-300 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 max-h-40 overflow-y-auto">
                        <option value="" disabled {{ old('food_group_id', $clean_food->food_group_id ?? '') == '' ? 'selected' : '' }}>Pilih Kelompok</option>
                        @foreach ($foodGroups as $group)
@@ -28,16 +28,16 @@
                            </option>
                        @endforeach
                    </select>
-                   
-                   
+
+
                       <x-input-error :messages="$errors->get('food_group_id')" class="mt-2" />
                   </div>
               </div>
-          
+
               <!-- Input Baris 2 -->
               <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
                   <div>
-                      <x-input-label for="food_type_id" :value="__('Jenis Makanan')" />
+                      <x-input-label for="food_type_id" :value="__('Tipe Makanan')" />
                       <select id="food_type_id" name="food_type_id" class="block w-full p-2 bg-white border border-gray-300 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                        <option value="" disabled {{ old('food_type_id', $clean_food->food_type_id ?? '') == '' ? 'selected' : '' }}>Pilih Jenis</option>
                        @foreach ($foodTypes as $type)
@@ -46,7 +46,7 @@
                            </option>
                        @endforeach
                    </select>
-                   
+
                       <x-input-error :messages="$errors->get('food_type_id')" class="mt-2" />
                   </div>
                   <div>
@@ -55,12 +55,12 @@
                       <x-input-error :messages="$errors->get('calorie')" class="mt-2"  step="0.01" min="0"  />
                   </div>
               </div>
-          
+
               <!-- Input Baris 2 -->
               <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
                   <div>
                       <x-input-label for="protein" :value="__('Protein (g)')" />
-                      <x-text-input id="protein" type="number" value="{{ old('protein', $clean_food->protein ?? '') }}" 
+                      <x-text-input id="protein" type="number" value="{{ old('protein', $clean_food->protein ?? '') }}"
                        name="protein" class="block w-full" step="0.01" min="0"  />
                       <x-input-error :messages="$errors->get('protein')" class="mt-2" />
                   </div>
@@ -71,12 +71,12 @@
                       <x-input-error :messages="$errors->get('fats')" class="mt-2" />
                   </div>
               </div>
-          
+
               <!-- Input Baris 4 -->
               <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
                   <div>
                       <x-input-label for="carbs" :value="__('Karbohidrat (g)')" />
-                      <x-text-input id="carbs" type="number" value="{{ old('carbs', $clean_food->carbs ?? '') }}" 
+                      <x-text-input id="carbs" type="number" value="{{ old('carbs', $clean_food->carbs ?? '') }}"
                        name="carbs" class="block w-full" step="0.01" min="50"  />
                       <x-input-error :messages="$errors->get('carbs')" class="mt-2" />
                   </div>
@@ -87,7 +87,7 @@
                       <x-input-error :messages="$errors->get('fiber')" class="mt-2" />
                   </div>
               </div>
-          
+
               <!-- Tombol Aksi -->
               <div class="flex gap-4">
                   <x-secondary-button>
@@ -98,7 +98,7 @@
                   </x-primary-button>
               </div>
           </form>
-          
+
         </div>
     </div>
 
