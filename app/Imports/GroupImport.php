@@ -18,7 +18,7 @@ class GroupImport implements ToModel, WithHeadingRow
         return new FoodGroupModel([
             'group' => $row['group'],
             'description' => $row['description'],
-            'status' => $row['status'],
+            'status' => true,
         ]);
     }
 }
