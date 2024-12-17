@@ -194,6 +194,13 @@ class MealPlanController extends Controller
         foreach ($days as $day) {
             $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
             $this->geneticAlgorithm->saveMealPlan($measurement->id,$userId,$day,$weeklyMealPlan[$day]);
+            $mealPlanLog = new MealPlanLogModel();
+            $mealPlanLog->user_id = $userId;
+            $mealPlanLog->day = $day;
+            $mealPlanLog->meal_plan = json_encode($weeklyMealPlan[$day]);
+            $mealPlanLog->created_at = now();
+            $mealPlanLog->updated_at = now();
+            $mealPlanLog->save();
         }
 
         return redirect()->route('meal-plan.index');

@@ -3,6 +3,7 @@
 @section('title', 'History Meal Plan')
 
 @section('content')
+<section class="min-h-screen">
     <div class="container mx-auto pt-[4rem] pb-[19rem]">
         <h1 class="text-4xl font-bold mb-4 text-center text-gray-900 pb-12">Histori Rencana Makan</h1>
 
@@ -57,11 +58,12 @@
             </div>
         @endforeach
     </div>
+</section>
 
-    <script>
-        function toggleMealPlan(index) {
-            const mealPlan = document.getElementById(`meal-plan-${index}`);
-            mealPlan.classList.toggle("hidden");
-        }
-    </script>
+<script>
+    function toggleMealPlan(index) {
+        const mealPlan = document.getElementById(`meal-plan-${index}`);
+        mealPlan.classList.toggle("hidden");
+    }
+</script>
 @endsection
