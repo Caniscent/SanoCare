@@ -13,7 +13,7 @@ class TypeExport implements FromQuery, WithHeadings, WithMapping
 
     public function query()
     {
-        return FoodTypeModel::query()->select('type', 'description', 'status');
+        return FoodTypeModel::query()->select('type', 'description');
     }
 
     public function headings(): array
@@ -22,7 +22,6 @@ class TypeExport implements FromQuery, WithHeadings, WithMapping
             'No',
             'Type',
             'Description',
-            'Status'
         ];
     }
 
@@ -33,7 +32,6 @@ class TypeExport implements FromQuery, WithHeadings, WithMapping
             $this->rowNumber,
             $row->type,
             $row->description,
-            $row->status      
         ];
     }
 }

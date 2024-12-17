@@ -25,8 +25,8 @@ class FoodExport implements FromQuery, WithHeadings, WithMapping
         return [
             'No',
             'FoodName',
-            'FoodGroup',
-            'FoodType',
+            'Group',
+            'Type',
             'Calorie',
             'Protein',
             'Fats',

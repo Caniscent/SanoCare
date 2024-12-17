@@ -13,7 +13,7 @@ class GroupExport implements FromQuery, WithHeadings, WithMapping
 
     public function query()
     {
-        return FoodGroupModel::query()->select('group', 'description', 'status');
+        return FoodGroupModel::query()->select('group', 'description');
     }
 
     public function headings(): array
@@ -22,7 +22,6 @@ class GroupExport implements FromQuery, WithHeadings, WithMapping
             'No',
             'Group',
             'Description',
-            'Status'
         ];
     }
     public function map($row): array
@@ -32,7 +31,6 @@ class GroupExport implements FromQuery, WithHeadings, WithMapping
             $this->rowNumber,
             $row->group,
             $row->description,
-            $row->status
         ];
     }
 }

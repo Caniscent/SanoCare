@@ -18,7 +18,7 @@ class TypeImport implements ToModel, WithHeadingRow
         return new FoodTypeModel([
             'type' => $row['type'],
             'description' => $row['description'],
-            'status' => $row['status'],
+            'status' => true,
         ]);
     }
 }
