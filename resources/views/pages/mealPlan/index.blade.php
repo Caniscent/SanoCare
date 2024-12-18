@@ -148,8 +148,8 @@
                 <input type="checkbox" id="delete-confirm-modal" class="modal-toggle" />
                 <div class="modal">
                     <div class="modal-box bg-gray-900">
-                        <h3 class="font-bold text-lg text-white">Konfirmasi Penghapusan Meal Plan</h3>
-                        <p class="text-white">Tindakan anda sekarang akan menghapus seluruh meal plan, apakah anda ingin melanjutkan?</p>
+                        <h3 class="font-bold text-lg text-white">Konfirmasi Penghapusan Rencana Makan</h3>
+                        <p class="text-white">Tindakan anda sekarang akan menghapus seluruh rencana makan, apakah anda ingin melanjutkan?</p>
                         <div class="modal-action justify-center">
                             <label for="delete-confirm-modal" class="btn bg-gray-400 hover:bg-gray-500 text-gray-900">Tidak</label>
                             <button id="confirmDeleteButton" class="btn btn-error">Ya, Lanjutkan</button>
