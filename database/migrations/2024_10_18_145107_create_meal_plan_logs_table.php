@@ -15,7 +15,6 @@ return new class extends Migration
         {
             $table->id();
             $table->foreignId('user_id')->constrained()->OnDelete('cascade');
-            $table->foreignId('meal_plan_id')->nullable()->constrained('meal_plans')->nullOnDelete();
             $table->string('day');
             $table->json('meal_plan');
             $table->timestamps();
