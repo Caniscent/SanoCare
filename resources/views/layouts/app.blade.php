@@ -13,15 +13,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-50">
-    @if (!request()->routeIs('login','register','register.showStep', 'password.verify'))
+    @if (!request()->routeIs('login','register','register.showStep', 'password.verify' , 'password.request', 'password.reset'))
         @include('layouts.header')
     @endif
 
-    <div class="@if (!request()->routeIs('login','register','register.showStep', 'password.verify')) mt-16 @endif">
+    <div class="@if (!request()->routeIs('login','register','register.showStep', 'password.verify' , 'password.request', 'password.reset')) mt-16 @endif">
         @yield('content')
     </div>
 
-    @if (!request()->routeIs('login','register','register.showStep', 'password.verify'))
+    @if (!request()->routeIs('login','register','register.showStep', 'password.verify' , 'password.request', 'password.reset'))
         @include('layouts.footer')
     @endif
 </body>
