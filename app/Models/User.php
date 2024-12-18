@@ -62,4 +62,8 @@ class User extends Authenticatable
     public function measurements() {
         return $this->hasMany(measurementModel::class,'user_id');
     }
+
+    public function mealPlanLogs() {
+        return $this->hasMany(MealPlanLogModel::class,'meal_plan_id');
+    }
 }

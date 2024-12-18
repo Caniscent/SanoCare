@@ -13,8 +13,7 @@ class MealPlanLogModel extends Model
     protected $guarded = ['id'];
     public $timestamps = true;
 
-
-    public function mealPlan() {
-        return $this->belongsTo(MealPlanModel::class,'meal_plan_id');
+    public function user() {
+        return $this->belongsTo(User::class,'user_id');
     }
 }
