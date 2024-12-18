@@ -20,13 +20,27 @@ class MealPlanLogController extends Controller{
             'Friday' => 'Jumat',
             'Saturday' => 'Sabtu'
         ];
+        $mealTypeID = ['breakfast' => 'sarapan', 'lunch' => 'makan siang', 'dinner' => 'makan malam'];
 
+        $mealOrder = array_keys($mealTypeID);
         $groupedMealPlans = [];
         $currentGroup = [];
         $currentWeekStart = null;
 
         foreach ($mealPlanLogs as $log) {
             $log->day = $daysID[$log->day] ?? $log->day;
+
+            $mealPlan = json_decode($log->meal_plan, true);
+            $sortedMealPlan = array_merge(
+                array_flip($mealOrder),
+                array_intersect_key($mealPlan, array_flip($mealOrder))
+            );
+            foreach ($sortedMealPlan as $mealType => $items) {
+                $translatedMealType = $mealTypeID[$mealType] ?? $mealType;
+                $sortedMealPlan[$translatedMealType] = $sortedMealPlan[$mealType];
+                unset($sortedMealPlan[$mealType]);
+            }
+            $log->meal_plan = json_encode($sortedMealPlan);
 
             if ($log->day == 'Minggu') {
                 if ($currentGroup && count($currentGroup) == 7) {
@@ -49,26 +63,34 @@ class MealPlanLogController extends Controller{
     public function destroy($groupIndex)
     {
         $mealPlanLogs = MealPlanLogModel::orderBy('created_at')->get();
-        $groupedLogs = collect();
 
+        $groupedMealPlans = [];
         $currentGroup = [];
+
         foreach ($mealPlanLogs as $log) {
-            if ($log->day == 'Minggu' && count($currentGroup) == 7) {
-                $groupedLogs->push($currentGroup);
-                $currentGroup = [];
+            if ($log->day == 'Sunday') {
+                if ($currentGroup && count($currentGroup) == 7) {
+                    $groupedMealPlans[] = $currentGroup;
+                }
+                $currentGroup = [$log];
+            } else {
+                $currentGroup[] = $log;
             }
-            $currentGroup[] = $log;
         }
+
         if (count($currentGroup) == 7) {
-            $groupedLogs->push($currentGroup);
+            $groupedMealPlans[] = $currentGroup;
         }
 
-        if ($groupedLogs->has($groupIndex)) {
-            foreach ($groupedLogs[$groupIndex] as $log) {
-                $log->delete();
-            }
+        if (!isset($groupedMealPlans[$groupIndex])) {
+            return redirect()->back()->withErrors('Kelompok log meal plan tidak ditemukan.');
         }
 
-        return redirect()->route('log.index');
+        foreach ($groupedMealPlans[$groupIndex] as $log) {
+            MealPlanLogModel::where('id', $log->id)->delete();
+        }
+
+        return redirect()->route('log.index')->with('success', 'Log meal plan berhasil dihapus.');
     }
+
 }

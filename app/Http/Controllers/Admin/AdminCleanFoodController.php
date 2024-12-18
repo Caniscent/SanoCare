@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CleanFoodRequest;
+use Carbon\Carbon;
+use App\Exports\FoodExport;
+use App\Imports\FoodImport;
+use Illuminate\Http\Request;
+use App\Models\FoodTypeModel;
 use App\Models\CleanFoodModel;
 use App\Models\FoodGroupModel;
-use App\Models\FoodTypeModel;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\CleanFoodRequest;
 
 class AdminCleanFoodController extends Controller
 {
@@ -105,5 +109,16 @@ class AdminCleanFoodController extends Controller
     {
         $clean_food->delete();
         return redirect()->route('admin.clean-food.index')->with('success', 'Data berhasil dihapus.');
+    }
+    public function import(Request $request)
+    {
+        Excel::import(new FoodImport, $request->file('import'));
+        return redirect()
+        ->route('admin.clean-food.index')
+        ->with('success', 'Data pilihan makanan berhasil diimport!');
+    }
+    public function export()
+    {
+        return Excel::download(new FoodExport, 'Food'.Carbon::now()->timestamp.'.xlsx');
     }
 }

@@ -3,8 +3,8 @@
 @section('title','Buat Meal Plan')
 
 @section('content')
-<section class="">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16 bg-gray-50" style="background-image: url('{{asset('img/buddha-bowl-dish-with-vegetables-legumes-top-view.jpg')}}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+<section class="min-h-screen" style="background-image: url('{{asset('img/buddha-bowl-dish-with-vegetables-legumes-top-view.jpg')}}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16 bg-gray-50" >
         <div class="flex flex-col justify-center">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none !text-white md:text-5xl lg:text-6xl">Meal Plan</h1>
             <p class="mb-6 text-lg font-normal !text-white lg:text-xl">

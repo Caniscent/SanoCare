@@ -1,17 +1,27 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Kelompok Makanan')
+@section('title', 'Tipe Makanan')
 
 @section('content')
 
 <div class="overflow-x-auto mt-12">
     <h3 class="text-xl font-bold mb-4">Data Tipe</h3>
-    <div class="flex justify-between items-center mb-4">
+    <div class="flex gap-2 items-center mb-4">
         <x-primary-button>
             <a href="{{route('admin.food-type.create')}}">
                 Tambah
             </a>
         </x-primary-button>
+        <x-edit-button class="bg-yellow-500 w-15 hover:bg-yellow-600">
+            <a href="{{route('admin.type-export')}}">
+                Export
+            </a>
+        </x-edit-button>
+        <form action="{{route('admin.type-import')}}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="file" name="import" required>
+            <x-edit-button>Import</x-edit-button>
+        </form>
     </div>
     <table id="Table" class="table-auto w-full border-collapse border border-gray-200 text-sm sm:text-base">
         <thead>

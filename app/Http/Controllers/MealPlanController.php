@@ -53,7 +53,7 @@ class MealPlanController extends Controller
 
         $mealPlanCount = $measurement->mealPlans()->count();
 
-        if ($mealPlanCount < 7) {
+        if ($mealPlanCount < 7 && $measurement->isNotEmpty()) {
             $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
             foreach ($days as $day) {
                 $this->geneticAlgorithm->saveMealPlan($measurement->first()->id,$userId, $day, $weeklyMealPlan[$day]);
@@ -194,6 +194,13 @@ class MealPlanController extends Controller
         foreach ($days as $day) {
             $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
             $this->geneticAlgorithm->saveMealPlan($measurement->id,$userId,$day,$weeklyMealPlan[$day]);
+            $mealPlanLog = new MealPlanLogModel();
+            $mealPlanLog->user_id = $userId;
+            $mealPlanLog->day = $day;
+            $mealPlanLog->meal_plan = json_encode($weeklyMealPlan[$day]);
+            $mealPlanLog->created_at = now();
+            $mealPlanLog->updated_at = now();
+            $mealPlanLog->save();
         }
 
         return redirect()->route('meal-plan.index');
