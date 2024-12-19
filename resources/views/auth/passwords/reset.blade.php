@@ -18,8 +18,11 @@
                                 <span class="label-text text-black">Email</span>
                             </label>
                             <div class="col-md-6">
-                                <input id="email" type="email" class="input input-bordered w-full bg-blue-200 text-black" name="email" value="{{ auth()->user()->email }}" readonly>
-
+                                @if (auth())
+                                    <input id="email" type="email" class="input input-bordered w-full bg-blue-200 text-black" name="email" placeholder="Masukkan email anda" autofocus>
+                                @elseif (auth())
+                                    <input id="email" type="email" class="input input-bordered w-full bg-blue-200 text-black" name="email" value="{{ auth()->user()->email }}" readonly>
+                                @endif
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

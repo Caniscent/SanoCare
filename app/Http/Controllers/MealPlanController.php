@@ -53,10 +53,10 @@ class MealPlanController extends Controller
 
         $mealPlanCount = $measurement->mealPlans()->count();
 
-        if ($mealPlanCount < 7 && $measurement->isNotEmpty()) {
-            $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
+        if ($mealPlanCount < 7) {
             foreach ($days as $day) {
-                $this->geneticAlgorithm->saveMealPlan($measurement->first()->id,$userId, $day, $weeklyMealPlan[$day]);
+                $weeklyMealPlan = $this->geneticAlgorithm->generateMealPlan($personalNeed);
+                $this->geneticAlgorithm->saveMealPlan($measurement->id,$userId, $day, $weeklyMealPlan[$day]);
                 $mealPlanLog = new MealPlanLogModel();
                 $mealPlanLog->user_id = $userId;
                 $mealPlanLog->day = $day;
@@ -64,7 +64,7 @@ class MealPlanController extends Controller
                 $mealPlanLog->created_at = now();
                 $mealPlanLog->updated_at = now();
                 $mealPlanLog->save();
-            }
+           }
         }
 
         // untuk menampilkan mealplan yang ada
@@ -137,7 +137,7 @@ class MealPlanController extends Controller
         }
 
 
-        return redirect()->route('meal-plan.index');
+        return redirect()->route('meal-plan.index')->with('success','Berhasil membuat rencana makan');
     }
 
     /**

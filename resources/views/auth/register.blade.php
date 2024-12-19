@@ -63,7 +63,7 @@
 
                 <!-- Submit Button -->
                 <div>
-                    <button type="submit" class="btn btn-primary w-full mb-2 bg-blue-500 hover:bg-blue-600">Selanjutnya</button>
+                    <button type="submit" class="btn btn-primary w-full mb-2 bg-blue-500 hover:bg-blue-600 text-white">Selanjutnya</button>
                 </div>
                     {{-- Login --}}
                 @if (Route::has('login'))
@@ -137,7 +137,7 @@
 
                     <button type="submit"
                             class="btn btn-primary w-1/4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-                        Buat Akun
+                        Register
                     </button>
                 </div>
 

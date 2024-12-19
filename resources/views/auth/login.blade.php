@@ -54,33 +54,31 @@
             </div>
 
             <!-- Remember Me Checkbox -->
-            <div class="form-control">
-                <label class="label block">
+            <div class="form-control justify-between">
+                <label class="label ">
                     <input type="checkbox" name="remember" class="checkbox bg-blue-50" {{ old('remember') ? 'checked' : '' }}>
-                    <span class="label-text text-black ">{{ __('Ingat Saya') }}</span>
+                    <span class="label-text text-black pr-[7rem]">Ingat Saya</span>
+                    <!-- Forgot Password -->
+                    @if (Route::has('password.request'))
+                    <a class="text-blue-400 hover:underline" href="{{ route('password.request') }}">
+                        Lupa password anda?
+                    </a>
+                    @endif
                 </label>
             </div>
 
             <!-- Submit Button -->
             <div>
-                <button type="submit" class="btn btn-primary w-full bg-blue-500 hover:bg-blue-600">Login</button>
+                <button type="submit" class="btn btn-primary w-full bg-blue-500 hover:bg-blue-600 text-white">Login</button>
             </div>
 
-            <!-- Forgot Password -->
-            {{-- @if (Route::has('password.request'))
-                <div class="text-center">
-                    <a class="text-blue-400 hover:underline" href="{{ route('password.request') }}">
-                        {{ __('Lupa Password?') }}
-                    </a>
-                </div>
-            @endif --}}
 
             {{-- Register --}}
             @if (Route::has('register'))
                 <div class="text-center text-black">
                     {{__("Belum punya akun Sano Care?")}}
                     <a class="text-blue-400 hover:underline" href="{{ route('register') }}">
-                        Daftar Sekarang
+                        Register
                     </a>
                 </div>
             @endif
