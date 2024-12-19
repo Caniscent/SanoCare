@@ -8,3 +8,15 @@
     </nav>
   </footer>
 </body>
+
+@if(session('success'))
+<script>
+ Swal.fire({
+     icon: 'success',
+     title: 'Sukses!',
+     text: '{{ session('success') }}',
+     timer: 2000, 
+     showConfirmButton: false
+ });
+</script>
+@endif

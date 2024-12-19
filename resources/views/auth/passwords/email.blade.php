@@ -23,7 +23,11 @@
                 <label for="email" class="label">
                     <span class="label-text text-black">Email</span>
                 </label>
-                <input id="email" type="email" class="input input-bordered w-full bg-blue-200 text-black" name="email" value="{{ auth()->user()->email }}" readonly>
+                @if (auth())
+                    <input id="email" type="email" class="input input-bordered w-full bg-blue-200 text-black" name="email" placeholder="Masukkan email anda" autofocus>
+                @elseif (auth())
+                    <input id="email" type="email" class="input input-bordered w-full bg-blue-200 text-black" name="email" value="{{ auth()->user()->email }}" readonly>
+                @endif
                 @error('email')
                     <span class="text-error text-red-500 text-sm">
                         <strong>{{ $message }}</strong>

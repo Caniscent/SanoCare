@@ -6,8 +6,8 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-50">
     <div class="w-full max-w-md p-8 space-y-8 shadow-lg card bg-white">
         <h2 class="text-2xl font-bold text-center text-gray-800">
-            <a href="{{route('home')}}" class="text-2xl font-bold text-center text-blue-400 hover:underline">{{ __('Sano Care') }}</a>
-            {{ __('Confirm Password') }}
+            <a href="{{route('home')}}" class="text-2xl font-bold text-center text-blue-400 hover:underline">Sano Care</a>
+            Konfirmasi Password
         </h2>
 
         <div class="card-body">
@@ -31,14 +31,14 @@
                 </div>
 
                 <div class="form-control">
-                    <button type="submit" class="btn btn-primary w-full bg-blue-500 hover:bg-blue-600">{{ __('Confirm Password') }}</button>
+                    <button type="submit" class="btn btn-primary w-full bg-blue-500 hover:bg-blue-600 text-white">Confirm Password</button>
                 </div>
 
                 <!-- Forgot Password -->
                 @if (Route::has('password.request'))
                     <div class="text-center">
                         <a class="text-blue-400 hover:underline" href="{{ route('password.request') }}">
-                            {{ __('Lupa password anda?') }}
+                            Lupa password anda?
                         </a>
                     </div>
                 @endif
